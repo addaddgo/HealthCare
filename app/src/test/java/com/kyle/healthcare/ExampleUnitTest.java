@@ -1,4 +1,4 @@
-package com.kyle.heathcare;
+package com.kyle.healthcare;
 
 import org.junit.Test;
 

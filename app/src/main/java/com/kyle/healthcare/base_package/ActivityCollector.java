@@ -1,4 +1,4 @@
-package com.kyle.heathcare.base_package;
+package com.kyle.healthcare.base_package;
 
 import android.app.Activity;
 

@@ -1,4 +1,4 @@
-package com.kyle.heathcare;
+package com.kyle.healthcare;
 
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
@@ -9,19 +9,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.kyle.heathcare.fragment_package.CenterFragment;
-import com.kyle.heathcare.fragment_package.DrivingFragment;
-import com.kyle.heathcare.fragment_package.HealthFragment;
-import com.kyle.heathcare.fragment_package.HomepageFragment;
+import com.kyle.healthcare.fragment_package.CenterFragment;
+import com.kyle.healthcare.fragment_package.DrivingFragment;
+import com.kyle.healthcare.fragment_package.HealthFragment;
+import com.kyle.healthcare.fragment_package.HomepageFragment;
 
 public class MainActivity extends AppCompatActivity {
 
     // TODO: 2019/3/11 1)四个Fragment
     // TODO: 2019/3/11 2)异常判断及异常Fragment（响铃、倒计时、电话权限）
-    // TODO: 2019/3/11 3)注册
-    // TODO: 2019/3/11 4)多账户数据库
-    // TODO: 2019/3/11 5)健康数据数据库
-    // TODO: 2019/3/11 6)本地偏好设置
+    // TODO: 2019/3/11 3)健康数据数据库
+    // TODO: 2019/3/11 4)本地偏好设置
 
     private HomepageFragment homepageFragment;
     private HealthFragment healthFragment;

@@ -1,4 +1,4 @@
-package com.kyle.heathcare.base_package;
+package com.kyle.healthcare.base_package;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -53,7 +53,7 @@ public class BaseActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     ActivityCollector.finishAll();
-                    Intent intent = new Intent(context, LoginActivity.class);
+                    Intent intent = new Intent(context, LogInActivity.class);
                     context.startActivity(intent);
                 }
             });

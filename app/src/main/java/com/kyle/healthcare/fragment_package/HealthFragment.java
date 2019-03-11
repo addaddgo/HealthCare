@@ -1,4 +1,4 @@
-package com.kyle.heathcare.fragment_package;
+package com.kyle.healthcare.fragment_package;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,12 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.kyle.heathcare.R;
+import com.kyle.healthcare.R;
 
-public class CenterFragment extends Fragment {
+public class HealthFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.center_frag, container,false);
+        View view = inflater.inflate(R.layout.health_frag, container,false);
         return view;
     }
 }

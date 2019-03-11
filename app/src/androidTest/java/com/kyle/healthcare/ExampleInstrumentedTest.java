@@ -1,4 +1,4 @@
-package com.kyle.heathcare;
+package com.kyle.healthcare;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

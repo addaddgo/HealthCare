@@ -1,11 +1,27 @@
 <resources>
     <string name="app_name">HeathCare</string>
+
+    <!-- Strings related to fragment -->
     <string name="title_homepage">主页</string>
     <string name="title_health">健康</string>
     <string name="title_driving">行驶</string>
     <string name="title_center">个人中心</string>
-    <string name="account">账户</string>
-    <string name="password">密码</string>
-    <string name="remember_password">记住密码</string>
-    <string name="login">注册/登录</string>
+
+    <!-- Strings related to log in  -->
+    <string name="hint_user_id">手机号/身份证号</string>
+    <string name="hint_password">密码</string>
+    <string name="log_in">登录</string>
+    <string name="sign_up">新用户注册</string>
+    <string name="problem_log_in">无法登录？</string>
+
+    <!-- Strings related to sign up -->
+    <string name="sign_up_name">真实姓名</string>
+    <string name="sign_up_phone_number">电话号码</string>
+    <string name="sign_up_password">密码</string>
+    <string name="sign_up_car_number">车牌号</string>
+    <string name="sign_up_id_number">身份证号</string>
+    <string name="sign_up_button">注册</string>
+    <string name="female">女</string>
+    <string name="male">男</string>
+
 </resources>
