@@ -76,9 +76,7 @@ public class MainActivity extends AppCompatActivity {
         centerFragment = new CenterFragment();
         toolbarTitle = findViewById(R.id.toolbar_title);
 
-        // TODO: 2019/3/11 间距不当
         toolbarTitle.setText(R.string.title_homepage);
-
         replaceFragment(homepageFragment);
 
         BottomNavigationView navigation = findViewById(R.id.navigation);

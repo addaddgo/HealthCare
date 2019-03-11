@@ -12,7 +12,7 @@
         android:orientation="vertical">
         <TextView
             android:layout_margin="8dp"
-
+            android:letterSpacing="0.8"
             android:id="@+id/toolbar_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
