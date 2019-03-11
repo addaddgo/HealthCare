@@ -1,4 +1,4 @@
-package com.kyle.heathcare;
+package com.kyle.heathcare.base_package;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
