@@ -1,7 +1,9 @@
 package com.kyle.healthcare.base_package;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +21,9 @@ import java.util.List;
 
 public class LogInActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
+
     private EditText accountEdit;
     private EditText passwordEdit;
 
@@ -31,6 +36,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
+
         accountEdit = findViewById(R.id.user_id);
         passwordEdit = findViewById(R.id.user_password);
         login = findViewById(R.id.log_in);
@@ -40,37 +46,32 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         login.setOnClickListener(this);
         signUp.setOnClickListener(this);
         problemLogin.setOnClickListener(this);
-//        {
-//            @Override
-//            public void onClick(View v) {
-//                String account = accountEdit.getText().toString();
-//                String password = passwordEdit.getText().toString();
-//                if (account.equals("Kyle") && password.equals("123456")) {
-//                    editor = pref.edit();
-//                    if(checkBox.isChecked()){
-//                        editor.putString("account",account );
-//                        editor.putString("password", password);
-//                        editor.putBoolean("remember_password",true);
-//                    }else{
-//                        editor.clear();
-//                    }
-//                    editor.apply();
 
-//                } else {
-//                    Toast.makeText(LogInActivity.this, "invalid account or password", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+        Boolean isRemember = pref.getBoolean("remember_password", false);
+        accountEdit.setText(pref.getString("account", ""));
+        passwordEdit.setText(pref.getString("password", ""));
+        if (isRemember) {
+        login.callOnClick();
+        }
+
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.log_in:
+                editor = pref.edit();
                 if (checkValidUser()) {
+                    editor.putString("account",accountEdit.getText().toString() );
+                    editor.putString("password", passwordEdit.getText().toString());
+                    editor.putBoolean("remember_password",true);
+                    editor.apply();
                     Intent intent = new Intent(LogInActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
+                }else{
+                    editor.clear();
                 }
                 break;
             case R.id.tv_sign_up:
@@ -97,7 +98,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         }
         List<User> users = DataSupport.select("phoneNumber", "password", "idNumber").find(User.class);
         for (User mUser : users) {
-            if ((account.equals(mUser.getPhoneNumber()) || account.equals(mUser.getIdNumber())) && password.equals(mUser.getPassword())) {
+            if ((account.equals(mUser.getPhoneNumber()) && password.equals(mUser.getPassword()))) {
                 return true;
             }
         }

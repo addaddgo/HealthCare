@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
@@ -22,7 +24,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("com.kyle.broadcastbestpractice.FORCE_OFFLINE");
+        intentFilter.addAction("com.kyle.healthcare.LOG_OUT");
         receiver = new ForceOfflineReceiver();
         registerReceiver(receiver, intentFilter);
     }
@@ -45,16 +47,24 @@ public class BaseActivity extends AppCompatActivity {
     class ForceOfflineReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(final Context context, Intent intent) {
+            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+            editor.putBoolean("remember_password", false);
+            editor.apply();
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle("You are forced to be offline!");
-            builder.setMessage("You are forced to be offline.\n Please try to login again.");
-            builder.setCancelable(false);
-            builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+            builder.setTitle("退出登录");
+            builder.setMessage("确定是否退出？");
+            builder.setCancelable(true);
+            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     ActivityCollector.finishAll();
                     Intent intent = new Intent(context, LogInActivity.class);
                     context.startActivity(intent);
+                }
+            });
+            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
                 }
             });
             builder.show();

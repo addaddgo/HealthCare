@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HeathCare</string>
+    <string name="app_name">HealthCare</string>
 
     <!-- Strings related to fragment -->
     <string name="title_homepage">主页</string>
@@ -8,7 +8,7 @@
     <string name="title_center">个人中心</string>
 
     <!-- Strings related to log in  -->
-    <string name="hint_user_id">手机号/身份证号</string>
+    <string name="hint_user_id">手机号</string>
     <string name="hint_password">密码</string>
     <string name="log_in">登录</string>
     <string name="sign_up">新用户注册</string>
@@ -23,5 +23,6 @@
     <string name="sign_up_button">注册</string>
     <string name="female">女</string>
     <string name="male">男</string>
+    <string name="log_out">退出登录</string>
 
 </resources>

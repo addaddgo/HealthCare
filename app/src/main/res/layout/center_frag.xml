@@ -9,8 +9,9 @@
 
         android:text="Center"/>
     <Button
+        android:id="@+id/log_out"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="test"/>
+        android:text="@string/log_out"/>
 
 </LinearLayout>

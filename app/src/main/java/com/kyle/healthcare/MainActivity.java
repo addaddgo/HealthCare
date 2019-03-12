@@ -5,21 +5,23 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.kyle.healthcare.base_package.BaseActivity;
 import com.kyle.healthcare.fragment_package.CenterFragment;
 import com.kyle.healthcare.fragment_package.DrivingFragment;
 import com.kyle.healthcare.fragment_package.HealthFragment;
 import com.kyle.healthcare.fragment_package.HomepageFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     // TODO: 2019/3/11 1)四个Fragment
-    // TODO: 2019/3/11 2)异常判断及异常Fragment（响铃、倒计时、电话权限）
+    // TODO: 2019/3/11 2)异常判断及异常Fragment（响铃、倒计时、短信权限）
     // TODO: 2019/3/11 3)健康数据数据库
-    // TODO: 2019/3/11 4)本地偏好设置
+    // TODO: 2019/3/11 4)本地偏好设置(是否响铃，是否短信提示)
+    // TODO: 2019/3/11 5)登录后自动记住密码
+    // TODO: 2019/3/11 6)全局注销
 
     private HomepageFragment homepageFragment;
     private HealthFragment healthFragment;
@@ -38,16 +40,19 @@ public class MainActivity extends AppCompatActivity {
                     return true;
 
                 case R.id.navigation_health:
+                    item.setIcon(R.drawable.ic_health_c);
                     toolbarTitle.setText(R.string.title_health);
                     replaceFragment(healthFragment);
                     return true;
 
                 case R.id.navigation_driving:
+                    item.setIcon(R.drawable.ic_driving_c);
                     toolbarTitle.setText("行驶记录");
                     replaceFragment(drivingFragment);
                     return true;
 
                 case R.id.navigation_center:
+                    item.setIcon(R.drawable.ic_center_c);
                     toolbarTitle.setText(R.string.title_center);
                     replaceFragment(centerFragment);
                     return true;
