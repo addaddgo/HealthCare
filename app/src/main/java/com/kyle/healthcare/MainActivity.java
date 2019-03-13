@@ -20,8 +20,6 @@ public class MainActivity extends BaseActivity {
     // TODO: 2019/3/11 2)异常判断及异常Fragment（响铃、倒计时、短信权限）
     // TODO: 2019/3/11 3)健康数据数据库
     // TODO: 2019/3/11 4)本地偏好设置(是否响铃，是否短信提示)
-    // TODO: 2019/3/11 5)登录后自动记住密码
-    // TODO: 2019/3/11 6)全局注销
 
     private HomepageFragment homepageFragment;
     private HealthFragment healthFragment;
