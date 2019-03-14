@@ -24,5 +24,7 @@
     <string name="female">女</string>
     <string name="male">男</string>
     <string name="log_out">退出登录</string>
+    <string name="backward">上一步</string>
+    <string name="forward">下一步</string>
 
 </resources>
