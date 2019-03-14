@@ -6,4 +6,6 @@
     <color name="colorBackground">#13237d</color>
     <color name="colorWhite">#fafafa</color>
     <color name="colorBlue">#3b729c</color>
+    <color name="colorText">#10dcf4</color>
+    <color name="healthBorderColor">#214587</color>
 </resources>

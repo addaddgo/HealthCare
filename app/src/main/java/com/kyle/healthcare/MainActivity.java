@@ -23,7 +23,7 @@ import com.kyle.healthcare.fragment_package.DrivingFragment;
 import com.kyle.healthcare.fragment_package.HealthFragment;
 import com.kyle.healthcare.fragment_package.HomepageFragment;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements MainActivityInterface{
 
     private static final int REQUEST_ENABLE_BT = 3;
 
@@ -105,7 +105,6 @@ public class MainActivity extends BaseActivity {
         } else if (!mBluetoothAdapter.isEnabled()) {
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
-        }else{
             mChatService = new BluetoothChatService(this, mHandler);
         }
     }
@@ -173,5 +172,10 @@ public class MainActivity extends BaseActivity {
                     finish();
                 }
         }
+    }
+
+    @Override
+    public void replaceFragmentInFragment(Fragment fragment) {
+        replaceFragment(fragment);
     }
 }

@@ -2,4 +2,7 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- Height of bottom_navigation_view-->
+    <dimen name="height_bottom_navigation_view">60dp</dimen>
 </resources>

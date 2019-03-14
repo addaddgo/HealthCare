@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="FatigueRateView">
+        <attr name="fatigue_background_color" format="color"/>
+        <attr name="fatigue_border_color" format="color"/>
+        <attr name="line_color" format="color"/>
+        <attr name="dangerous_line_color" format="color"/>
+        <attr name="date_range" format="integer"/>
+        <attr name="pot_color" format="color"/>
+    </declare-styleable>
+</resources>
