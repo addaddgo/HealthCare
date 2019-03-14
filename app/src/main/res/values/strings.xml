@@ -24,9 +24,21 @@
     <string name="female">女</string>
     <string name="male">男</string>
     <string name="log_out">退出登录</string>
-    <string name="backward">上一步</string>
-    <string name="forward">下一步</string>
-    <string name="image_male">男</string>
-    <string name="image_female">女</string>
+
+    <!--String related to  heart_rate_frag-->
+    <string name="unit_km_h">km/h</string>
+    <string name="unit_km">km</string>
+    <string name="unit_min">km</string>
+    <string name="record_fra_speech">平均速度</string>
+    <string name="record_fra_total_distance">行驶距离</string>
+    <string name="record_fra_time">行驶时间</string>
+    <string name="record_path">行驶路线</string>
+    <string name="health_current_heart_rate">当前心率</string>
+    <string name="heart_rate_frag_average">历史平均</string>
+
+    <!--String related to fatigue_rate_frag-->
+    <string name="fatigue_rate_frag_fatigue_rate">疲劳状态</string>
+    <string name="fatigue_rate_frag_warn">温馨提示：\n驾驶时间过长，请注意休息。</string>
+
 
 </resources>

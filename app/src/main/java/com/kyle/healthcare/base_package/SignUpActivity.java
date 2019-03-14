@@ -47,40 +47,18 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         changeView(0);
-
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sign_up_forward_1:
-            case R.id.sign_up_forward_2:
                 if (checkValid()) {
                     changeView(1);
                 }
                 break;
-            case R.id.bt_sign_up:
-                if (checkValid()) {
-                    addUser();
-                    finish();
-                    Toast.makeText(this, "注册成功", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case R.id.sign_up_backward_1:
-                finish();
-            case R.id.sign_up_backward_2:
+            case R.id.sign_up_backward:
                 changeView(-1);
-                if (gender) {
-                    man_ic.callOnClick();
-                } else {
-                    woman_ic.callOnClick();
-                }
-                et_name.setText(name);
-                break;
-            case R.id.sign_up_backward_3:
-                changeView(-1);
-                et_phone.setText(phoneNumber);
-                et_pass.setText(password);
                 break;
             case R.id.man_ic:
                 isChecked = true;
@@ -98,7 +76,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 woman_ic.setImageResource(R.drawable.ic_woman_c);
                 woman_tv.setTextColor(Color.rgb(68, 68, 68));
                 break;
-
+            case R.id.bt_sign_up:
+                if (checkValid()) {
+                    addUser();
+                    finish();
+                }
+                break;
             default:
                 break;
         }
@@ -123,16 +106,15 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 woman_ic.setOnClickListener(this);
                 et_name = findViewById(R.id.user_name);
                 forward = findViewById(R.id.sign_up_forward_1);
-                backward = findViewById(R.id.sign_up_backward_1);
                 forward.setOnClickListener(this);
-                backward.setOnClickListener(this);
                 break;
             case 2:
                 setContentView(R.layout.activity_sign_up_2);
+                man_ic = findViewById(R.id.man_ic);
                 et_phone = findViewById(R.id.user_phone_number);
                 et_pass = findViewById(R.id.user_password);
                 forward = findViewById(R.id.sign_up_forward_2);
-                backward = findViewById(R.id.sign_up_backward_2);
+                backward.findViewById(R.id.sign_up_backward_2);
                 forward.setOnClickListener(this);
                 backward.setOnClickListener(this);
                 break;
