@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".base_package.SignUpActivity">
+
+    <EditText
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="56dp"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="@string/sign_up_name"
+        android:inputType="textPersonName"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/sign_up_backward"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="215dp"
+        android:layout_height="61dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/user_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.75">
+
+        <ImageView
+            android:id="@+id/man_ic"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_man" />
+
+        <TextView
+            android:id="@+id/man_tv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="8dp"
+            android:gravity="center"
+            android:text="@string/male"
+            android:textColor="#C3C3C3" />
+
+        <ImageView
+            android:id="@+id/woman_ic"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/ic_woman" />
+
+        <TextView
+            android:id="@+id/woman_tv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="@string/female"
+            android:textColor="#C3C3C3" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/sign_up_backward"
+        android:layout_width="126dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="48dp"
+        android:text="上一步"
+        app:layout_constraintBaseline_toBaselineOf="@+id/sign_up_forward_1"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/sign_up_forward_1"
+        android:layout_width="126dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="46dp"
+        android:layout_marginBottom="192dp"
+        android:text="下一步"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

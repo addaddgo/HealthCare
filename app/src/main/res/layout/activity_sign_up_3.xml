@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".base_package.SignUpActivity">
+
+    <EditText
+        android:id="@+id/user_car_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:digits="0123456789QWERTYUIOPASDFGHJKLZXCVBNM"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="@string/sign_up_car_number"
+        android:inputType="textCapCharacters"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/user_id_number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.75" />
+
+    <EditText
+        android:id="@+id/user_id_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="56dp"
+        android:digits="0123456789Xx"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="@string/sign_up_id_number"
+        android:inputType="number"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/sign_up_backward"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/bt_sign_up"
+        android:layout_width="220dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="32dp"
+        android:text="@string/sign_up_button"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/sign_up_backward_3"
+        android:layout_width="126dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="48dp"
+        android:text="上一步"
+        app:layout_constraintBaseline_toBaselineOf="@+id/sign_up_forward_1"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/sign_up_forward_3"
+        android:layout_width="126dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="56dp"
+        android:layout_marginBottom="192dp"
+        android:text="下一步"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
