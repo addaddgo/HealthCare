@@ -7,6 +7,7 @@
     tools:context=".base_package.SignUpActivity">
 
     <EditText
+        android:autofillHints="phone_number"
         android:id="@+id/user_phone_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,9 +25,10 @@
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.75" />
+        app:layout_constraintVertical_bias="0.9" />
 
     <EditText
+        android:autofillHints="password"
         android:id="@+id/user_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
