@@ -1,17 +1,251 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<ScrollView
+    android:layout_marginBottom="@dimen/height_bottom_navigation_view_margin"
+    android:background="@color/colorWhite"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/background_center"
+        android:background="@mipmap/background_center"
+        android:layout_width="match_parent"
+        android:layout_height="250dp" />
+
+    <com.kyle.healthcare.view.CircleImage
+        android:id="@+id/portrait_center"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="220dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        app:image="@mipmap/portrait"
+        app:layout_constraintBottom_toBottomOf="@id/background_center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/background_center"
+        app:layout_constraintVertical_bias="0.412"
+        app:radius="80" />
+
     <TextView
+        android:textSize="20sp"
+        android:id="@+id/habit_driver_center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/background_habit_driver_center"
+        android:text="@string/center_fra_habit"
+        android:textColor="@color/color_gray_habit_driver"
+        app:layout_constraintEnd_toStartOf="@+id/portrait_center"
+        app:layout_constraintBottom_toBottomOf="@id/background_center"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"/>
 
-        android:text="Center"/>
-    <Button
-        android:id="@+id/log_out"
-        android:layout_width="wrap_content"
+
+
+
+        <LinearLayout
+            android:id="@+id/personal_information_linear_layout"
+            app:layout_constraintTop_toBottomOf="@id/background_center"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:orientation="vertical">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp">
+                        <ImageView
+                            android:id="@+id/card_image_center"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="40dp"
+                            android:background="@drawable/ic_id_card"
+                            android:layout_width="50dp"
+                            android:layout_height="40dp" />
+
+                        <EditText
+                            android:id="@+id/car_name_center"
+                            android:layout_marginStart="40dp"
+                            app:layout_constraintBottom_toBottomOf="@id/card_image_center"
+                            app:layout_constraintLeft_toRightOf="@id/card_image_center"
+                            android:text="罗姆"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    <TextView
+                        app:layout_constraintTop_toBottomOf="@id/car_name_center"
+                        app:layout_constraintLeft_toLeftOf="@id/car_name_center"
+                        android:text="姓名"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                        <com.kyle.healthcare.view.ScrollSelectView
+                            app:layout_constraintLeft_toRightOf="@id/car_name_center"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:id="@+id/sex_scroll_center"
+                            android:layout_marginStart="50dp"
+                            app:layout_constraintBottom_toBottomOf="@id/car_name_center">
+                        </com.kyle.healthcare.view.ScrollSelectView>
+
+                    <TextView
+                        app:layout_constraintLeft_toLeftOf="@id/sex_scroll_center"
+                        app:layout_constraintTop_toBottomOf="@id/sex_scroll_center"
+                        android:text="性别"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <com.kyle.healthcare.view.ScrollSelectView
+                        app:layout_constraintTop_toBottomOf="@id/car_name_center"
+                        app:layout_constraintLeft_toLeftOf="@id/car_name_center"
+                        android:layout_marginTop="50dp"
+                        android:id="@+id/year_scroll_center"
+                        android:layout_width="50dp"
+                        android:layout_height="30dp">
+                    </com.kyle.healthcare.view.ScrollSelectView>
+
+                    <TextView
+                        app:layout_constraintBottom_toBottomOf="@id/year_scroll_center"
+                        app:layout_constraintLeft_toRightOf="@id/year_scroll_center"
+                        android:id="@+id/year_text_center"
+                        android:text="年"
+                        android:textSize="20sp"
+                        android:layout_width="20dp"
+                        android:layout_height="30dp" />
+
+                    <com.kyle.healthcare.view.ScrollSelectView
+                        app:layout_constraintLeft_toRightOf="@id/year_text_center"
+                        app:layout_constraintBottom_toBottomOf="@id/year_text_center"
+                        android:id="@+id/month_scroll_center"
+                        android:layout_width="20dp"
+                        android:layout_height="30dp">
+                    </com.kyle.healthcare.view.ScrollSelectView>
+                    
+                    <TextView
+                        app:layout_constraintLeft_toRightOf="@id/month_scroll_center"
+                        app:layout_constraintBottom_toBottomOf="@id/month_scroll_center"
+                        android:id="@+id/month_text_center"
+                        android:textSize="20sp"
+                        android:text="月"
+                        android:layout_width="20dp"
+                        android:layout_height="30dp" />
+                    
+                    
+                    <com.kyle.healthcare.view.ScrollSelectView
+                        app:layout_constraintLeft_toRightOf="@id/month_text_center"
+                        app:layout_constraintBottom_toBottomOf="@id/month_text_center"
+                        android:id="@+id/day_scroll_center"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp">
+                    </com.kyle.healthcare.view.ScrollSelectView>
+                    
+                    
+                    <TextView
+                        app:layout_constraintLeft_toRightOf="@id/day_scroll_center"
+                        app:layout_constraintBottom_toBottomOf="@id/day_scroll_center"
+                        android:text="日"
+                        android:textSize="20sp"
+                        android:layout_width="20dp"
+                        android:layout_height="30dp" />
+                        
+                    <TextView
+                        android:id="@+id/correct_person_information_center"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:text="编辑"
+                        android:textSize="20sp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
+                <ImageView
+                    android:id="@+id/information_image_center"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="40dp"
+                    android:background="@drawable/ic_information"
+                    android:layout_width="50dp"
+                    android:layout_height="40dp" />
+
+                <EditText
+                    android:id="@+id/phone_number_center"
+                    android:layout_marginStart="40dp"
+                    app:layout_constraintBottom_toBottomOf="@id/information_image_center"
+                    app:layout_constraintLeft_toRightOf="@id/information_image_center"
+                    android:text="158-xxx-xxxxx"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    app:layout_constraintTop_toBottomOf="@id/phone_number_center"
+                    app:layout_constraintLeft_toLeftOf="@id/phone_number_center"
+                    android:text="手机号"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                
+                <EditText
+                    app:layout_constraintTop_toBottomOf="@id/phone_number_center"
+                    app:layout_constraintLeft_toLeftOf="@id/phone_number_center"
+                    android:layout_marginTop="40dp"
+                    android:text="鄂A XXXX"
+                    android:id="@+id/license_center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    app:layout_constraintTop_toBottomOf="@id/license_center"
+                    app:layout_constraintLeft_toLeftOf="@id/license_center"
+                    android:text="车牌号"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/correct_license_center"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:text="编辑"
+                    android:textSize="20sp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </android.support.constraint.ConstraintLayout>
+        </LinearLayout>
+
+    <LinearLayout
+        app:layout_constraintTop_toBottomOf="@id/personal_information_linear_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/log_out"/>
+        android:orientation="horizontal">
+        <TextView
+            android:layout_weight="20"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:textSize="7sp"
+            android:layout_height="15dp"
+            android:text="在发生异常情况之后，我们会发出语音提示。若5秒针之内没有选择取消，我们会自动通知联系人"/>
+        <ImageView
+            android:layout_weight="1"
+            android:background="@mipmap/delete_button"
+            android:id="@+id/hint_delete_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
+</ScrollView>

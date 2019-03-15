@@ -69,12 +69,15 @@ public class FatigueRateView extends SurfaceView implements SurfaceHolder.Callba
         this.potPaint = new Paint();
     }
 
+    private Thread thread;
+
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         Log.d("surface","created");
         analyzeDrawData();
         this.isRunning = true;
-        new Thread(this).start();
+      this.thread = new Thread(this);
+      this.thread.start();
     }
     //绘图数据
     private int INTERVAL = 10;
@@ -104,6 +107,7 @@ public class FatigueRateView extends SurfaceView implements SurfaceHolder.Callba
         this.potR = 10;
     }
 
+
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         Log.d("surface","changed");
@@ -123,23 +127,25 @@ public class FatigueRateView extends SurfaceView implements SurfaceHolder.Callba
 
     public void stopDrawThread(){
         this.isRunning = false;
+        this.thread.interrupt();
     }
 
     @Override
     public void run() {
         while (this.isRunning){
-            for(int i = 0; i < this.distance;i++){
-                synchronized (this.surfaceHolder){
-                    Canvas canvas = surfaceHolder.lockCanvas();
-                    drawLine(canvas,-i);
-                    surfaceHolder.unlockCanvasAndPost(canvas);
-                    try {
+            try{
+                for(int i = 0; i < this.distance;i++) {
+                    synchronized (this.surfaceHolder) {
+                        Canvas canvas = surfaceHolder.lockCanvas();
+                        drawLine(canvas, -i);
+                        surfaceHolder.unlockCanvasAndPost(canvas);
                         Thread.sleep(this.INTERVAL);
-                    }catch (InterruptedException e){
-                        e.printStackTrace();
-                        Log.d("DrawThread","线程被强制停止");
                     }
                 }
+            }catch (InterruptedException e) {
+                e.printStackTrace();
+                Log.d("DrawThread", "线程被强制停止");
+                break;
             }
             changeData();
         }

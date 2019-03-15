@@ -23,10 +23,13 @@ public class FatigueRateViewInHealthFragment extends SurfaceView implements Surf
     private Paint paint;
     private Paint backgroundPaint;
     private Bitmap bitmap;
+    private SurfaceHolder surfaceHolder;
     public FatigueRateViewInHealthFragment(Context context) {
         super(context);
         this.paint = new Paint();
         this.backgroundPaint = new Paint();
+        this.surfaceHolder = getHolder();
+        this.surfaceHolder.addCallback(this);
     }
 
     public FatigueRateViewInHealthFragment(Context context, AttributeSet attrs) {
@@ -40,6 +43,8 @@ public class FatigueRateViewInHealthFragment extends SurfaceView implements Surf
         this.paint.setStyle(Paint.Style.FILL_AND_STROKE);
         this.paint.setStrokeWidth(8);
         typedArray.recycle();
+        this.surfaceHolder = getHolder();
+        this.surfaceHolder.addCallback(this);
     }
 
     @Override
@@ -61,13 +66,13 @@ public class FatigueRateViewInHealthFragment extends SurfaceView implements Surf
         Matrix matrix = new Matrix();
         matrix.postScale(bitmapW / this.width,bitmapW / this.height);
         this.bitmapDraw = Bitmap.createBitmap(this.bitmap,0,0,this.bitmap.getWidth(),this.bitmap.getHeight(),matrix,true);
-
     }
 
     private void analyzeDrawOfData(){
         //绘制Z的坐标轴
         this.Y = this.height - this.bitmapDraw.getHeight() * 18 / 25;
         this.X = this.width - this.bitmapDraw.getWidth() * 10 / 23;
+        this.paint.setTextSize(this.bitmapDraw.getWidth() / 10);
     }
 
     @Override
@@ -84,17 +89,30 @@ public class FatigueRateViewInHealthFragment extends SurfaceView implements Surf
     private int X;
     private boolean isRunning;
     private Bitmap bitmapDraw;
-
+    private int INTERVAL = 10;
     @Override
     public void run() {
-
+        while (isRunning){
+            synchronized (surfaceHolder){
+                for(double offset = 0.0;offset < Math.PI / 2;offset+=0.0078 ){
+                    Canvas canvas = this.surfaceHolder.lockCanvas();
+                    drawZ(canvas,offset);
+                    this.surfaceHolder.unlockCanvasAndPost(canvas);
+                }
+                try {
+                        Thread.sleep(this.INTERVAL);
+                }catch (InterruptedException e){
+                    Log.d("thread","interrupted");
+                }
+            }
+        }
     }
 
-    private  void drawZ(Canvas canvas,int offset){
+    private  void drawZ(Canvas canvas,double offset){
         canvas.drawBitmap(this.bitmapDraw,this.width / 2,this.height / 3,this.paint);
         canvas.drawRect(this.X,0,this.width,this.Y,this.backgroundPaint);
         for (int i = 0; i < 4; i++) {
-            canvas.drawText("Z",this.X + );
+            canvas.drawText("Z",this.X + this.width / 15 * i,(int)(this.Y - Math.sin(offset + Math.PI / 2)),this.paint);
         }
     }
 }
