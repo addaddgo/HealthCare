@@ -5,6 +5,10 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -275,5 +279,20 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
     }
 
 
-    //开启新的线程进行测试
+    //开启线程
+    private Handler handler;
+    private HandlerThread handlerThread;
+
+    private void open(){
+        this.handlerThread= new HandlerThread("test");
+        this.handlerThread.start();
+        this.handler = new Handler(handlerThread.getLooper()){
+            @Override
+            public void handleMessage(Message msg) {
+                if(msg.what == 1){
+                    addData(140);
+                }
+            }
+        };
+    }
 }
