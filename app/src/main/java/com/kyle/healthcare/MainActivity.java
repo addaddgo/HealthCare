@@ -97,6 +97,7 @@ public class MainActivity extends BaseActivity implements MainActivityInterface{
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        navigation.setItemIconTintList(null);
 
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null) {
@@ -148,10 +149,8 @@ public class MainActivity extends BaseActivity implements MainActivityInterface{
                 case Constants.MESSAGE_DEVICE_NAME:
                     // save the connected device's name
                     mConnectedDeviceName = msg.getData().getString(Constants.DEVICE_NAME);
-                    if (null != MainActivity.this) {
-                        Toast.makeText(MainActivity.this, "Connected to "
-                                + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(MainActivity.this, "Connected to "
+                            + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
                     break;
 
             }

@@ -94,7 +94,7 @@ public class FatigueRateViewInHealthFragment extends SurfaceView implements Surf
         canvas.drawBitmap(this.bitmapDraw,this.width / 2,this.height / 3,this.paint);
         canvas.drawRect(this.X,0,this.width,this.Y,this.backgroundPaint);
         for (int i = 0; i < 4; i++) {
-            canvas.drawText("Z",this.X + );
+//            canvas.drawText("Z",this.X +);
         }
     }
 }

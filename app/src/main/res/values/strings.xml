@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">HealthCare</string>
-
     <!-- Strings related to fragment -->
     <string name="title_homepage">主页</string>
     <string name="title_health">健康</string>
@@ -39,6 +38,7 @@
     <!--String related to fatigue_rate_frag-->
     <string name="fatigue_rate_frag_fatigue_rate">疲劳状态</string>
     <string name="fatigue_rate_frag_warn">温馨提示：\n驾驶时间过长，请注意休息。</string>
+
 
 
 </resources>
