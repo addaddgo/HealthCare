@@ -53,19 +53,16 @@ public class MainActivity extends BaseActivity implements MainActivityInterface{
                     return true;
 
                 case R.id.navigation_health:
-                    item.setIcon(R.drawable.ic_health_c);
                     toolbarTitle.setText(R.string.title_health);
                     replaceFragment(healthFragment);
                     return true;
 
                 case R.id.navigation_driving:
-                    item.setIcon(R.drawable.ic_driving_c);
                     toolbarTitle.setText("行驶记录");
                     replaceFragment(drivingFragment);
                     return true;
 
                 case R.id.navigation_center:
-                    item.setIcon(R.drawable.ic_center_c);
                     toolbarTitle.setText(R.string.title_center);
                     replaceFragment(centerFragment);
                     return true;
