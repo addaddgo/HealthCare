@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!--Description: 不能给此控件设置背景-->
-    <view.HeartRateView
+    <com.kyle.healthcare.view.HeartRateView
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

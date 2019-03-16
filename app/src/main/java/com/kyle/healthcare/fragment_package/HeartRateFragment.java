@@ -9,13 +9,21 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kyle.healthcare.R;
+import com.kyle.healthcare.view.HeartRateView;
 
 public class HeartRateFragment extends Fragment {
 
-    private View view;
+    private HeartRateView heartRateView;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        this.view = inflater.inflate(R.layout.heart_rate_frag,container,false);
-        return this.view;
+        View view = inflater.inflate(R.layout.heart_rate_frag,container,false);
+        this.heartRateView = view.findViewById(R.id.heart_rate_frag_heart_rate_view);
+        return view;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        this.heartRateView.stopDrawThread();
     }
 }

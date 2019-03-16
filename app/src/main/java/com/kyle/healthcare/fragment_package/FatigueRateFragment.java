@@ -9,14 +9,22 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kyle.healthcare.R;
+import com.kyle.healthcare.view.FatigueRateView;
 
 public class FatigueRateFragment extends Fragment {
 
-    private View view;
+    private FatigueRateView fatigueRateView;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        this.view = inflater.inflate(R.layout.fatigue_rate_frag,container,false);
+        View view = inflater.inflate(R.layout.fatigue_rate_frag,container,false);
+        this.fatigueRateView = view.findViewById(R.id.fatigue_rate_fra_rate_view);
         return view;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        this.fatigueRateView.stopDrawThread();
     }
 }

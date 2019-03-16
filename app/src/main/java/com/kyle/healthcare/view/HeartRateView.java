@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.os.Looper;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -182,7 +181,7 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
                         try {
                             for (int i = 0; i <= 2 * widthOfColumn; i++) {
                                 Canvas canvas = surfaceHolder.lockCanvas();
-                                paint(canvas, 2 * widthOfColumn * this.runDirection,-1 * this.runDirection);
+                                paint(canvas, 2 * widthOfColumn * this.runDirection,0);
                                 surfaceHolder.unlockCanvasAndPost(canvas);
                                 Thread.sleep(INTERVAL);
                             }
@@ -279,20 +278,21 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
     }
 
 
-    //开启线程
-    private Handler handler;
-    private HandlerThread handlerThread;
 
-    private void open(){
-        this.handlerThread= new HandlerThread("test");
-        this.handlerThread.start();
-        this.handler = new Handler(handlerThread.getLooper()){
-            @Override
-            public void handleMessage(Message msg) {
-                if(msg.what == 1){
-                    addData(140);
-                }
-            }
-        };
-    }
+//    //开启线程
+//    private Handler handler;
+//    private HandlerThread handlerThread;
+//
+//    private void openThreadTest(){
+//        this.handlerThread= new HandlerThread("test");
+//        this.handlerThread.start();
+//        this.handler = new Handler(handlerThread.getLooper()){
+//            @Override
+//            public void handleMessage(Message msg) {
+//                if(msg.what == 1){
+//                    addData(140);
+//                }
+//            }
+//        };
+//    }
 }

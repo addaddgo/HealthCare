@@ -5,12 +5,16 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.kyle.healthcare.R;
+
 
 public class FatigueRateView extends SurfaceView implements SurfaceHolder.Callback ,Runnable {
 
@@ -133,21 +137,39 @@ public class FatigueRateView extends SurfaceView implements SurfaceHolder.Callba
     @Override
     public void run() {
         while (this.isRunning){
-            try{
-                for(int i = 0; i < this.distance;i++) {
-                    synchronized (this.surfaceHolder) {
-                        Canvas canvas = surfaceHolder.lockCanvas();
-                        drawLine(canvas, -i);
-                        surfaceHolder.unlockCanvasAndPost(canvas);
-                        Thread.sleep(this.INTERVAL);
+            if(hashAddData){
+                changeData();
+                try{
+                    for(int i = 0; i < this.distance;i++) {
+                        synchronized (this.surfaceHolder) {
+                            Canvas canvas = surfaceHolder.lockCanvas();
+                            drawLine(canvas, -i);
+                            surfaceHolder.unlockCanvasAndPost(canvas);
+                            Thread.sleep(this.INTERVAL);
+                        }
                     }
+
+                }catch (InterruptedException e) {
+                    e.printStackTrace();
+                    Log.d("DrawThread", "线程被强制停止1");
+                    break;
                 }
-            }catch (InterruptedException e) {
-                e.printStackTrace();
-                Log.d("DrawThread", "线程被强制停止");
-                break;
+            }else{
+                try{
+                    for(int i = 0; i < this.distance;i++) {
+                        synchronized (this.surfaceHolder) {
+                            Canvas canvas = surfaceHolder.lockCanvas();
+                            drawLine(canvas,-this.distance );
+                            surfaceHolder.unlockCanvasAndPost(canvas);
+                            Thread.sleep(this.INTERVAL);
+                        }
+                    }
+                }catch (InterruptedException e) {
+                    e.printStackTrace();
+                    Log.d("DrawThread", "线程被强制停止2");
+                    break;
+                }
             }
-            changeData();
         }
     }
 
@@ -201,10 +223,38 @@ public class FatigueRateView extends SurfaceView implements SurfaceHolder.Callba
         }
     }
 
+    //数据更新
+    private boolean hashAddData = true;
+    private int newData = 140;
+
+    //将拿到的新数据切换到data中
     private void changeData(){
         for(int i = 0 ;i < this.NUMBER_SPOT - 1;i++){
             this.data[i] = this.data[i+1];
         }
-        this.data[this.NUMBER_SPOT - 1] = (int)(Math.random() * range);
+        this.data[this.NUMBER_SPOT - 1] = this.newData;
+        this.hashAddData = false;
     }
+
+    //添加新的数据
+    private void addNewData(int newData){
+        this.newData = newData;
+        this.hashAddData = true;
+    }
+
+//    private Handler handler;
+//    private HandlerThread handlerThread;
+//
+//    private void openThreadTest(){
+//        this.handlerThread = new HandlerThread("fatigueTest");
+//        this.handlerThread.start();
+//        this.handler = new Handler(this.handlerThread.getLooper()){
+//            @Override
+//            public void handleMessage(Message msg) {
+//                if(msg.what == 1){
+//                    addNewData((int)(Math.random() * range));
+//                }
+//            }
+//        };
+//    }
 }
