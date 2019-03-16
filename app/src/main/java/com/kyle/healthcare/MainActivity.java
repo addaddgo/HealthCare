@@ -108,6 +108,7 @@ public class MainActivity extends BaseActivity implements UIInterface {
         } else if (!mBluetoothAdapter.isEnabled()) {
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+        } else {
             mChatService = new BluetoothChatService(this, mHandler);
         }
 
