@@ -11,6 +11,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,12 +19,15 @@ import android.widget.Toast;
 import com.kyle.healthcare.base_package.BaseActivity;
 import com.kyle.healthcare.bluetooth.BluetoothChatService;
 import com.kyle.healthcare.bluetooth.Constants;
+import com.kyle.healthcare.controller_data.Controller;
+import com.kyle.healthcare.controller_data.DrivingData;
+import com.kyle.healthcare.controller_data.FragmentAddressBook;
 import com.kyle.healthcare.fragment_package.CenterFragment;
 import com.kyle.healthcare.fragment_package.DrivingFragment;
 import com.kyle.healthcare.fragment_package.HealthFragment;
 import com.kyle.healthcare.fragment_package.HomepageFragment;
 
-public class MainActivity extends BaseActivity implements MainActivityInterface{
+public class MainActivity extends BaseActivity implements UIInterface {
 
     private static final int REQUEST_ENABLE_BT = 3;
 
@@ -60,6 +64,8 @@ public class MainActivity extends BaseActivity implements MainActivityInterface{
                 case R.id.navigation_driving:
                     toolbarTitle.setText("行驶记录");
                     replaceFragment(drivingFragment);
+                    new BlueToothThread().start();
+                    fragmentAddressBook.setVisible(FragmentAddressBook.DRIVING);
                     return true;
 
                 case R.id.navigation_center:
@@ -88,7 +94,6 @@ public class MainActivity extends BaseActivity implements MainActivityInterface{
         drivingFragment = new DrivingFragment();
         centerFragment = new CenterFragment();
         toolbarTitle = findViewById(R.id.toolbar_title);
-
         toolbarTitle.setText(R.string.title_homepage);
         replaceFragment(homepageFragment);
 
@@ -105,6 +110,10 @@ public class MainActivity extends BaseActivity implements MainActivityInterface{
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
             mChatService = new BluetoothChatService(this, mHandler);
         }
+
+        //deal with data
+        this.fragmentAddressBook = new FragmentAddressBook();
+        this.controller = new Controller(this);
     }
 
     @Override
@@ -121,6 +130,9 @@ public class MainActivity extends BaseActivity implements MainActivityInterface{
                 mChatService.start();
             }
         }
+
+        //send driving message
+
     }
 
     @Override
@@ -149,7 +161,9 @@ public class MainActivity extends BaseActivity implements MainActivityInterface{
                     Toast.makeText(MainActivity.this, "Connected to "
                             + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
                     break;
-
+                case FragmentAddressBook.DRIVING:
+                    Log.i("BlueToothThread","getMessage");
+                    controller.postXY(0,0);
             }
         }
     };
@@ -170,8 +184,54 @@ public class MainActivity extends BaseActivity implements MainActivityInterface{
         }
     }
 
+    /*
+       update UI
+     */
+    private Controller controller;
+
+    // manager visibility of fragment
+    private FragmentAddressBook fragmentAddressBook;
+
+
+    @Override
+    public int getVisibleFragmentAddress() {
+        return this.fragmentAddressBook.getCurrentVisibleFragment();
+    }
+
     @Override
     public void replaceFragmentInFragment(Fragment fragment) {
         replaceFragment(fragment);
     }
+
+    @Override
+    public void updateDrivingFragment(DrivingData drivingData) {
+        this.drivingFragment.update(String.valueOf(drivingData.totalTime),String.valueOf(drivingData.totalDistance),String.valueOf(drivingData.averageSpeech));
+        try{
+            Thread.sleep(1000);
+        }catch (InterruptedException i){
+            i.printStackTrace();
+        }
+    }
+
+
+    //BlueToothThread is sending message in the disguise of bluetooth
+
+    class BlueToothThread extends Thread{
+        @Override
+        public void run() {
+            super.run();
+            Log.i("BlueToothThread","start");
+            try{
+                for (int i = 0; i < 10; i++) {
+                    Message message = new Message();
+                    message.what = FragmentAddressBook.DRIVING;
+                    mHandler.sendMessage(message);
+                }
+                Thread.sleep(2000);
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
 }

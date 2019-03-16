@@ -6,8 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.kyle.healthcare.MainActivity;
-import com.kyle.healthcare.MainActivityInterface;
+import com.kyle.healthcare.UIInterface;
 import com.kyle.healthcare.R;
 import com.kyle.healthcare.view.FatigueRateView;
 import com.kyle.healthcare.view.HeartRateView;
@@ -29,15 +28,15 @@ public class HealthFragment extends Fragment {
         this.fatigueRateView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivityInterface mainActivityInterface = (MainActivityInterface) getActivity();
-                mainActivityInterface.replaceFragmentInFragment(new FatigueRateFragment());
+                UIInterface UIInterface = (UIInterface) getActivity();
+                UIInterface.replaceFragmentInFragment(new FatigueRateFragment());
             }
         });
         this.heartRateView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivityInterface mainActivityInterface = (MainActivityInterface)getActivity();
-                mainActivityInterface.replaceFragmentInFragment(new HeartRateFragment());
+                UIInterface UIInterface = (UIInterface)getActivity();
+                UIInterface.replaceFragmentInFragment(new HeartRateFragment());
             }
         });
     }
