@@ -122,14 +122,19 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
         this.textOffsetX = this.averageCircleR + this.textSize / 2;
     }
 
-
+    private Thread thread;
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         analyseDataOfDrawing(getMeasuredHeight(),getMeasuredWidth());
         //开启线程
         Log.i("surface","created");
         this.isRunning = true;
-        new Thread(this).start();
+        if(this.thread == null){
+            this.thread = new Thread(this);
+            this.thread.start();
+        }else{
+            restartDraw();
+        }
     }
 
     @Override
@@ -143,38 +148,44 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
         Log.i("surface","destroyed");
     }
 
-    public void stopDrawThread(){
+    public synchronized void stopDrawThread(){
         this.isRunning = false;
+        this.thread.interrupt();
     }
 
     //线程控制
-    private boolean isRunning = false;
+    private volatile boolean isRunning = false;
 
         //绘制
         public void run() {
             while (isRunning) {
                 synchronized (surfaceHolder) {
-                    for (int i = 0; i <= widthOfColumn; i++) {
-                        Canvas canvas = surfaceHolder.lockCanvas();
-                        paint(canvas, i * this.runDirection,0);
-                        surfaceHolder.unlockCanvasAndPost(canvas);
+                    if(this.hashNewData){
+                        changeData();
                         try {
-                            Thread.sleep(INTERVAL);
-                        } catch (InterruptedException e) {
+                            for (int i = 0; i <= 2*widthOfColumn; i++) {
+                                Canvas canvas = surfaceHolder.lockCanvas();
+                                paint(canvas, i * this.runDirection,0);
+                                surfaceHolder.unlockCanvasAndPost(canvas);
+                                Thread.sleep(INTERVAL);
+                            }
+                        }catch (InterruptedException e) {
                             e.printStackTrace();
-                            Log.d("DrawThread", "stop:1");
+                            Log.d("HeartRateThread", "stop:1");
+                            break;
                         }
-                    }
-                    changeData();
-                    for (int i = 0; i <= widthOfColumn; i++) {
-                        Canvas canvas = surfaceHolder.lockCanvas();
-                        paint(canvas, this.runDirection * i ,-1 * this.runDirection);
-                        surfaceHolder.unlockCanvasAndPost(canvas);
+                    }else{
                         try {
-                            Thread.sleep(INTERVAL);
-                        } catch (InterruptedException e) {
+                            for (int i = 0; i <= 2 * widthOfColumn; i++) {
+                                Canvas canvas = surfaceHolder.lockCanvas();
+                                paint(canvas, 2 * widthOfColumn * this.runDirection,-1 * this.runDirection);
+                                surfaceHolder.unlockCanvasAndPost(canvas);
+                                Thread.sleep(INTERVAL);
+                            }
+                        }catch (InterruptedException e) {
                             e.printStackTrace();
-                            Log.d("DrawThread", "stop:1");
+                            Log.d("HeartRateThread", "stop:3");
+                            break;
                         }
                     }
                 }
@@ -211,22 +222,58 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
             }
         }
 
-    //数据更新
+    //从新开始绘图
+    private void restartDraw(){
+            if(!this.thread.isAlive()) {
+                this.thread = new Thread(this);
+                this.restartDraw();
+            }
+
+    }
+    //整体数据更新
+    public void setSumData(int all) {
+        this.all = all;
+    }
+    public void setAllDateNumber(int allDateNumber) {
+        this.allDateNumber = allDateNumber;
+    }
+
+
+    /*数据更新模式
+       data:保存着原来的数据
+       newData:保存新加的数据
+       新添加数据时:addData 修改newData 还有增加aLL,allDateNumber的值,将hashNewData 改成true
+       绘图函数如果发现有新的数据，就将newData添加到data中,hashNewData  = false;
+     */
+    //数据更新测试
     public  void changeData(){
             if(this.runDirection == 1){
                 for (int i = this.heartRateData.length - 1; i > 0; i--) {
                     this.heartRateData[i] = this.heartRateData[i-1];
                 }
-                this.heartRateData[0] = 200;
-                this.all+=150;
+                this.heartRateData[0] = this.newData;
+                this.all+=this.newData;
                 this.allDateNumber++;
             }else {
                 for (int i = 0; i < this.heartRateData.length - 1; i++) {
                     this.heartRateData[i] = this.heartRateData[i+1];
                 }
-                this.heartRateData[this.heartRateData.length - 1] = 200;
-                this.all+= 250;
+                this.heartRateData[this.heartRateData.length - 1] = this.newData;
+                this.all+= this.newData;
                 this.allDateNumber++;
             }
+        this.hashNewData = false;
     }
+
+    //数据控制
+    private boolean hashNewData = true;
+    private int newData = 150;
+
+    public  void addData(int newData){
+        this.newData = newData;
+        this.hashNewData = true;
+    }
+
+
+    //开启新的线程进行测试
 }

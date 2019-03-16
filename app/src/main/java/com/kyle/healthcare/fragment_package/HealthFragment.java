@@ -7,11 +7,26 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kyle.healthcare.R;
+import com.kyle.healthcare.view.FatigueRateView;
+import com.kyle.healthcare.view.HeartRateView;
 
 public class HealthFragment extends Fragment {
+
+    private HeartRateView heartRateView;
+    private FatigueRateView fatigueRateView;
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.health_frag, container,false);
+        View view = inflater.inflate(R.layout.health_frag,container,false);
+        heartRateView = view.findViewById(R.id.health_fra_heart_rate_view);
+        this.fatigueRateView = view.findViewById(R.id.health_fra_fatigue_rate_view);
         return view;
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        heartRateView.stopDrawThread();
+        fatigueRateView.stopDrawThread();
+    }
+
 }
