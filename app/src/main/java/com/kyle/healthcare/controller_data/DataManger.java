@@ -21,9 +21,12 @@ public class DataManger implements DataDealInterface{
 
     @Override
     public int getHeartRate() {
-        Integer integer = this.heartRateArray.get(0);
-        this.heartRateArray.remove(0);
-        return integer;
+    if(this.heartRateArray.size() != 0){
+            Integer integer = this.heartRateArray.get(0);
+            this.heartRateArray.remove(0);
+            return integer;
+        }
+        return 0;
     }
 
     @Override
@@ -33,9 +36,12 @@ public class DataManger implements DataDealInterface{
 
     @Override
     public int getFatigueRate() {
-        Integer integer = this.fatigueRateArray.get(0);
-        this.fatigueRateArray.remove(0);
-        return integer;
+        if(this.fatigueRateArray.size() != 0){
+            Integer integer = this.fatigueRateArray.get(0);
+            this.fatigueRateArray.remove(0);
+            return integer;
+        }
+        return 0;
     }
 
     //resolve the blue-tooth-data and add the latest heart-rate and fatigue-rate to arrays
@@ -44,7 +50,9 @@ public class DataManger implements DataDealInterface{
         String[] unitsUndivided = string.split(",");
         int[] units = new int[4];
         for (int i = 0; i < units.length; i++) {
-            units[i] = Integer.parseInt(unitsUndivided[i].subSequence(1,3).toString());
+            int a = unitsUndivided[i].length() - 1;
+            //subSequence,without the first one,if start number = last number.return ""
+            units[i] = Integer.parseInt(unitsUndivided[i].subSequence(1,unitsUndivided[i].length()).toString());
         }
         Integer heartRate = units[1];
         Integer fatigueRate = calculateFatigue(units[0],units[1],units[2],units[3]);
@@ -55,7 +63,7 @@ public class DataManger implements DataDealInterface{
 
     //calculate degree of fatigue
     private int calculateFatigue(int temperature,int heartRate ,int bloodPressure,int bloodFat){
-        return (int)(Math.random() * 100);
+        return (int)Math.pow(((temperature - 10)*(temperature - 10) + (heartRate - 10) * (heartRate - 10)+ (bloodPressure - 10) * (bloodPressure - 10) + (bloodFat - 10) * (bloodFat - 10)) / 4.0,0.5);
     }
 
     /*
@@ -77,6 +85,26 @@ public class DataManger implements DataDealInterface{
     @Override
     public DrivingData getLatestDrivingInformation() {
         return this.latestDrivingData;
+    }
+
+
+
+
+    //Unusual information
+    private final  static int fatigueUnusual = 1;
+    private final static int drivingRecordUnusual = 2;
+    private final static int heartRateUnusual = 0;
+
+    //situation, if it is usual, currentSituation = -1;
+    private int currentSituation;
+
+
+    //analyze data and give the situation
+    public int analyzeSituation(){
+        if (this.fatigueRateArray.size() != 0 && this.fatigueRateArray.get(0) > 10){
+            return fatigueUnusual;
+        }
+        return -1;
     }
 
 }

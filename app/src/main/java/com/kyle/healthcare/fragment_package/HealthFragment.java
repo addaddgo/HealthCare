@@ -40,11 +40,21 @@ public class HealthFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(heartRateView != null && fatigueRateView != null){
+            heartRateView.stopDrawThread();
+            fatigueRateView.stopDrawThread();
+        }
+
+    }
+
     @Override
     public void onStop() {
         super.onStop();
-        heartRateView.stopDrawThread();
-        fatigueRateView.stopDrawThread();
+
     }
 
     //add new data

@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:name="org.litepal.LitePalApplication"
@@ -18,28 +19,27 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name="com.kyle.healthcare.MainActivity"
+            android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="com.kyle.healthcare.base_package.LogInActivity"
+            android:name=".base_package.LogInActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme">
-
-        </activity>
+            android:theme="@style/LoginTheme"></activity>
         <activity
-            android:name="com.kyle.healthcare.base_package.SignUpActivity"
+            android:name=".base_package.SignUpActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme">
+            android:theme="@style/LoginTheme"></activity>
 
-        </activity>
+        <service android:name=".risk_tip.RiskTipService" />
 
-        <service android:name=".RiskTipService" />
+        <activity android:name=".risk_tip.RiskTipActivityActivity"></activity>
+
     </application>
 
 </manifest>

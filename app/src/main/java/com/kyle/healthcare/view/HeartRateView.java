@@ -236,7 +236,7 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
     private void restartDraw(){
             if(!this.thread.isAlive()) {
                 this.thread = new Thread(this);
-                this.restartDraw();
+                this.thread.start();
             }
 
     }

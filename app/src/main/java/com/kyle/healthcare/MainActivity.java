@@ -3,9 +3,12 @@ package com.kyle.healthcare;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -26,6 +29,8 @@ import com.kyle.healthcare.fragment_package.CenterFragment;
 import com.kyle.healthcare.fragment_package.DrivingFragment;
 import com.kyle.healthcare.fragment_package.HealthFragment;
 import com.kyle.healthcare.fragment_package.HomepageFragment;
+import com.kyle.healthcare.risk_tip.RiskTipActivityActivity;
+import com.kyle.healthcare.risk_tip.RiskTipService;
 
 public class MainActivity extends BaseActivity implements UIInterface {
 
@@ -115,8 +120,6 @@ public class MainActivity extends BaseActivity implements UIInterface {
         //deal with data
         this.fragmentAddressBook = FragmentAddressBook.fragmentAddressBook;
         this.controller = new Controller(this);
-
-//        new BlueToothThread().start();
     }
 
     @Override
@@ -134,7 +137,6 @@ public class MainActivity extends BaseActivity implements UIInterface {
             }
         }
 
-        //send driving message
 
     }
 
@@ -157,15 +159,10 @@ public class MainActivity extends BaseActivity implements UIInterface {
                     String readMessage = new String(readBuf, 0, msg.arg1);
                     // TODO: 2019/3/14 接受数据
                     //Toast.makeText(MainActivity.this, readMessage, Toast.LENGTH_SHORT).show();
-                    switch (fragmentAddressBook.getCurrentVisibleFragment()){
-                        case FragmentAddressBook.DRIVING:
                             Log.i("BlueToothThread","getMessage");
                             controller.postXY(0,0);
-                            break;
-                        case FragmentAddressBook.HEALTH:
                             Log.i("BlueToothThread","getHealthMessage");
                             controller.postBlueToothData(readMessage);
-                    }
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:
                     // save the connected device's name
@@ -173,6 +170,10 @@ public class MainActivity extends BaseActivity implements UIInterface {
                     Toast.makeText(MainActivity.this, "Connected to "
                             + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
                     break;
+                    case FragmentAddressBook.HEALTH:
+                        controller.postXY(0,0);
+                        Log.i("BlueToothThread","getHealthMessage");
+                        controller.postBlueToothData("T"+ (int)(Math.random()*300)+"," + "T"+ (int)(Math.random()*25) + ","+"T"+ (int)(Math.random()*25)+","+"T"+ (int)(Math.random()*25)+",");
             }
         }
     };
@@ -227,24 +228,34 @@ public class MainActivity extends BaseActivity implements UIInterface {
         this.healthFragment.addNewData(heartRate,fatigue);
     }
 
+    @Override
+    public void stopHealthFragmentUpdate() {
+        this.healthFragment.onPause();
+    }
+
     //BlueToothThread is sending message in the disguise of bluetooth
 
-//    class BlueToothThread extends Thread{
-//        @Override
-//        public void run() {
-//            super.run();
-//            Log.i("BlueToothThread","start");
-//            try{
-//                for (int i = 0; i < 10; i++) {
-//                    Message message = new Message();
-//                    message.what = FragmentAddressBook.HEALTH;
-//                    mHandler.sendMessage(message);
-//                    Thread.sleep(200);
-//                }
-//            }catch (InterruptedException e){
-//                e.printStackTrace();
-//            }
-//        }
-//    }
+    //start text:
+    public void startTest(){
+        new BlueToothThread().start();
+    }
+
+    class BlueToothThread extends Thread{
+        @Override
+        public void run() {
+            super.run();
+            Log.i("BlueToothThread","start");
+            try{
+                for (int i = 0; i < 100; i++) {
+                    Message message = new Message();
+                    message.what = FragmentAddressBook.HEALTH;
+                    mHandler.sendMessage(message);
+                    Thread.sleep(200);
+                }
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }
+        }
+    }
 
 }

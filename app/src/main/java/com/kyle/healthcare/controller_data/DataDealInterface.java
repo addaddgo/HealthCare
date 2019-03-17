@@ -23,4 +23,8 @@ public interface DataDealInterface {
     DrivingData getLatestDrivingInformation();
     //add latest driving record
     void addDrivingData(float X,float Y);
+
+
+    //unusual
+    int analyzeSituation();
 }
