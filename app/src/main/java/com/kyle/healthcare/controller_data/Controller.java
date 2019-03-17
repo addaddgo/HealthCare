@@ -35,7 +35,7 @@ public class Controller implements RiskTipService.Callback{
             iBinder.setCallback(getMyCallback());
             Log.d("Service","connected");
             MainActivity mainActivity = (MainActivity)(UIInterface);
-            mainActivity.startTest();
+//            mainActivity.startTest();
         }
 
         @Override

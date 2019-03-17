@@ -236,26 +236,26 @@ public class MainActivity extends BaseActivity implements UIInterface {
     //BlueToothThread is sending message in the disguise of bluetooth
 
     //start text:
-    public void startTest(){
-        new BlueToothThread().start();
-    }
+//    public void startTest(){
+//        new BlueToothThread().start();
+//    }
 
-    class BlueToothThread extends Thread{
-        @Override
-        public void run() {
-            super.run();
-            Log.i("BlueToothThread","start");
-            try{
-                for (int i = 0; i < 100; i++) {
-                    Message message = new Message();
-                    message.what = FragmentAddressBook.HEALTH;
-                    mHandler.sendMessage(message);
-                    Thread.sleep(200);
-                }
-            }catch (InterruptedException e){
-                e.printStackTrace();
-            }
-        }
-    }
+//    class BlueToothThread extends Thread{
+//        @Override
+//        public void run() {
+//            super.run();
+//            Log.i("BlueToothThread","start");
+//            try{
+//                for (int i = 0; i < 100; i++) {
+//                    Message message = new Message();
+//                    message.what = FragmentAddressBook.HEALTH;
+//                    mHandler.sendMessage(message);
+//                    Thread.sleep(200);
+//                }
+//            }catch (InterruptedException e){
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
 }
