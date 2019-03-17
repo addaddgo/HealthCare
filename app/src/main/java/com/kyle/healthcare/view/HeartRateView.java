@@ -41,7 +41,7 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
         //数据
     private int runDirection;
     private int margin;
-    private int STANDER_INTERVAL;
+//    private int STANDER_INTERVAL;
     private int INTERVAL;//刷新间隔
     private int NUMBER_COLUMN = 7;
     private ArrayList<Integer> integers;
@@ -56,6 +56,7 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
     private int textOffsetX;
     private int textOffsetY;
     private int textSize;
+    private int scaleOfOffset;
 
     public HeartRateView(Context context) {
         super(context);
@@ -127,8 +128,9 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
         this.dangerousColumnPaint.setTextSize(this.textSize);
         this.textOffsetY = this.textSize / 3 ;
         this.textOffsetX = this.averageCircleR + this.textSize / 2;
-        this.STANDER_INTERVAL = (int)(240.0 / this.widthOfColumn);
-        this.INTERVAL = STANDER_INTERVAL;
+//        this.STANDER_INTERVAL = (int)(240.0 / this.widthOfColumn);
+        this.INTERVAL = (int)(240.0 / this.widthOfColumn);
+        this.scaleOfOffset = 1;
     }
 
     private Thread thread;
@@ -173,7 +175,7 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
                     if(this.hasNewData){
                         Log.i("HeartRateView","draw");
                         try {
-                            for (int i = 0; i <= 2*widthOfColumn; i++) {
+                            for (int i = 0; i <= 2*widthOfColumn; i+=this.scaleOfOffset) {
                                 Canvas canvas = surfaceHolder.lockCanvas();
                                 paint(canvas, i * this.runDirection,0);
                                 surfaceHolder.unlockCanvasAndPost(canvas);
@@ -186,7 +188,7 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
                         }
                     }else{
                         try {
-                            for (int i = 0; i <= 2 * widthOfColumn; i++) {
+                            for (int i = 0; i <= 2 * widthOfColumn; i+=this.scaleOfOffset) {
                                 Canvas canvas = surfaceHolder.lockCanvas();
                                 paint(canvas, 2 * widthOfColumn * this.runDirection,0);
                                 surfaceHolder.unlockCanvasAndPost(canvas);
@@ -280,9 +282,9 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
             }
             synchronized (this){
                 if(this.integers.size() == 0){
-                    this.INTERVAL = this.STANDER_INTERVAL;
+                    this.scaleOfOffset = 1;
                 }else{
-                    this.INTERVAL = (int)(this.STANDER_INTERVAL / Math.pow(this.integers.size(),0.5));
+                    this.scaleOfOffset = this.integers.size();
                 }
                 this.hasNewData = true;
             }

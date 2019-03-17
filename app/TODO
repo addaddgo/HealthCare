@@ -1,4 +1,5 @@
 TODO(1):FatigueView,HeartView 前几位数据都是随机生成的。为了让数据全为蓝牙和地图定位输入，需要将DataManager中的缓冲长度大于 绘制的个数时，才对view进行数据输入。
 TODO(2):DataManger analyzeSituation 还需分析 驾驶记录。
 TODO(3):当view绘制函数关闭时，不再对view的缓冲区传入数据。
-TODO(4):实现HealthFragment的view和HeartRateFragment 和 FatigueRateFragment的数据同步
+TODO(4):实现HealthFragment的view和HeartRateFragment 和 FatigueRateFragment的数据同步\
+TODO(5):view的绘制不够快 方案：加大绘制间距

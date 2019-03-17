@@ -173,7 +173,7 @@ public class MainActivity extends BaseActivity implements UIInterface {
                     case FragmentAddressBook.HEALTH:
                         controller.postXY(0,0);
                         Log.i("BlueToothThread","getHealthMessage");
-                        controller.postBlueToothData("T"+ (int)(Math.random()*300)+"," + "T"+ (int)(Math.random()*25) + ","+"T"+ (int)(Math.random()*25)+","+"T"+ (int)(Math.random()*25)+",");
+                        controller.postBlueToothData("T"+ (int)(Math.random()*20)+"," + "T"+ (int)(Math.random()*20) + ","+"T"+ (int)(Math.random()*20)+","+"T"+ (int)(Math.random()*20)+",");
             }
         }
     };
@@ -235,27 +235,28 @@ public class MainActivity extends BaseActivity implements UIInterface {
 
     //BlueToothThread is sending message in the disguise of bluetooth
 
-    //start text:
-//    public void startTest(){
-//        new BlueToothThread().start();
-//    }
+    //start test;
+    public void startTest(){
+        new BlueToothThread().start();
+    }
 
-//    class BlueToothThread extends Thread{
-//        @Override
-//        public void run() {
-//            super.run();
-//            Log.i("BlueToothThread","start");
-//            try{
-//                for (int i = 0; i < 100; i++) {
-//                    Message message = new Message();
-//                    message.what = FragmentAddressBook.HEALTH;
-//                    mHandler.sendMessage(message);
-//                    Thread.sleep(200);
-//                }
-//            }catch (InterruptedException e){
-//                e.printStackTrace();
-//            }
-//        }
-//    }
+    class BlueToothThread extends Thread{
+        @Override
+        public void run() {
+            super.run();
+            Log.i("BlueToothThread","start");
+            try{
+                for (int i = 0; i < 100; i++) {
+                    Message message = new Message();
+                    message.what = FragmentAddressBook.HEALTH;
+                    mHandler.sendMessage(message);
+                    Thread.sleep(200);
+                }
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }
+            Log.d("BlueToothThread", "end");
+        }
+    }
 
 }

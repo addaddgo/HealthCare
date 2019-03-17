@@ -116,7 +116,7 @@ public class FatigueRateView extends SurfaceView implements SurfaceHolder.Callba
         this.dangerousData = 3 * this.range / 4;
         this.potR = 10;
         this.STANDER_INTERVAL = (int)(480 / this.distance);
-        this.INTERVAL = this.STANDER_INTERVAL;
+        this.INTERVAL = 1;
     }
 
 
@@ -247,7 +247,7 @@ public class FatigueRateView extends SurfaceView implements SurfaceHolder.Callba
                 if(this.integers.size() == 0){
                     this.INTERVAL = this.STANDER_INTERVAL;
                 }else{
-                    this.INTERVAL = (int)(this.STANDER_INTERVAL / Math.pow(this.integers.size(),0.5));
+                    this.INTERVAL = (int)(1.0 * this.STANDER_INTERVAL / (this.integers.size() * this.integers.size()));
                 }
                 this.hashAddData = true;
             }
