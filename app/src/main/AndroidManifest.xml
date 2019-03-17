@@ -38,6 +38,8 @@
             android:theme="@style/LoginTheme">
 
         </activity>
+
+        <service android:name=".RiskTipService" />
     </application>
 
 </manifest>
