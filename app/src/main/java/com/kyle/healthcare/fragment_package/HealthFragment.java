@@ -47,4 +47,11 @@ public class HealthFragment extends Fragment {
         fatigueRateView.stopDrawThread();
     }
 
+    //add new data
+    public void addNewData(int heartRate,int fatigueRate){
+        if(this.heartRateView != null && this.fatigueRateView != null){
+            this.heartRateView.addData(heartRate);
+            this.fatigueRateView.addNewData(fatigueRate);
+        }
+    }
 }

@@ -59,12 +59,12 @@ public class MainActivity extends BaseActivity implements UIInterface {
                 case R.id.navigation_health:
                     toolbarTitle.setText(R.string.title_health);
                     replaceFragment(healthFragment);
+                    fragmentAddressBook.setVisible(FragmentAddressBook.HEALTH);
                     return true;
 
                 case R.id.navigation_driving:
                     toolbarTitle.setText("行驶记录");
                     replaceFragment(drivingFragment);
-                    new BlueToothThread().start();
                     fragmentAddressBook.setVisible(FragmentAddressBook.DRIVING);
                     return true;
 
@@ -113,8 +113,10 @@ public class MainActivity extends BaseActivity implements UIInterface {
         }
 
         //deal with data
-        this.fragmentAddressBook = new FragmentAddressBook();
+        this.fragmentAddressBook = FragmentAddressBook.fragmentAddressBook;
         this.controller = new Controller(this);
+
+//        new BlueToothThread().start();
     }
 
     @Override
@@ -154,7 +156,16 @@ public class MainActivity extends BaseActivity implements UIInterface {
                     // construct a string from the valid bytes in the buffer
                     String readMessage = new String(readBuf, 0, msg.arg1);
                     // TODO: 2019/3/14 接受数据
-                    Toast.makeText(MainActivity.this, readMessage, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MainActivity.this, readMessage, Toast.LENGTH_SHORT).show();
+                    switch (fragmentAddressBook.getCurrentVisibleFragment()){
+                        case FragmentAddressBook.DRIVING:
+                            Log.i("BlueToothThread","getMessage");
+                            controller.postXY(0,0);
+                            break;
+                        case FragmentAddressBook.HEALTH:
+                            Log.i("BlueToothThread","getHealthMessage");
+                            controller.postBlueToothData(readMessage);
+                    }
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:
                     // save the connected device's name
@@ -162,9 +173,6 @@ public class MainActivity extends BaseActivity implements UIInterface {
                     Toast.makeText(MainActivity.this, "Connected to "
                             + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
                     break;
-                case FragmentAddressBook.DRIVING:
-                    Log.i("BlueToothThread","getMessage");
-                    controller.postXY(0,0);
             }
         }
     };
@@ -214,25 +222,29 @@ public class MainActivity extends BaseActivity implements UIInterface {
         }
     }
 
+    @Override
+    public void updateHealthFragment(int heartRate,int fatigue) {
+        this.healthFragment.addNewData(heartRate,fatigue);
+    }
 
     //BlueToothThread is sending message in the disguise of bluetooth
 
-    class BlueToothThread extends Thread{
-        @Override
-        public void run() {
-            super.run();
-            Log.i("BlueToothThread","start");
-            try{
-                for (int i = 0; i < 10; i++) {
-                    Message message = new Message();
-                    message.what = FragmentAddressBook.DRIVING;
-                    mHandler.sendMessage(message);
-                }
-                Thread.sleep(2000);
-            }catch (InterruptedException e){
-                e.printStackTrace();
-            }
-        }
-    }
+//    class BlueToothThread extends Thread{
+//        @Override
+//        public void run() {
+//            super.run();
+//            Log.i("BlueToothThread","start");
+//            try{
+//                for (int i = 0; i < 10; i++) {
+//                    Message message = new Message();
+//                    message.what = FragmentAddressBook.HEALTH;
+//                    mHandler.sendMessage(message);
+//                    Thread.sleep(200);
+//                }
+//            }catch (InterruptedException e){
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
 }

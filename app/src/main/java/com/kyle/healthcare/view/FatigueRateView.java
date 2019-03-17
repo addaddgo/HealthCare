@@ -15,6 +15,8 @@ import android.view.SurfaceView;
 
 import com.kyle.healthcare.R;
 
+import java.util.ArrayList;
+
 
 public class FatigueRateView extends SurfaceView implements SurfaceHolder.Callback ,Runnable {
 
@@ -71,6 +73,7 @@ public class FatigueRateView extends SurfaceView implements SurfaceHolder.Callba
         this.linePaint = new Paint();
         this.dangerousLinePaint = new Paint();
         this.potPaint = new Paint();
+        this.integers = new ArrayList<>();
     }
 
     private Thread thread;
@@ -84,7 +87,8 @@ public class FatigueRateView extends SurfaceView implements SurfaceHolder.Callba
       this.thread.start();
     }
     //绘图数据
-    private int INTERVAL = 10;
+    private int INTERVAL;
+    private int STANDER_INTERVAL;
     private int height;
     private int width;
     private int margin;
@@ -95,6 +99,8 @@ public class FatigueRateView extends SurfaceView implements SurfaceHolder.Callba
     private double[] data;
     private int potR;
     private int dangerousData;
+    private ArrayList<Integer> integers; 
+    
     //绘图数据初始化
     private void analyzeDrawData(){
         this.height = getMeasuredHeight();
@@ -109,15 +115,17 @@ public class FatigueRateView extends SurfaceView implements SurfaceHolder.Callba
         this.distance = (this.width  - 2 * this.margin)/ (this.NUMBER_SPOT  - 2);
         this.dangerousData = 3 * this.range / 4;
         this.potR = 10;
+        this.STANDER_INTERVAL = (int)(480 / this.distance);
+        this.INTERVAL = this.STANDER_INTERVAL;
     }
 
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        Log.d("surface","changed");
+        Log.d("surface", "changed");
         analyzeDrawData();
         this.isRunning = true;
-     //采用消息机制来再次开启线程
+        //采用消息机制来再次开启线程
     }
 
     @Override
@@ -137,8 +145,8 @@ public class FatigueRateView extends SurfaceView implements SurfaceHolder.Callba
     @Override
     public void run() {
         while (this.isRunning){
+            getData();
             if(hashAddData){
-                changeData();
                 try{
                     for(int i = 0; i < this.distance;i++) {
                         synchronized (this.surfaceHolder) {
@@ -224,21 +232,34 @@ public class FatigueRateView extends SurfaceView implements SurfaceHolder.Callba
     }
 
     //数据更新
-    private boolean hashAddData = true;
-    private int newData = 140;
+    private boolean hashAddData = false;
 
     //将拿到的新数据切换到data中
-    private void changeData(){
-        for(int i = 0 ;i < this.NUMBER_SPOT - 1;i++){
-            this.data[i] = this.data[i+1];
+    private void getData(){
+        if(this.integers.size() != 0){
+            for(int i = 0 ;i < this.NUMBER_SPOT - 1;i++){
+                this.data[i] = this.data[i+1];
+            }
+            int newData = this.integers.get(0);
+            this.integers.remove(0);
+            this.data[this.NUMBER_SPOT - 1] = newData;
+            synchronized (this){
+                if(this.integers.size() == 0){
+                    this.INTERVAL = this.STANDER_INTERVAL;
+                }else{
+                    this.INTERVAL = (int)(this.STANDER_INTERVAL / Math.pow(this.integers.size(),0.5));
+                }
+                this.hashAddData = true;
+            }
+        }else{
+            this.hashAddData = false;
         }
-        this.data[this.NUMBER_SPOT - 1] = this.newData;
-        this.hashAddData = false;
+
     }
 
     //添加新的数据
-    private void addNewData(int newData){
-        this.newData = newData;
+    public void addNewData(int newData){
+        this.integers.add(newData);
         this.hashAddData = true;
     }
 

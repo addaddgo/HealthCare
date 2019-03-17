@@ -14,27 +14,49 @@ public class DataManger implements DataDealInterface{
     private ArrayList<Integer> fatigueRateArray = new ArrayList<Integer>();
 
 
-    /*
-        蓝牙数据
-     */
-    //解析数据
+    @Override
+    public int getLengthOfHeartRateArray() {
+        return this.heartRateArray.size();
+    }
+
     @Override
     public int getHeartRate() {
-        return 0;
+        Integer integer = this.heartRateArray.get(0);
+        this.heartRateArray.remove(0);
+        return integer;
+    }
+
+    @Override
+    public int getLengthOfFatigueRateArray() {
+        return this.fatigueRateArray.size();
     }
 
     @Override
     public int getFatigueRate() {
-        return 0;
+        Integer integer = this.fatigueRateArray.get(0);
+        this.fatigueRateArray.remove(0);
+        return integer;
     }
 
     //resolve the blue-tooth-data and add the latest heart-rate and fatigue-rate to arrays
     @Override
     public void addBlueToothData(String string) {
-
+        String[] unitsUndivided = string.split(",");
+        int[] units = new int[4];
+        for (int i = 0; i < units.length; i++) {
+            units[i] = Integer.parseInt(unitsUndivided[i].subSequence(1,3).toString());
+        }
+        Integer heartRate = units[1];
+        Integer fatigueRate = calculateFatigue(units[0],units[1],units[2],units[3]);
+        this.fatigueRateArray.add(fatigueRate);
+        this.heartRateArray.add(heartRate);
+        Log.i("BlueToothThread","resolve");
     }
 
-
+    //calculate degree of fatigue
+    private int calculateFatigue(int temperature,int heartRate ,int bloodPressure,int bloodFat){
+        return (int)(Math.random() * 100);
+    }
 
     /*
       地图,需要根据当前的坐标和之前的所以数据，给出最新的DrivingData

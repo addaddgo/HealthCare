@@ -4,17 +4,23 @@ import com.kyle.healthcare.fragment_package.DrivingFragment;
 
 public interface DataDealInterface {
 
+    //bluetooth-data
+
+    int getLengthOfHeartRateArray();
     //get the first of heartRateArray
     int getHeartRate();//心率
+
+    int getLengthOfFatigueRateArray();
     //get the first of fatigueRateArray
     int getFatigueRate();
 
-    //添加数据
-    void addBlueToothData(String string);//蓝牙
-    void addDrivingData(float X,float Y);
+    //latest bluetooth-data
+    void addBlueToothData(String string);
 
 
 
-    //最新的行驶数据
+    //latest driving record
     DrivingData getLatestDrivingInformation();
+    //add latest driving record
+    void addDrivingData(float X,float Y);
 }

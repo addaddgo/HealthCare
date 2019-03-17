@@ -15,6 +15,8 @@ import android.view.SurfaceView;
 
 import com.kyle.healthcare.R;
 
+import java.util.ArrayList;
+
 public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback,Runnable{
 
     private SurfaceHolder surfaceHolder;
@@ -38,9 +40,11 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
     private Paint criticalLinePaint;
         //数据
     private int runDirection;
-    private int margin ;
+    private int margin;
+    private int STANDER_INTERVAL;
     private int INTERVAL;//刷新间隔
     private int NUMBER_COLUMN = 7;
+    private ArrayList<Integer> integers;
     private int[] heartRateData;
     private int widthOfColumn;
     private int scaleOfHeight;
@@ -107,13 +111,13 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
         this.averageCircleColorPaint = new Paint();
         this.columnColorPaint = new Paint();
         this.criticalLinePaint = new Paint();
+        this.integers = new ArrayList<>();
     }
 
     //确定绘图所需要的数据
     private void analyseDataOfDrawing(int height,int width){
         this.height = height;
         this.width = width;
-        this.INTERVAL = 10;
         this.scaleOfHeight = this.height / 200;//150五十以下为正常的运动心率
         this.margin = this.width / (this.NUMBER_COLUMN);
         this.widthOfColumn = (this.width - 2 * this.margin )/(this.NUMBER_COLUMN * 2 + 1);
@@ -123,6 +127,8 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
         this.dangerousColumnPaint.setTextSize(this.textSize);
         this.textOffsetY = this.textSize / 3 ;
         this.textOffsetX = this.averageCircleR + this.textSize / 2;
+        this.STANDER_INTERVAL = (int)(240.0 / this.widthOfColumn);
+        this.INTERVAL = STANDER_INTERVAL;
     }
 
     private Thread thread;
@@ -163,8 +169,9 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
         public void run() {
             while (isRunning) {
                 synchronized (surfaceHolder) {
-                    if(this.hashNewData){
-                        changeData();
+                    getData();
+                    if(this.hasNewData){
+                        Log.i("HeartRateView","draw");
                         try {
                             for (int i = 0; i <= 2*widthOfColumn; i++) {
                                 Canvas canvas = surfaceHolder.lockCanvas();
@@ -245,36 +252,52 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
     /*数据更新模式
        data:保存着原来的数据
        newData:保存新加的数据
-       新添加数据时:addData 修改newData 还有增加aLL,allDateNumber的值,将hashNewData 改成true
-       绘图函数如果发现有新的数据，就将newData添加到data中,hashNewData  = false;
+       新添加数据时:addData 修改newData 还有增加aLL,allDateNumber的值,将hasNewData 改成true
+       绘图函数如果发现有新的数据，就将newData添加到data中,hasNewData  = false;
      */
     //数据更新测试
-    public  void changeData(){
+    // 数据控制
+    private volatile boolean hasNewData = false;
+    private  void getData(){
+        Log.i("HeartRateView","getData");
+        if(this.integers.size() != 0){
+            int newDa = integers.get(0);
+            integers.remove(0);
             if(this.runDirection == 1){
                 for (int i = this.heartRateData.length - 1; i > 0; i--) {
                     this.heartRateData[i] = this.heartRateData[i-1];
                 }
-                this.heartRateData[0] = this.newData;
-                this.all+=this.newData;
+                this.heartRateData[0] = newDa;
+                this.all+=newDa;
                 this.allDateNumber++;
             }else {
                 for (int i = 0; i < this.heartRateData.length - 1; i++) {
                     this.heartRateData[i] = this.heartRateData[i+1];
                 }
-                this.heartRateData[this.heartRateData.length - 1] = this.newData;
-                this.all+= this.newData;
+                this.heartRateData[this.heartRateData.length - 1] = newDa;
+                this.all+= newDa;
                 this.allDateNumber++;
             }
-        this.hashNewData = false;
+            synchronized (this){
+                if(this.integers.size() == 0){
+                    this.INTERVAL = this.STANDER_INTERVAL;
+                }else{
+                    this.INTERVAL = (int)(this.STANDER_INTERVAL / Math.pow(this.integers.size(),0.5));
+                }
+                this.hasNewData = true;
+            }
+        }else {
+            this.hasNewData = false;
+        }
+        Log.i("HeartRateView",String.valueOf(this.hasNewData));
     }
 
-    //数据控制
-    private boolean hashNewData = true;
-    private int newData = 150;
 
-    public  void addData(int newData){
-        this.newData = newData;
-        this.hashNewData = true;
+
+    public  synchronized void addData(int newData){
+        this.integers.add(newData);
+        this.hasNewData = true;
+        Log.i("HeartRateView","addData");
     }
 
 

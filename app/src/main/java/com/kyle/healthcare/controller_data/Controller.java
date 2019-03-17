@@ -18,8 +18,10 @@ public class Controller {
 
     //get blueTooth's data
     public void postBlueToothData(String string){
+        Log.i("BlueToothThread",string);
         this.currentString = string;
-
+        this.dataDealInterface.addBlueToothData(string);
+        updateFragment();
     }
 
     /*
@@ -38,6 +40,11 @@ public class Controller {
             case FragmentAddressBook.DRIVING:
                 this.UIInterface.updateDrivingFragment(this.dataDealInterface.getLatestDrivingInformation());
                 Log.i("Controller","update Driving");
+                break;
+            case FragmentAddressBook.HEALTH:
+                Log.i("Controller","update Health");
+                this.UIInterface.updateHealthFragment(dataDealInterface.getHeartRate(),dataDealInterface.getFatigueRate());
+                break;
         }
     }
 }
