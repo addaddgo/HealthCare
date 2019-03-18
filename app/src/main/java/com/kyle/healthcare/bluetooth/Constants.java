@@ -32,4 +32,11 @@ public interface Constants {
     public static final String DEVICE_NAME = "device_name";
     public static final String TOAST = "toast";
 
+    int frag_id_homepage = 101;
+    int frag_id_health = 102;
+    int frag_id_driving = 103;
+    int frag_id_center = 104;
+    int frag_id_heart_rate = 105;
+    int frag_id_fatigue_rate = 106;
+    int frag_id_settings = 108;
 }

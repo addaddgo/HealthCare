@@ -11,8 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kyle.healthcare.R;
+import com.kyle.healthcare.UIInterface;
 
 public class HomepageFragment extends Fragment {
+    private UIInterface uiInterface;
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.homepage_frag, container,false);
@@ -23,6 +25,8 @@ public class HomepageFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        uiInterface = (UIInterface) getActivity();
+        uiInterface.setTitle(R.string.title_driving);
     }
 
     @Override

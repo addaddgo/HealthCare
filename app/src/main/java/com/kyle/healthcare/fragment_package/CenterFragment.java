@@ -1,22 +1,21 @@
 package com.kyle.healthcare.fragment_package;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.kyle.healthcare.R;
+import com.kyle.healthcare.UIInterface;
+import com.kyle.healthcare.bluetooth.Constants;
 
 public class CenterFragment extends Fragment{
+    UIInterface uiInterface;
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.center_frag, container,false);
@@ -27,6 +26,7 @@ public class CenterFragment extends Fragment{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        uiInterface = (UIInterface) getActivity();
     }
 
     @Override
@@ -39,7 +39,8 @@ public class CenterFragment extends Fragment{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_settings:
-                // TODO: 2019/3/18 导向设置fragment
+                uiInterface.setTitle(R.string.settings);
+                uiInterface.replaceFragmentInFragment(Constants.frag_id_settings);
                 break;
         }
         return super.onOptionsItemSelected(item);

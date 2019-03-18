@@ -16,9 +16,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kyle.healthcare.R;
+import com.kyle.healthcare.UIInterface;
 
 public class DrivingFragment extends Fragment {
-
+    private UIInterface uiInterface;
     private TextView totalDistance;
     private TextView averageSpeech;
     private TextView totalTime;
@@ -36,6 +37,8 @@ public class DrivingFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        uiInterface = (UIInterface) getActivity();
+        uiInterface.setTitle(R.string.title_driving);
     }
 
     @Override
