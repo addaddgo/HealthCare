@@ -1,6 +1,8 @@
 package com.kyle.healthcare.fragment_package;
 
 import android.os.Bundle;
+import android.provider.SyncStateContract;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.kyle.healthcare.UIInterface;
 import com.kyle.healthcare.R;
+import com.kyle.healthcare.bluetooth.Constants;
 import com.kyle.healthcare.view.FatigueRateView;
 import com.kyle.healthcare.view.HeartRateView;
 
@@ -15,6 +18,7 @@ public class HealthFragment extends Fragment {
 
     private HeartRateView heartRateView;
     private FatigueRateView fatigueRateView;
+    private UIInterface uiInterface;
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.health_frag,container,false);
@@ -24,19 +28,25 @@ public class HealthFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        uiInterface = (UIInterface) getActivity();
+        uiInterface.setTitle(R.string.title_health);
+    }
+
     private void addListener(){
         this.fatigueRateView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UIInterface UIInterface = (UIInterface) getActivity();
-                UIInterface.replaceFragmentInFragment(new FatigueRateFragment());
+                uiInterface.replaceFragmentInFragment(Constants.frag_id_fatigue_rate);
             }
         });
         this.heartRateView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 UIInterface UIInterface = (UIInterface)getActivity();
-                UIInterface.replaceFragmentInFragment(new HeartRateFragment());
+                UIInterface.replaceFragmentInFragment(Constants.frag_id_heart_rate);
             }
         });
     }

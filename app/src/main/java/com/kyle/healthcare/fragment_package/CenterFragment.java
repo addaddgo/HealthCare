@@ -1,12 +1,14 @@
 package com.kyle.healthcare.fragment_package;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,10 +17,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kyle.healthcare.R;
+import com.kyle.healthcare.UIInterface;
+import com.kyle.healthcare.bluetooth.Constants;
 import com.kyle.healthcare.controller_data.TimeSupport;
 import com.kyle.healthcare.view.ScrollSelectView;
 
 public class CenterFragment extends Fragment implements View.OnClickListener{
+
+    UIInterface uiInterface;
 
     private TextView topEditButton;
     private TextView bottomEditButton;
@@ -38,19 +44,40 @@ public class CenterFragment extends Fragment implements View.OnClickListener{
     private String[] months;
     private String[] days;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        this.years = TimeSupport.timeSupport.getYears();
-        this.months = turnIntsToStrings(TimeSupport.timeSupport.getMonthInYearByCurrentTime(TimeSupport.timeSupport.getYear(),TimeSupport.timeSupport.getMonth()));
-        this.days = turnIntsToStrings(TimeSupport.timeSupport.getDayInMonthAndYearByCurrentTime(TimeSupport.timeSupport.getYear(),TimeSupport.timeSupport.getMonth(),TimeSupport.timeSupport.getDay()));
-    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.center_frag, container,false);
         lineId(view);
         return view;
+    }
+    // 添加菜单
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+        uiInterface = (UIInterface) getActivity();
+        this.years = TimeSupport.timeSupport.getYears();
+        this.months = turnIntsToStrings(TimeSupport.timeSupport.getMonthInYearByCurrentTime(TimeSupport.timeSupport.getYear(),TimeSupport.timeSupport.getMonth()));
+        this.days = turnIntsToStrings(TimeSupport.timeSupport.getDayInMonthAndYearByCurrentTime(TimeSupport.timeSupport.getYear(),TimeSupport.timeSupport.getMonth(),TimeSupport.timeSupport.getDay()));
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_center,menu );
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_settings:
+                uiInterface.setTitle(R.string.settings);
+                uiInterface.replaceFragmentInFragment(Constants.frag_id_settings);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void lineId(View view){

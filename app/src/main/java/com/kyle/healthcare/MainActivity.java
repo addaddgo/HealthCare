@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kyle.healthcare.base_package.BaseActivity;
@@ -25,8 +26,11 @@ import com.kyle.healthcare.controller_data.DrivingData;
 import com.kyle.healthcare.controller_data.FragmentAddressBook;
 import com.kyle.healthcare.fragment_package.CenterFragment;
 import com.kyle.healthcare.fragment_package.DrivingFragment;
+import com.kyle.healthcare.fragment_package.FatigueRateFragment;
 import com.kyle.healthcare.fragment_package.HealthFragment;
+import com.kyle.healthcare.fragment_package.HeartRateFragment;
 import com.kyle.healthcare.fragment_package.HomepageFragment;
+import com.kyle.healthcare.fragment_package.SettingsFragment;
 
 public class MainActivity extends BaseActivity implements UIInterface {
 
@@ -45,9 +49,15 @@ public class MainActivity extends BaseActivity implements UIInterface {
     private HealthFragment healthFragment;
     private DrivingFragment drivingFragment;
     private CenterFragment centerFragment;
+    private HeartRateFragment heartRateFragment;
+    private FatigueRateFragment fatigueRateFragment;
+    private SettingsFragment settingsFragment;
 
     private Toolbar toolbar;
     private ActionBar actionBar;
+    private TextView mTitle;
+
+    private BottomNavigationView navigation;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -55,24 +65,20 @@ public class MainActivity extends BaseActivity implements UIInterface {
         public boolean onNavigationItemSelected(MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_homepage:
-                    actionBar.setTitle(R.string.title_homepage);
                     replaceFragment(homepageFragment);
                     return true;
 
                 case R.id.navigation_health:
-                    actionBar.setTitle(R.string.title_health);
                     replaceFragment(healthFragment);
                     fragmentAddressBook.setVisible(FragmentAddressBook.HEALTH);
                     return true;
 
                 case R.id.navigation_driving:
-                    actionBar.setTitle(R.string.title_driving);
                     replaceFragment(drivingFragment);
                     fragmentAddressBook.setVisible(FragmentAddressBook.DRIVING);
                     return true;
 
                 case R.id.navigation_center:
-                    actionBar.setTitle(R.string.title_center);
                     replaceFragment(centerFragment);
                     return true;
             }
@@ -92,27 +98,33 @@ public class MainActivity extends BaseActivity implements UIInterface {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // 初始化碎片
         homepageFragment = new HomepageFragment();
         healthFragment = new HealthFragment();
         drivingFragment = new DrivingFragment();
         centerFragment = new CenterFragment();
+        heartRateFragment = new HeartRateFragment();
+        fatigueRateFragment = new FatigueRateFragment();
+        settingsFragment = new SettingsFragment();
+
+        // 初始化toolbar
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-//            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+            actionBar.setDisplayHomeAsUpEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(false);
         }
-
-
-        actionBar.setTitle(R.string.title_homepage);
+        mTitle = findViewById(R.id.toolbar_title);
         replaceFragment(homepageFragment);
 
-        BottomNavigationView navigation = findViewById(R.id.navigation);
+        // 初始化底部导航
+        navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setItemIconTintList(null);
 
+        // 初始化蓝牙
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null) {
             Toast.makeText(this, "蓝牙设备不可用", Toast.LENGTH_LONG).show();
@@ -166,10 +178,10 @@ public class MainActivity extends BaseActivity implements UIInterface {
                     String readMessage = new String(readBuf, 0, msg.arg1);
                     // TODO: 2019/3/14 接受数据
                     //Toast.makeText(MainActivity.this, readMessage, Toast.LENGTH_SHORT).show();
-                            Log.i("BlueToothThread","getMessage");
-                            controller.postXY(0,0);
-                            Log.i("BlueToothThread","getHealthMessage");
-                            controller.postBlueToothData(readMessage);
+                    Log.i("BlueToothThread", "getMessage");
+                    controller.postXY(0, 0);
+                    Log.i("BlueToothThread", "getHealthMessage");
+                    controller.postBlueToothData(readMessage);
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:
                     // save the connected device's name
@@ -216,8 +228,32 @@ public class MainActivity extends BaseActivity implements UIInterface {
     }
 
     @Override
-    public void replaceFragmentInFragment(Fragment fragment) {
-        replaceFragment(fragment);
+    public void replaceFragmentInFragment(int fragmentID) {
+        switch (fragmentID) {
+            case Constants.frag_id_homepage:
+                replaceFragment(homepageFragment);
+                break;
+            case Constants.frag_id_health:
+                replaceFragment(healthFragment);
+                break;
+            case Constants.frag_id_driving:
+                replaceFragment(drivingFragment);
+                break;
+            case Constants.frag_id_center:
+                replaceFragment(centerFragment);
+                break;
+                case Constants.frag_id_heart_rate:
+                replaceFragment(heartRateFragment);
+                break;
+                case Constants.frag_id_fatigue_rate:
+                replaceFragment(fatigueRateFragment);
+                break;
+            case Constants.frag_id_settings:
+                replaceFragment(settingsFragment);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
@@ -226,8 +262,8 @@ public class MainActivity extends BaseActivity implements UIInterface {
     }
 
     @Override
-    public void updateHealthFragment(int heartRate,int fatigue) {
-        this.healthFragment.addNewData(heartRate,fatigue);
+    public void updateHealthFragment(int heartRate, int fatigue) {
+        this.healthFragment.addNewData(heartRate, fatigue);
     }
 
     @Override
@@ -235,6 +271,20 @@ public class MainActivity extends BaseActivity implements UIInterface {
         this.healthFragment.onPause();
     }
 
+    @Override
+    public void setTitle(int title) {
+        mTitle.setText(title);
+    }
+
+    @Override
+    public void setNavigationVisibility(int visibility) {
+        navigation.setVisibility(visibility);
+    }
+
+    @Override
+    public ActionBar getBar() {
+        return getSupportActionBar();
+    }
     //BlueToothThread is sending message in the disguise of bluetooth
 
     //start test;
