@@ -71,20 +71,19 @@ public class MainActivity extends BaseActivity implements UIInterface {
             switch (item.getItemId()) {
                 case R.id.navigation_homepage:
                     replaceFragment(homepageFragment);
+                    fragmentAddressBook.setVisible(FragmentAddressBook.frag_id_homepage);
                     return true;
-
                 case R.id.navigation_health:
                     replaceFragment(healthFragment);
-                    fragmentAddressBook.setVisible(FragmentAddressBook.HEALTH);
+                    fragmentAddressBook.setVisible(FragmentAddressBook.frag_id_health);
                     return true;
-
                 case R.id.navigation_driving:
                     replaceFragment(drivingFragment);
-                    fragmentAddressBook.setVisible(FragmentAddressBook.DRIVING);
+                    fragmentAddressBook.setVisible(FragmentAddressBook.frag_id_driving);
                     return true;
-
                 case R.id.navigation_center:
                     replaceFragment(centerFragment);
+                    fragmentAddressBook.setVisible(FragmentAddressBook.frag_id_center);
                     return true;
             }
             return false;
@@ -172,9 +171,9 @@ public class MainActivity extends BaseActivity implements UIInterface {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-
             case android.R.id.home:
-                replaceFragmentInFragment(Constants.frag_id_center);
+                // TODO: 2019/3/18 有bug
+                replaceFragmentInFragment(FragmentAddressBook.frag_id_center);
                 return true;
             default:
                 break;
@@ -204,10 +203,6 @@ public class MainActivity extends BaseActivity implements UIInterface {
                     Toast.makeText(MainActivity.this, "Connected to "
                             + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
                     break;
-                    case FragmentAddressBook.HEALTH:
-                        controller.postXY(0,0);
-                        Log.i("BlueToothThread","getHealthMessage");
-                        controller.postBlueToothData("T"+ (int)(Math.random()*20)+"," + "T"+ (int)(Math.random()*20) + ","+"T"+ (int)(Math.random()*20)+","+"T"+ (int)(Math.random()*20)+",");
             }
         }
     };
@@ -245,32 +240,41 @@ public class MainActivity extends BaseActivity implements UIInterface {
     @Override
     public void replaceFragmentInFragment(int fragmentID) {
         switch (fragmentID) {
-            case Constants.frag_id_homepage:
+            case FragmentAddressBook.frag_id_homepage:
                 replaceFragment(homepageFragment);
+                fragmentAddressBook.setVisible(FragmentAddressBook.frag_id_homepage);
                 break;
-            case Constants.frag_id_health:
+            case FragmentAddressBook.frag_id_health:
                 replaceFragment(healthFragment);
+                fragmentAddressBook.setVisible(FragmentAddressBook.frag_id_health);
                 break;
-            case Constants.frag_id_driving:
+            case FragmentAddressBook.frag_id_driving:
                 replaceFragment(drivingFragment);
+                fragmentAddressBook.setVisible(FragmentAddressBook.frag_id_driving);
                 break;
-            case Constants.frag_id_center:
+            case FragmentAddressBook.frag_id_center:
                 replaceFragment(centerFragment);
+                fragmentAddressBook.setVisible(FragmentAddressBook.frag_id_center);
                 break;
-            case Constants.frag_id_heart_rate:
+            case FragmentAddressBook.frag_id_heart_rate:
                 replaceFragment(heartRateFragment);
+                fragmentAddressBook.setVisible(FragmentAddressBook.frag_id_heart_rate);
                 break;
-            case Constants.frag_id_fatigue_rate:
+            case FragmentAddressBook.frag_id_fatigue_rate:
                 replaceFragment(fatigueRateFragment);
+                fragmentAddressBook.setVisible(FragmentAddressBook.frag_id_fatigue_rate);
                 break;
-            case Constants.frag_id_driving_habit:
-                replaceFragment(drivingHabitFragment,true);
+            case FragmentAddressBook.frag_id_driving_habit:
+                replaceFragment(drivingHabitFragment, true);
+                fragmentAddressBook.setVisible(FragmentAddressBook.frag_id_driving_habit);
                 break;
-            case Constants.frag_id_history_log:
-                replaceFragment(historyLogFragment,true);
+            case FragmentAddressBook.frag_id_history_log:
+                replaceFragment(historyLogFragment, true);
+                fragmentAddressBook.setVisible(FragmentAddressBook.frag_id_history_log);
                 break;
-            case Constants.frag_id_settings:
-                replaceFragment(settingsFragment,true);
+            case FragmentAddressBook.frag_id_settings:
+                replaceFragment(settingsFragment, true);
+                fragmentAddressBook.setVisible(FragmentAddressBook.frag_id_settings);
                 break;
             default:
                 break;
@@ -283,18 +287,20 @@ public class MainActivity extends BaseActivity implements UIInterface {
         transaction.replace(R.id.frame_frag, fragment);
         transaction.commit();
     }
-    private void replaceFragment(Fragment fragment,boolean isStack) {
+
+    private void replaceFragment(Fragment fragment, boolean isStack) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.frame_frag, fragment);
-        if(isStack){
+        if (isStack) {
             transaction.addToBackStack(null);
         }
         transaction.commit();
     }
+
     @Override
     public void updateDrivingFragment(DrivingData drivingData) {
-        this.drivingFragment.update(String.valueOf(drivingData.totalTime),String.valueOf(drivingData.totalDistance),String.valueOf(drivingData.averageSpeech));
+        this.drivingFragment.update(String.valueOf(drivingData.totalTime), String.valueOf(drivingData.totalDistance), String.valueOf(drivingData.averageSpeech));
     }
 
     @Override
@@ -324,23 +330,23 @@ public class MainActivity extends BaseActivity implements UIInterface {
     //BlueToothThread is sending message in the disguise of bluetooth
 
     //start test;
-    public void startTest(){
+    public void startTest() {
         new BlueToothThread().start();
     }
 
-    class BlueToothThread extends Thread{
+    class BlueToothThread extends Thread {
         @Override
         public void run() {
             super.run();
-            Log.i("BlueToothThread","start");
-            try{
+            Log.i("BlueToothThread", "start");
+            try {
                 for (int i = 0; i < 100; i++) {
-                    Message message = new Message();
-                    message.what = FragmentAddressBook.HEALTH;
-                    mHandler.sendMessage(message);
+//                    Message message = new Message();
+//                    message.what = FragmentAddressBook.frag_id_health;
+//                    mHandler.sendMessage(message);
                     Thread.sleep(200);
                 }
-            }catch (InterruptedException e){
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             Log.d("BlueToothThread", "end");

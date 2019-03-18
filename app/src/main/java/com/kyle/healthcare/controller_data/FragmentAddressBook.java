@@ -13,16 +13,20 @@ public class FragmentAddressBook {
     private boolean[] fragmentVisibleRecord;
     private int currentVisibleFragment;
     //address
-    public final static int HOME_PAGER = 10;
-    public final static int HEALTH = 11;
-    public final static int HEART_RATE = 12;
-    public final static int FATIGUE = 13;
-    public final static int DRIVING = 14;
-    public final static int CENTER = 15;
+
+    public final static int frag_id_homepage = 1;
+    public final static int frag_id_health = 2;
+    public final static int frag_id_driving = 3;
+    public final static int frag_id_center = 4;
+    public final static int frag_id_heart_rate = 5;
+    public final static int frag_id_fatigue_rate = 6;
+    public final static int frag_id_driving_habit = 7;
+    public final static int frag_id_history_log = 8;
+    public final static int frag_id_settings = 9;
 
     public static FragmentAddressBook fragmentAddressBook = new FragmentAddressBook();
    private FragmentAddressBook(){
-        this.fragmentVisibleRecord = new boolean[6];
+        this.fragmentVisibleRecord = new boolean[15];
         this.fragmentVisibleRecord[0] = true;
         for (int i = 1; i <this.fragmentVisibleRecord.length ; i++) {
             this.fragmentVisibleRecord[i] = false;
@@ -31,12 +35,12 @@ public class FragmentAddressBook {
     }
 
     public boolean isVisible(int address){
-        return fragmentVisibleRecord[address - 10];
+        return fragmentVisibleRecord[address];
     }
 
     public void setVisible(int address){
-        this.fragmentVisibleRecord[address - 10] = true;
-        this.fragmentVisibleRecord[this.currentVisibleFragment - 10] = false;
+        this.fragmentVisibleRecord[address] = true;
+        this.fragmentVisibleRecord[this.currentVisibleFragment] = false;
         this.currentVisibleFragment = address;
         Log.i("Address",String.valueOf(address));
     }

@@ -20,6 +20,7 @@ import com.kyle.healthcare.controller_data.DataManger;
 import com.kyle.healthcare.controller_data.DrivingData;
 import com.kyle.healthcare.UIInterface;
 import com.kyle.healthcare.bluetooth.Constants;
+import com.kyle.healthcare.controller_data.FragmentAddressBook;
 
 public class DrivingFragment extends Fragment {
     private UIInterface uiInterface;
@@ -46,7 +47,14 @@ public class DrivingFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         uiInterface = (UIInterface) getActivity();
-        uiInterface.setTitle(R.string.title_driving);
+                uiInterface.setTitle(R.string.title_driving);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+//        uiInterface.setTitle(R.string.title_driving);
     }
 
     @Override
@@ -59,7 +67,7 @@ public class DrivingFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_history_log:
-                uiInterface.replaceFragmentInFragment(Constants.frag_id_history_log);
+                uiInterface.replaceFragmentInFragment(FragmentAddressBook.frag_id_history_log);
                 break;
         }
         return super.onOptionsItemSelected(item);

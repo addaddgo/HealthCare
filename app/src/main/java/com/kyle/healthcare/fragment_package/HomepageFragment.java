@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.kyle.healthcare.R;
 import com.kyle.healthcare.UIInterface;
 import com.kyle.healthcare.bluetooth.Constants;
+import com.kyle.healthcare.controller_data.FragmentAddressBook;
 
 public class HomepageFragment extends Fragment {
     private UIInterface uiInterface;
@@ -39,7 +40,7 @@ public class HomepageFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_driving_habit:
-                uiInterface.replaceFragmentInFragment(Constants.frag_id_driving_habit);
+                uiInterface.replaceFragmentInFragment(FragmentAddressBook.frag_id_driving_habit);
                 break;
         }
         return super.onOptionsItemSelected(item);

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.kyle.healthcare.UIInterface;
 import com.kyle.healthcare.R;
 import com.kyle.healthcare.bluetooth.Constants;
+import com.kyle.healthcare.controller_data.FragmentAddressBook;
 import com.kyle.healthcare.view.FatigueRateView;
 import com.kyle.healthcare.view.HeartRateView;
 
@@ -39,14 +40,14 @@ public class HealthFragment extends Fragment {
         this.fatigueRateView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uiInterface.replaceFragmentInFragment(Constants.frag_id_fatigue_rate);
+                uiInterface.replaceFragmentInFragment(FragmentAddressBook.frag_id_fatigue_rate);
             }
         });
         this.heartRateView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 UIInterface UIInterface = (UIInterface)getActivity();
-                UIInterface.replaceFragmentInFragment(Constants.frag_id_heart_rate);
+                UIInterface.replaceFragmentInFragment(FragmentAddressBook.frag_id_heart_rate);
             }
         });
     }

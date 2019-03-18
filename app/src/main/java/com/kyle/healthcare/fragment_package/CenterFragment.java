@@ -22,6 +22,7 @@ import com.kyle.healthcare.R;
 import com.kyle.healthcare.UIInterface;
 import com.kyle.healthcare.bluetooth.Constants;
 import com.kyle.healthcare.camera.CameraActivity;
+import com.kyle.healthcare.controller_data.FragmentAddressBook;
 import com.kyle.healthcare.controller_data.TimeSupport;
 import com.kyle.healthcare.view.CircleImage;
 import com.kyle.healthcare.view.ScrollSelectView;
@@ -65,7 +66,9 @@ public class CenterFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         uiInterface = (UIInterface) getActivity();
+        uiInterface.setTitle(R.string.title_center);
     }
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -78,7 +81,7 @@ public class CenterFragment extends Fragment implements View.OnClickListener {
         switch (item.getItemId()) {
             case R.id.menu_settings:
                 uiInterface.setTitle(R.string.settings);
-                uiInterface.replaceFragmentInFragment(Constants.frag_id_settings);
+                uiInterface.replaceFragmentInFragment(FragmentAddressBook.frag_id_settings);
                 break;
         }
         return super.onOptionsItemSelected(item);

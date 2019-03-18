@@ -79,13 +79,13 @@ public class Controller implements RiskTipService.Callback{
     private void updateFragment(int from){
         informService();
         switch (this.UIInterface.getVisibleFragmentAddress()){
-            case FragmentAddressBook.DRIVING:
+            case FragmentAddressBook.frag_id_driving:
                 if(from == FROM_MAP){
                     this.UIInterface.updateDrivingFragment(this.dataDealInterface.getLatestDrivingInformation());
                     Log.i("Controller","update Driving");
                 }
                 break;
-            case FragmentAddressBook.HEALTH:
+            case FragmentAddressBook.frag_id_health:
                 if(from == FROM_BLUETOOTH){
                     Log.i("Controller","update Health");
                     this.UIInterface.updateHealthFragment(dataDealInterface.getHeartRate(),dataDealInterface.getFatigueRate());
