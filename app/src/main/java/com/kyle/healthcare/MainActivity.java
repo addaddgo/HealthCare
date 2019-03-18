@@ -3,20 +3,18 @@ package com.kyle.healthcare;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.Message;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kyle.healthcare.base_package.BaseActivity;
@@ -29,8 +27,6 @@ import com.kyle.healthcare.fragment_package.CenterFragment;
 import com.kyle.healthcare.fragment_package.DrivingFragment;
 import com.kyle.healthcare.fragment_package.HealthFragment;
 import com.kyle.healthcare.fragment_package.HomepageFragment;
-import com.kyle.healthcare.risk_tip.RiskTipActivityActivity;
-import com.kyle.healthcare.risk_tip.RiskTipService;
 
 public class MainActivity extends BaseActivity implements UIInterface {
 
@@ -49,7 +45,9 @@ public class MainActivity extends BaseActivity implements UIInterface {
     private HealthFragment healthFragment;
     private DrivingFragment drivingFragment;
     private CenterFragment centerFragment;
-    private TextView toolbarTitle;
+
+    private Toolbar toolbar;
+    private ActionBar actionBar;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -57,24 +55,24 @@ public class MainActivity extends BaseActivity implements UIInterface {
         public boolean onNavigationItemSelected(MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_homepage:
-                    toolbarTitle.setText(R.string.title_homepage);
+                    actionBar.setTitle(R.string.title_homepage);
                     replaceFragment(homepageFragment);
                     return true;
 
                 case R.id.navigation_health:
-                    toolbarTitle.setText(R.string.title_health);
+                    actionBar.setTitle(R.string.title_health);
                     replaceFragment(healthFragment);
                     fragmentAddressBook.setVisible(FragmentAddressBook.HEALTH);
                     return true;
 
                 case R.id.navigation_driving:
-                    toolbarTitle.setText("行驶记录");
+                    actionBar.setTitle(R.string.title_driving);
                     replaceFragment(drivingFragment);
                     fragmentAddressBook.setVisible(FragmentAddressBook.DRIVING);
                     return true;
 
                 case R.id.navigation_center:
-                    toolbarTitle.setText(R.string.title_center);
+                    actionBar.setTitle(R.string.title_center);
                     replaceFragment(centerFragment);
                     return true;
             }
@@ -98,8 +96,17 @@ public class MainActivity extends BaseActivity implements UIInterface {
         healthFragment = new HealthFragment();
         drivingFragment = new DrivingFragment();
         centerFragment = new CenterFragment();
-        toolbarTitle = findViewById(R.id.toolbar_title);
-        toolbarTitle.setText(R.string.title_homepage);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+//            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        }
+
+
+        actionBar.setTitle(R.string.title_homepage);
         replaceFragment(homepageFragment);
 
         BottomNavigationView navigation = findViewById(R.id.navigation);

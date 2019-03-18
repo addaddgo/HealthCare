@@ -3,7 +3,7 @@
     <!-- Strings related to fragment -->
     <string name="title_homepage">主页</string>
     <string name="title_health">健康</string>
-    <string name="title_driving">行驶</string>
+    <string name="title_driving">行驶记录</string>
     <string name="title_center">个人中心</string>
 
     <!-- Strings related to log in  -->
