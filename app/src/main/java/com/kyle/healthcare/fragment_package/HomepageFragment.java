@@ -28,6 +28,11 @@ public class HomepageFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         uiInterface = (UIInterface) getActivity();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         uiInterface.setTitle(R.string.title_driving);
     }
 

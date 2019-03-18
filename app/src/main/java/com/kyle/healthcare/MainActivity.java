@@ -172,8 +172,17 @@ public class MainActivity extends BaseActivity implements UIInterface {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // TODO: 2019/3/18 有bug
-                replaceFragmentInFragment(FragmentAddressBook.frag_id_center);
+                switch (FragmentAddressBook.fragmentAddressBook.getCurrentVisibleFragment()){
+                    case FragmentAddressBook.frag_id_driving_habit:
+                        replaceFragmentInFragment(FragmentAddressBook.frag_id_homepage);
+                        break;
+                    case FragmentAddressBook.frag_id_history_log:
+                        replaceFragmentInFragment(FragmentAddressBook.frag_id_driving);
+                        break;
+                    case FragmentAddressBook.frag_id_settings:
+                        replaceFragmentInFragment(FragmentAddressBook.frag_id_center);
+                        break;
+                }
                 return true;
             default:
                 break;
@@ -341,6 +350,7 @@ public class MainActivity extends BaseActivity implements UIInterface {
             Log.i("BlueToothThread", "start");
             try {
                 for (int i = 0; i < 100; i++) {
+                    // TODO: 2019/3/18 HXB todo
 //                    Message message = new Message();
 //                    message.what = FragmentAddressBook.frag_id_health;
 //                    mHandler.sendMessage(message);

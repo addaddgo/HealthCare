@@ -47,14 +47,12 @@ public class DrivingFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         uiInterface = (UIInterface) getActivity();
-                uiInterface.setTitle(R.string.title_driving);
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-//        uiInterface.setTitle(R.string.title_driving);
+        uiInterface.setTitle(R.string.title_driving);
     }
 
     @Override

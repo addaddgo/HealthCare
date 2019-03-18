@@ -28,6 +28,12 @@ public class DrivingHabitFragment extends Fragment {
         super.onCreate(savedInstanceState);
         uiInterface = (UIInterface) getActivity();
         uiInterface.setTitle(R.string.settings);
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         uiInterface.setNavigationVisibility(View.GONE);
         actionBar = uiInterface.getBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -35,8 +41,8 @@ public class DrivingHabitFragment extends Fragment {
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onStop() {
+        super.onStop();
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setHomeButtonEnabled(false);
         uiInterface.setNavigationVisibility(View.VISIBLE);

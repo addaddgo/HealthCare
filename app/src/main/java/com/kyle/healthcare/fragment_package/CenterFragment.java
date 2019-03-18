@@ -103,6 +103,7 @@ public class CenterFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
+        uiInterface.setTitle(R.string.title_center);
         initWidget();
         this.bottomEditButton.setOnClickListener(this);
         this.topEditButton.setOnClickListener(this);

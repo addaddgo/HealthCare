@@ -33,6 +33,11 @@ public class HealthFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         uiInterface = (UIInterface) getActivity();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         uiInterface.setTitle(R.string.title_health);
     }
 

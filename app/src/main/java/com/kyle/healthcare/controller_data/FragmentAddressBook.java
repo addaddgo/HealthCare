@@ -27,11 +27,11 @@ public class FragmentAddressBook {
     public static FragmentAddressBook fragmentAddressBook = new FragmentAddressBook();
    private FragmentAddressBook(){
         this.fragmentVisibleRecord = new boolean[15];
-        this.fragmentVisibleRecord[0] = true;
-        for (int i = 1; i <this.fragmentVisibleRecord.length ; i++) {
+        for (int i = 0; i <this.fragmentVisibleRecord.length ; i++) {
             this.fragmentVisibleRecord[i] = false;
         }
-        this.currentVisibleFragment = 10;
+       this.fragmentVisibleRecord[1] = true;
+       this.currentVisibleFragment = 1;
     }
 
     public boolean isVisible(int address){
