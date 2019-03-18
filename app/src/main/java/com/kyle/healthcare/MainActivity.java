@@ -26,9 +26,11 @@ import com.kyle.healthcare.controller_data.DrivingData;
 import com.kyle.healthcare.controller_data.FragmentAddressBook;
 import com.kyle.healthcare.fragment_package.CenterFragment;
 import com.kyle.healthcare.fragment_package.DrivingFragment;
+import com.kyle.healthcare.fragment_package.DrivingHabitFragment;
 import com.kyle.healthcare.fragment_package.FatigueRateFragment;
 import com.kyle.healthcare.fragment_package.HealthFragment;
 import com.kyle.healthcare.fragment_package.HeartRateFragment;
+import com.kyle.healthcare.fragment_package.HistoryLogFragment;
 import com.kyle.healthcare.fragment_package.HomepageFragment;
 import com.kyle.healthcare.fragment_package.SettingsFragment;
 
@@ -51,12 +53,15 @@ public class MainActivity extends BaseActivity implements UIInterface {
     private CenterFragment centerFragment;
     private HeartRateFragment heartRateFragment;
     private FatigueRateFragment fatigueRateFragment;
+    private DrivingHabitFragment drivingHabitFragment;
+    private HistoryLogFragment historyLogFragment;
     private SettingsFragment settingsFragment;
 
     private Toolbar toolbar;
     private ActionBar actionBar;
     private TextView mTitle;
 
+    private FragmentTransaction transaction;
     private BottomNavigationView navigation;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -86,13 +91,6 @@ public class MainActivity extends BaseActivity implements UIInterface {
         }
     };
 
-    public void replaceFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.frame_frag, fragment);
-        transaction.commit();
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +104,8 @@ public class MainActivity extends BaseActivity implements UIInterface {
         centerFragment = new CenterFragment();
         heartRateFragment = new HeartRateFragment();
         fatigueRateFragment = new FatigueRateFragment();
+        drivingHabitFragment = new DrivingHabitFragment();
+        historyLogFragment = new HistoryLogFragment();
         settingsFragment = new SettingsFragment();
 
         // 初始化toolbar
@@ -117,12 +117,14 @@ public class MainActivity extends BaseActivity implements UIInterface {
             actionBar.setDisplayShowTitleEnabled(false);
         }
         mTitle = findViewById(R.id.toolbar_title);
-        replaceFragment(homepageFragment);
+
 
         // 初始化底部导航
         navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setItemIconTintList(null);
+
+        replaceFragment(homepageFragment);
 
         // 初始化蓝牙
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -165,6 +167,19 @@ public class MainActivity extends BaseActivity implements UIInterface {
         if (mChatService != null) {
             mChatService.stop();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case android.R.id.home:
+                replaceFragmentInFragment(Constants.frag_id_center);
+                return true;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @SuppressLint("HandlerLeak")
@@ -242,20 +257,41 @@ public class MainActivity extends BaseActivity implements UIInterface {
             case Constants.frag_id_center:
                 replaceFragment(centerFragment);
                 break;
-                case Constants.frag_id_heart_rate:
+            case Constants.frag_id_heart_rate:
                 replaceFragment(heartRateFragment);
                 break;
-                case Constants.frag_id_fatigue_rate:
+            case Constants.frag_id_fatigue_rate:
                 replaceFragment(fatigueRateFragment);
                 break;
+            case Constants.frag_id_driving_habit:
+                replaceFragment(drivingHabitFragment,true);
+                break;
+            case Constants.frag_id_history_log:
+                replaceFragment(historyLogFragment,true);
+                break;
             case Constants.frag_id_settings:
-                replaceFragment(settingsFragment);
+                replaceFragment(settingsFragment,true);
                 break;
             default:
                 break;
         }
     }
 
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.frame_frag, fragment);
+        transaction.commit();
+    }
+    private void replaceFragment(Fragment fragment,boolean isStack) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.frame_frag, fragment);
+        if(isStack){
+            transaction.addToBackStack(null);
+        }
+        transaction.commit();
+    }
     @Override
     public void updateDrivingFragment(DrivingData drivingData) {
         this.drivingFragment.update(String.valueOf(drivingData.totalTime), String.valueOf(drivingData.totalDistance), String.valueOf(drivingData.averageSpeech));

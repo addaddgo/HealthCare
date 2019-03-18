@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.kyle.healthcare.R;
 import com.kyle.healthcare.UIInterface;
+import com.kyle.healthcare.bluetooth.Constants;
 
 public class DrivingFragment extends Fragment {
     private UIInterface uiInterface;
@@ -51,7 +52,7 @@ public class DrivingFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_history_log:
-                // TODO: 2019/3/18 导向历史记录fragment
+                uiInterface.replaceFragmentInFragment(Constants.frag_id_history_log);
                 break;
         }
         return super.onOptionsItemSelected(item);

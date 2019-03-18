@@ -6,22 +6,20 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.kyle.healthcare.R;
 import com.kyle.healthcare.UIInterface;
-import com.kyle.healthcare.bluetooth.Constants;
 
-public class SettingsFragment extends Fragment {
+public class DrivingHabitFragment extends Fragment {
     private UIInterface uiInterface;
     private ActionBar actionBar;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.settings_frag, container, false);
+        View view = inflater.inflate(R.layout.driving_habit_frag, container, false);
         return view;
     }
 
