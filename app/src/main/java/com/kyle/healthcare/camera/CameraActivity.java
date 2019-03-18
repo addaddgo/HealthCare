@@ -1,4 +1,4 @@
-package tool.activity;
+package com.kyle.healthcare.camera;
 
 import android.Manifest;
 import android.app.Activity;
@@ -11,7 +11,14 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
-import android.hardware.camera2.*;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraCaptureSession;
+import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraDevice;
+import android.hardware.camera2.CameraManager;
+import android.hardware.camera2.CameraMetadata;
+import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.TotalCaptureResult;
 import android.media.Image;
 import android.media.ImageReader;
 import android.net.Uri;
@@ -24,7 +31,8 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.hp.driverfriend.R;
+import com.kyle.healthcare.R;
+import com.kyle.healthcare.controller_data.AAL;
 
 import org.litepal.crud.DataSupport;
 
@@ -33,8 +41,6 @@ import java.io.FileNotFoundException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
-import manager.AAL;
-import tool.MyToast;
 
 
 /*
@@ -202,7 +208,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback{
         }
         if(requestCode == AAL.SelectImageActivity){
             if(resultCode == SelectImageActivity.unsuccessful){
-                MyToast.toastShowShort(this,"取消");
+
             }
             if(resultCode == SelectImageActivity.successful){
                 Intent intent = new Intent();
@@ -226,12 +232,10 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback{
                         setResult(getImage,intent);
                         finish();
                     }else {
-                        MyToast.toastShowLong(this,"图片打开失败");
                     }
 
                 }catch (FileNotFoundException e){
                     e.printStackTrace();
-                    MyToast.toastShowLong(this,"图片打开失败");
                 }
 
             }
@@ -422,7 +426,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback{
     }
 
     //保存的图片
-    private class MyImage extends DataSupport{
+    private class MyImage extends DataSupport {
         private Image identificationImage;
         private void setIdentificationImage(Image identificationImage) {
             this.identificationImage = identificationImage;

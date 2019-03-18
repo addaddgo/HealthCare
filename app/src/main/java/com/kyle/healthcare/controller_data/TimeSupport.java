@@ -29,7 +29,7 @@ public class TimeSupport {
     private Calendar calendar;
 
     //年份
-    private String years[];
+    private int years[];
 
     //各个分区的时间
     private ArrayList<PersonalTime> othersTime;
@@ -40,9 +40,9 @@ public class TimeSupport {
         this.calendar = Calendar.getInstance();
         this.othersTime = new ArrayList<PersonalTime>();
         refreshDate();
-        this.years = new String[100];
+        this.years = new int[100];
         for (int i = 0; i < years.length; i++) {
-            this.years[i] = String.valueOf(2019 - i);
+            this.years[i] = 1920 + i;
         }
     }
 
@@ -79,7 +79,7 @@ public class TimeSupport {
         return this.mainTime.data & 0xff;
     }
 
-    public String[] getYears() {
+    public int[] getYears() {
         return years;
     }
 
@@ -138,8 +138,8 @@ public class TimeSupport {
                 }
             }
         }else if(currentMonth == theMonth && currentYear == theYear){
-            int limitLenth = getDayInMonthAndYear(currentYear,currentMonth).length;
-            if(currentDay <= limitLenth && currentDay >0){
+            int limitLength = getDayInMonthAndYear(currentYear,currentMonth).length;
+            if(currentDay <= limitLength && currentDay >0){
                 int days[] = new int[currentDay];
                 for (int i = 0; i < currentDay; i++) {
                     days[i] = i + 1;

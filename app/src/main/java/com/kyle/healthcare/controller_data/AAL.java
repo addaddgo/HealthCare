@@ -1,6 +1,4 @@
-package manager;
-
-import java.security.PublicKey;
+package com.kyle.healthcare.controller_data;
 
 /*
  * 通讯录：用数字[通讯码]来标注每一个活动
