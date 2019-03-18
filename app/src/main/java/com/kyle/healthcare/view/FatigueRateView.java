@@ -14,6 +14,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.kyle.healthcare.R;
+import com.kyle.healthcare.bluetooth.Constants;
+import com.kyle.healthcare.controller_data.DataManger;
 
 import java.util.ArrayList;
 
@@ -55,7 +57,7 @@ public class FatigueRateView extends SurfaceView implements SurfaceHolder.Callba
         this.borderPaint.setColor(typedArray.getColor(R.styleable.FatigueRateView_fatigue_border_color, Color.GREEN));
         this.linePaint.setColor(typedArray.getColor(R.styleable.FatigueRateView_line_color, Color.BLACK));
         this.dangerousLinePaint.setColor(typedArray.getColor(R.styleable.FatigueRateView_dangerous_line_color, Color.RED));
-        this.range = typedArray.getInt(R.styleable.FatigueRateView_date_range, 100);
+        this.range = typedArray.getInt(R.styleable.FatigueRateView_date_range, Constants.FATIGUE_RATE_RANGE);
         this.potPaint.setColor(typedArray.getColor(R.styleable.FatigueRateView_pot_color, Color.GREEN));
         typedArray.recycle();
         this.linePaint.setStrokeWidth(10);
@@ -73,7 +75,7 @@ public class FatigueRateView extends SurfaceView implements SurfaceHolder.Callba
         this.linePaint = new Paint();
         this.dangerousLinePaint = new Paint();
         this.potPaint = new Paint();
-        this.integers = new ArrayList<>();
+        setData();
     }
 
     private Thread thread;
@@ -88,7 +90,6 @@ public class FatigueRateView extends SurfaceView implements SurfaceHolder.Callba
     }
     //绘图数据
     private int INTERVAL;
-    private int STANDER_INTERVAL;
     private int height;
     private int width;
     private int margin;
@@ -96,29 +97,42 @@ public class FatigueRateView extends SurfaceView implements SurfaceHolder.Callba
     private int distance;
     private int NUMBER_SPOT;
     private int range;
-    private double[] data;
+    private int[] data;
     private int potR;
     private int dangerousData;
     private ArrayList<Integer> integers; 
-    
+    private int scaleOffset;
     //绘图数据初始化
     private void analyzeDrawData(){
         this.height = getMeasuredHeight();
         this.width = getMeasuredWidth();
         this.NUMBER_SPOT = 10;
         this.margin = 50;
-        this.data = new double[this.NUMBER_SPOT];
-        for (int i = 0; i < this.NUMBER_SPOT; i++) {
-            this.data[i] = (i + 1) * this.range / 10;
-        }
         this.scaleOfHeight = (this.height - 2 * this.margin)/ this.range;
         this.distance = (this.width  - 2 * this.margin)/ (this.NUMBER_SPOT  - 2);
-        this.dangerousData = 3 * this.range / 4;
-        this.potR = 10;
-        this.STANDER_INTERVAL = (int)(480 / this.distance);
-        this.INTERVAL = 1;
+        this.dangerousData = Constants.FATIGUE_RAGE_UNUSUAL;
+        this.potR = 2;
+        this.INTERVAL = (int)(480 / this.distance);
+        if(this.integers.size() == 0){
+            this.scaleOffset = 1;
+        }else{
+            this.scaleOffset = this.integers.size();
+        }
     }
 
+    private void setData() {
+        DataManger dataManger = DataManger.dataManger;
+        if(dataManger.getFatigueViewHolder() == null){
+            this.data = new int[]{0, 0, 0, 0, 0, 0, 0,0,0,0};
+            this.integers = new ArrayList<>();
+            this.scaleOffset = 1;
+        }else{
+            DataManger.ViewDataHolder dataHolder= dataManger.getFatigueViewHolder();
+            this.data = dataHolder.getCurrent();
+            this.integers = dataHolder.getArrayList();
+            this.scaleOffset = this.integers.size();
+        }
+    }
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
@@ -148,7 +162,7 @@ public class FatigueRateView extends SurfaceView implements SurfaceHolder.Callba
             getData();
             if(hashAddData){
                 try{
-                    for(int i = 0; i < this.distance;i++) {
+                    for(int i = 0; i < this.distance;i+= this.scaleOffset) {
                         synchronized (this.surfaceHolder) {
                             Canvas canvas = surfaceHolder.lockCanvas();
                             drawLine(canvas, -i);
@@ -164,7 +178,7 @@ public class FatigueRateView extends SurfaceView implements SurfaceHolder.Callba
                 }
             }else{
                 try{
-                    for(int i = 0; i < this.distance;i++) {
+                    for(int i = 0; i < this.distance;i+=this.scaleOffset) {
                         synchronized (this.surfaceHolder) {
                             Canvas canvas = surfaceHolder.lockCanvas();
                             drawLine(canvas,-this.distance );
@@ -217,17 +231,17 @@ public class FatigueRateView extends SurfaceView implements SurfaceHolder.Callba
         canvas.drawRect(0,0,this.margin,this.height,this.backgroundPaint);
         canvas.drawRect(0,this.height - this.margin,this.width,this.height,this.backgroundPaint);
         canvas.drawRect(this.width - this.margin,0,this.width,this.height,this.backgroundPaint);
-        for(int i = 0; i < (this.width -  this.margin) / 50 ; i++){
-            canvas.drawCircle(this.margin + 50 * i,this.margin / 2,this.potR,this.borderPaint);
+        for(int i = 0; i < (this.width -  this.margin) / 20 ; i++){
+            canvas.drawCircle(this.margin + 20 * i,this.margin / 2,this.potR,this.borderPaint);
         }
-        for(int i = 0;i < (this.width -   this.margin)/ 50;i++){
-            canvas.drawCircle(this.margin + 50 * i,this.height - this.margin / 2,this.potR,this.borderPaint);
+        for(int i = 0;i < (this.width -   this.margin)/ 20;i++){
+            canvas.drawCircle(this.margin + 20 * i,this.height - this.margin / 2,this.potR,this.borderPaint);
         }
-        for(int i = 0;i < (this.height - this.margin)/50 ; i++){
-            canvas.drawCircle(this.margin /2,this.margin + 50 * i,this.potR,this.borderPaint);
+        for(int i = 0;i < (this.height - this.margin)/20 ; i++){
+            canvas.drawCircle(this.margin /2,this.margin + 20 * i,this.potR,this.borderPaint);
         }
-        for (int i = 0; i < (this.height - this.margin)/ 50; i++) {
-            canvas.drawCircle(this.width - this.margin / 2,this.margin + 50 * i,this.potR,this.borderPaint);
+        for (int i = 0; i < (this.height - this.margin)/ 20; i++) {
+            canvas.drawCircle(this.width - this.margin / 2,this.margin + 20 * i,this.potR,this.borderPaint);
         }
     }
 
@@ -245,9 +259,9 @@ public class FatigueRateView extends SurfaceView implements SurfaceHolder.Callba
             this.data[this.NUMBER_SPOT - 1] = newData;
             synchronized (this){
                 if(this.integers.size() == 0){
-                    this.INTERVAL = this.STANDER_INTERVAL;
+                    this.scaleOffset = 1;
                 }else{
-                    this.INTERVAL = (int)(1.0 * this.STANDER_INTERVAL / (this.integers.size() * this.integers.size()));
+                    this.scaleOffset = this.integers.size();
                 }
                 this.hashAddData = true;
             }
@@ -261,6 +275,10 @@ public class FatigueRateView extends SurfaceView implements SurfaceHolder.Callba
     public void addNewData(int newData){
         this.integers.add(newData);
         this.hashAddData = true;
+    }
+
+    public void close(){
+        DataManger.dataManger.setFatigueRateViewDataEnd(this.integers,this.data);
     }
 
 //    private Handler handler;

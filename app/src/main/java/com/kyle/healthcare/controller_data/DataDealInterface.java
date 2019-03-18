@@ -27,4 +27,5 @@ public interface DataDealInterface {
 
     //unusual
     int analyzeSituation();
+
 }

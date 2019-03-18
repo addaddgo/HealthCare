@@ -14,6 +14,9 @@ import com.kyle.healthcare.risk_tip.RiskTipService;
 
 public class Controller implements RiskTipService.Callback{
 
+    //data from
+    private final  static int FROM_BLUETOOTH = 1;
+    private final static int FROM_MAP = 2;
     private DataDealInterface dataDealInterface;
     private UIInterface UIInterface;
     private String currentString;
@@ -21,7 +24,7 @@ public class Controller implements RiskTipService.Callback{
 
     public Controller(UIInterface UIInterface){
         this.UIInterface = UIInterface;
-        this.dataDealInterface = new DataManger();
+        this.dataDealInterface = DataManger.dataManger;
         startRiskTipService();
     }
 
@@ -59,7 +62,7 @@ public class Controller implements RiskTipService.Callback{
         Log.i("BlueToothThread",string);
         this.currentString = string;
         this.dataDealInterface.addBlueToothData(string);
-        updateFragment();
+        updateFragment(FROM_BLUETOOTH);
     }
 
     /*
@@ -69,20 +72,24 @@ public class Controller implements RiskTipService.Callback{
     //get longitude and latitude
     public  void postXY(float X,float Y){
         this.dataDealInterface.addDrivingData(X,Y);
-        updateFragment();
+        updateFragment(FROM_MAP);
     }
 
     // update the fragment which is visible
-    private void updateFragment(){
+    private void updateFragment(int from){
         informService();
         switch (this.UIInterface.getVisibleFragmentAddress()){
             case FragmentAddressBook.DRIVING:
-                this.UIInterface.updateDrivingFragment(this.dataDealInterface.getLatestDrivingInformation());
-                Log.i("Controller","update Driving");
+                if(from == FROM_MAP){
+                    this.UIInterface.updateDrivingFragment(this.dataDealInterface.getLatestDrivingInformation());
+                    Log.i("Controller","update Driving");
+                }
                 break;
             case FragmentAddressBook.HEALTH:
-                Log.i("Controller","update Health");
-                this.UIInterface.updateHealthFragment(dataDealInterface.getHeartRate(),dataDealInterface.getFatigueRate());
+                if(from == FROM_BLUETOOTH){
+                    Log.i("Controller","update Health");
+                    this.UIInterface.updateHealthFragment(dataDealInterface.getHeartRate(),dataDealInterface.getFatigueRate());
+                }
                 break;
         }
     }
@@ -95,7 +102,6 @@ public class Controller implements RiskTipService.Callback{
         if(si != -1){
             this.iBinder.postDangerInformation(si);
         }
-
     }
 
     @Override

@@ -14,6 +14,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.kyle.healthcare.R;
+import com.kyle.healthcare.bluetooth.Constants;
+import com.kyle.healthcare.controller_data.DataManger;
 
 import java.util.ArrayList;
 
@@ -31,13 +33,11 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
     private int dangerousColumnColor;
     private int averageCircleColor;
     private int columnColor;
-    private int criticalColor;
     private Paint backgroundPaint;
     private Paint borderPaint;
     private Paint dangerousColumnPaint;
     private Paint averageCircleColorPaint;
     private Paint columnColorPaint;
-    private Paint criticalLinePaint;
         //数据
     private int runDirection;
     private int margin;
@@ -66,7 +66,6 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
         this.dangerousColumnPaint.setColor(Color.RED);
         this.averageCircleColorPaint.setColor(Color.BLACK);
         this.columnColorPaint.setColor(0xfff9afc);
-        this.criticalLinePaint.setColor(Color.RED);
         this.runDirection = -1;
     }
 
@@ -84,8 +83,6 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
         this.averageCircleColorPaint.setColor(this.averageCircleColor);
         this.columnColor = typedArray.getColor(R.styleable.HeartRateView_column_color, 0xfff9afc);
         this.columnColorPaint.setColor(this.columnColor);
-        this.criticalColor = typedArray.getColor(R.styleable.HeartRateView_critical_color, Color.RED);
-        this.columnColorPaint.setColor(this.criticalColor);
         this.runDirection = typedArray.getInt(R.styleable.HeartRateView_run_direction, -1);
         typedArray.recycle();
     }
@@ -93,16 +90,7 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
     //初始化
     private void initView(Context context){
         //测试数据
-        this.heartRateData = new int[this.NUMBER_COLUMN];
-        for(int i = 1; i < 8; i++){
-            this.heartRateData[i - 1] = i * 25;
-        }
-        this.allDateNumber = this.NUMBER_COLUMN;
-        int all = 0;
-        for(int i =0; i < this.NUMBER_COLUMN;i++){
-            all += this.heartRateData[i];
-        }
-        this.all = all;
+        setData();
         this.context = context;
         this.surfaceHolder = this.getHolder();
         this.surfaceHolder.addCallback(this);
@@ -111,15 +99,31 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
         this.dangerousColumnPaint = new Paint();
         this.averageCircleColorPaint = new Paint();
         this.columnColorPaint = new Paint();
-        this.criticalLinePaint = new Paint();
-        this.integers = new ArrayList<>();
+    }
+    //整体数据更新
+    private void setData() {
+        DataManger dataManger = DataManger.dataManger;
+        if(dataManger.getHeartViewHolder() == null){
+            this.heartRateData = new int[]{0, 0, 0, 0, 0, 0, 0};
+            this.integers = new ArrayList<>();
+            this.all = 0;
+            this.allDateNumber = 1;
+            this.scaleOfOffset = 1;
+        }else{
+            DataManger.ViewDataHolder dataHolder= dataManger.getHeartViewHolder();
+            this.heartRateData = dataHolder.getCurrent();
+            this.integers = dataHolder.getArrayList();
+            this.all = dataHolder.getAll();
+            this.allDateNumber = dataHolder.getNumber();
+            this.scaleOfOffset = this.integers.size();
+        }
     }
 
     //确定绘图所需要的数据
     private void analyseDataOfDrawing(int height,int width){
         this.height = height;
         this.width = width;
-        this.scaleOfHeight = this.height / 200;//150五十以下为正常的运动心率
+        this.scaleOfHeight = this.height / Constants.HEART_RATE_RANGE;//150五十以下为正常的运动心率
         this.margin = this.width / (this.NUMBER_COLUMN);
         this.widthOfColumn = (this.width - 2 * this.margin )/(this.NUMBER_COLUMN * 2 + 1);
         this.averageCircleR = 20;
@@ -130,7 +134,11 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
         this.textOffsetX = this.averageCircleR + this.textSize / 2;
 //        this.STANDER_INTERVAL = (int)(240.0 / this.widthOfColumn);
         this.INTERVAL = (int)(240.0 / this.widthOfColumn);
-        this.scaleOfOffset = 1;
+        if(this.integers.size() == 0){
+            this.scaleOfOffset = 1;
+        }else{
+            this.scaleOfOffset = this.integers.size();
+        }
     }
 
     private Thread thread;
@@ -210,7 +218,7 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
         try {
             canvas.drawRect(0, 0, this.width, this.height, this.backgroundPaint);
             for (int i = 0; i < this.NUMBER_COLUMN; i++) {
-                if (this.heartRateData[i] > 150) {
+                if (this.heartRateData[i] > Constants.HEART_RATE_UNUSUAL) {
                     canvas.drawRect(this.margin + this.widthOfColumn * (2 * i + 1 + rl) + offset, this.height - this.scaleOfHeight * this.heartRateData[i] - this.margin, this.widthOfColumn * (2 * i + 2 + rl) + offset + this.margin, this.height - this.margin, this.dangerousColumnPaint);
                 } else {
                     canvas.drawRect(this.margin + this.widthOfColumn * (2 * i + 1 + rl) + offset, this.height - this.scaleOfHeight * this.heartRateData[i] - this.margin, this.widthOfColumn * (2 * i + 2 + rl) + offset + this.margin, this.height - this.margin, this.columnColorPaint);
@@ -220,8 +228,7 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
             canvas.drawRect(this.width - this.margin, this.margin, this.width - this.margin + 5, this.height - this.margin, this.borderPaint);
             canvas.drawRect(0, this.height - this.margin, this.width - this.margin, this.height, this.backgroundPaint);
             canvas.drawRect(0, this.height - this.margin, this.width - this.margin, this.height - this.margin + 5, this.borderPaint);
-            canvas.drawRect(0, this.height - 170 * this.scaleOfHeight - this.margin + 4, this.width - this.margin, this.height - 170 * this.scaleOfHeight - this.margin + 5, this.criticalLinePaint);
-            if (this.all / this.allDateNumber > 150) {
+            if (this.all / this.allDateNumber > Constants.HEART_RATE_UNUSUAL) {
                 canvas.drawCircle(this.width - this.margin + 2, this.height - this.margin - this.scaleOfHeight * this.all / this.allDateNumber, 20, this.dangerousColumnPaint);
                 canvas.drawText(String.valueOf(this.all / this.allDateNumber), this.width - this.margin + this.textOffsetX, this.height - this.margin - this.scaleOfHeight * this.all / this.allDateNumber + this.textOffsetY, this.dangerousColumnPaint);
             } else {
@@ -241,13 +248,6 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
                 this.thread.start();
             }
 
-    }
-    //整体数据更新
-    public void setSumData(int all) {
-        this.all = all;
-    }
-    public void setAllDateNumber(int allDateNumber) {
-        this.allDateNumber = allDateNumber;
     }
 
 
@@ -302,6 +302,9 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
         Log.i("HeartRateView","addData");
     }
 
+    public void close(){
+        DataManger.dataManger.setHeartRateViewDataEnd(this.integers,this.heartRateData,this.all,this.allDateNumber);
+    }
 
 
 //    //开启线程

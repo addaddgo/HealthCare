@@ -216,11 +216,6 @@ public class MainActivity extends BaseActivity implements UIInterface {
     @Override
     public void updateDrivingFragment(DrivingData drivingData) {
         this.drivingFragment.update(String.valueOf(drivingData.totalTime),String.valueOf(drivingData.totalDistance),String.valueOf(drivingData.averageSpeech));
-        try{
-            Thread.sleep(1000);
-        }catch (InterruptedException i){
-            i.printStackTrace();
-        }
     }
 
     @Override

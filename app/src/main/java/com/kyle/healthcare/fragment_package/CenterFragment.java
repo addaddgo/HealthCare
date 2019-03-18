@@ -12,22 +12,16 @@ import android.widget.Button;
 
 import com.kyle.healthcare.R;
 
-public class CenterFragment extends Fragment{
+public class CenterFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.center_frag, container,false);
         return view;
     }
-//
-//    @Override
-//        public void onClick(View v) {
-//            switch (v.getId()) {
-//                case R.id.log_out:
-//                    Intent intent = new Intent("com.kyle.healthcare.LOG_OUT");
-//                    getActivity().sendBroadcast(intent);
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
+
+
+    @Override
+    public void onClick(View v) {
+
     }
+}

@@ -47,6 +47,8 @@ public class HealthFragment extends Fragment {
         if(heartRateView != null && fatigueRateView != null){
             heartRateView.stopDrawThread();
             fatigueRateView.stopDrawThread();
+            heartRateView.close();
+            fatigueRateView.close();
         }
 
     }

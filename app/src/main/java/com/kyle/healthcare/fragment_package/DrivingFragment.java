@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kyle.healthcare.R;
+import com.kyle.healthcare.controller_data.DataManger;
+import com.kyle.healthcare.controller_data.DrivingData;
 
 public class DrivingFragment extends Fragment {
 
@@ -24,6 +26,11 @@ public class DrivingFragment extends Fragment {
         totalDistance = view.findViewById(R.id.driving_record_fra_total_distance);
         averageSpeech = view.findViewById(R.id.driving_record_fra_average_speech);
         totalTime = view.findViewById(R.id.driving_record_fra_time);
+        DataManger dataManger = DataManger.dataManger;
+        if(dataManger != null && dataManger.getLatestDrivingInformation() != null){
+            DrivingData drivingData = dataManger.getLatestDrivingInformation();
+            update(String.valueOf(drivingData.totalTime),String.valueOf(drivingData.totalDistance),String.valueOf(drivingData.averageSpeech));
+        }
         return view;
     }
 

@@ -3,7 +3,6 @@
     <declare-styleable name="HeartRateView">
         <attr name="heart_rate_background_color" format="color"/>
         <attr name="heart_rate_border_color" format="color"/>
-        <attr name="critical_color" format="color"/>
         <attr name="column_color" format="color"/>
         <attr name="number_column" format="integer"/>
         <attr name="average_circle_color" format="color"/>

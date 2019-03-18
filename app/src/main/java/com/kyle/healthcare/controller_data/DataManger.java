@@ -2,18 +2,22 @@ package com.kyle.healthcare.controller_data;
 
 import android.util.Log;
 
+import com.kyle.healthcare.bluetooth.Constants;
 import com.kyle.healthcare.fragment_package.DrivingFragment;
+
+import org.litepal.util.Const;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class DataManger implements DataDealInterface{
 
+    private DataManger(){}
 
     private ArrayList<Integer> heartRateArray = new ArrayList<Integer>();
     private ArrayList<Integer> fatigueRateArray = new ArrayList<Integer>();
 
-
+    public static DataManger dataManger = new DataManger();
     @Override
     public int getLengthOfHeartRateArray() {
         return this.heartRateArray.size();
@@ -66,30 +70,6 @@ public class DataManger implements DataDealInterface{
         return (int)Math.pow(((temperature - 10)*(temperature - 10) + (heartRate - 10) * (heartRate - 10)+ (bloodPressure - 10) * (bloodPressure - 10) + (bloodFat - 10) * (bloodFat - 10)) / 4.0,0.5);
     }
 
-    /*
-      地图,需要根据当前的坐标和之前的所以数据，给出最新的DrivingData
-     */
-
-    private DrivingData latestDrivingData;
-
-
-    @Override
-    public void addDrivingData(float X, float Y) {
-        Log.i("DataManager","getXY");
-        this.latestDrivingData = new DrivingData();
-        this.latestDrivingData.averageSpeech = (int)(Math.random() * 200);
-        this.latestDrivingData.totalDistance = (int)(Math.random() * 200);
-        this.latestDrivingData.totalTime = (int)(Math.random() * 200);
-    }
-
-    @Override
-    public DrivingData getLatestDrivingInformation() {
-        return this.latestDrivingData;
-    }
-
-
-
-
     //Unusual information
     private final  static int fatigueUnusual = 1;
     private final static int drivingRecordUnusual = 2;
@@ -101,10 +81,104 @@ public class DataManger implements DataDealInterface{
 
     //analyze data and give the situation
     public int analyzeSituation(){
-        if (this.fatigueRateArray.size() != 0 && this.fatigueRateArray.get(0) > 10){
+        if (this.fatigueRateArray.size() != 0 && this.fatigueRateArray.get(0) > Constants.HEART_RATE_UNUSUAL){
             return fatigueUnusual;
         }
         return -1;
     }
+
+
+    //data save
+
+    public class ViewDataHolder{
+        private ArrayList<Integer> arrayList;
+        private int[] current;
+        private int all;
+        private int number;
+        public ArrayList<Integer> getArrayList() {
+            return arrayList;
+        }
+
+        public int[] getCurrent() {
+            return current;
+        }
+
+        public int getAll() {
+            return all;
+        }
+
+        public int getNumber() {
+            return number;
+        }
+    }
+
+    private ViewDataHolder heartViewHolder;
+    private ViewDataHolder fatigueViewHolder;
+
+
+    //view-data holder
+    public void setHeartRateViewDataEnd(ArrayList<Integer> integers,int[] current,int all,int number){
+        if(this.heartViewHolder == null){
+            this.heartViewHolder = new ViewDataHolder();
+            this.heartViewHolder.arrayList = integers;
+            this.heartViewHolder.current = new int[7];
+            System.arraycopy(current,0,this.heartViewHolder.current,0,7);
+            this.heartViewHolder.all = all;
+            this.heartViewHolder.number = number;
+        }else{
+            this.heartViewHolder.all = all;
+            this.heartViewHolder.number = number;
+            this.heartViewHolder.arrayList = integers;
+            System.arraycopy(current,0,this.heartViewHolder.current,0,7);
+        }
+    }
+
+    public void setFatigueRateViewDataEnd(ArrayList<Integer> integers,int[] current){
+        if(this.fatigueViewHolder == null){
+            this.fatigueViewHolder = new ViewDataHolder();
+            this.fatigueViewHolder.arrayList = integers;
+            this.fatigueViewHolder.current = new int[10];
+            System.arraycopy(current,0,this.fatigueViewHolder.current,0,10);
+        }else{
+            this.fatigueViewHolder.arrayList = integers;
+            System.arraycopy(current,0,this.fatigueViewHolder.current,0,10);
+        }
+    }
+
+    //get data
+
+    public ViewDataHolder getHeartViewHolder() {
+        return heartViewHolder;
+    }
+
+    public ViewDataHolder getFatigueViewHolder() {
+        return fatigueViewHolder;
+    }
+
+    //driving record
+
+    private DrivingData latestDrivingData;
+
+    @Override
+    public void addDrivingData(float X, float Y) {
+        if(this.latestDrivingData == null){
+            this.latestDrivingData = new DrivingData();
+        }else{
+            this.latestDrivingData.averageSpeech = (int)(Math.random() * 200);
+            this.latestDrivingData.totalDistance = (int)(Math.random() * 200);
+            this.latestDrivingData.totalTime = (int)(Math.random() * 200);
+        }
+
+    }
+
+    @Override
+    public DrivingData getLatestDrivingInformation() {
+        if(this.latestDrivingData == null){
+            return null;
+        }else{
+            return this.latestDrivingData;
+        }
+    }
+
 
 }
