@@ -3,9 +3,13 @@ package com.kyle.healthcare.fragment_package;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -18,7 +22,29 @@ public class CenterFragment extends Fragment{
         View view = inflater.inflate(R.layout.center_frag, container,false);
         return view;
     }
-//
+    // 添加菜单
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_center,menu );
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_settings:
+                // TODO: 2019/3/18 导向设置fragment
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    //
 //    @Override
 //        public void onClick(View v) {
 //            switch (v.getId()) {

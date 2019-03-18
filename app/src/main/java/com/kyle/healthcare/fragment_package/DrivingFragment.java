@@ -4,9 +4,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -25,6 +29,29 @@ public class DrivingFragment extends Fragment {
         averageSpeech = view.findViewById(R.id.driving_record_fra_average_speech);
         totalTime = view.findViewById(R.id.driving_record_fra_time);
         return view;
+    }
+
+    // 添加菜单
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_driving,menu );
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_history_log:
+                // TODO: 2019/3/18 导向历史记录fragment
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void updateTotalTime(String string){

@@ -41,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/background_habit_driver_center"
-        android:text="@string/center_fra_habit"
+        android:text="@string/driving_habit"
         android:textColor="@color/color_gray_habit_driver"
         app:layout_constraintEnd_toStartOf="@+id/portrait_center"
         app:layout_constraintBottom_toBottomOf="@id/background_center"

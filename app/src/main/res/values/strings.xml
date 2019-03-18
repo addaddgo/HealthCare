@@ -39,8 +39,12 @@
     <string name="fatigue_rate_frag_fatigue_rate">疲劳状态</string>
     <string name="fatigue_rate_frag_warn">温馨提示：\n驾驶时间过长，请注意休息。</string>
 
+    <!-- String related to menu -->
+    <string name="driving_habit">驾驶习惯</string>
+    <string name="history_log">历史记录</string>
+    <string name="settings">设置</string>
+
     <!-- String related to center -->
-    <string name="center_fra_habit">驾驶习惯</string>
 
 
 </resources>

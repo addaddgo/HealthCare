@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kyle.healthcare.base_package.BaseActivity;
@@ -48,6 +49,7 @@ public class MainActivity extends BaseActivity implements UIInterface {
 
     private Toolbar toolbar;
     private ActionBar actionBar;
+    private TextView mTitle;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -55,24 +57,24 @@ public class MainActivity extends BaseActivity implements UIInterface {
         public boolean onNavigationItemSelected(MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_homepage:
-                    actionBar.setTitle(R.string.title_homepage);
+                    mTitle.setText(R.string.title_homepage);
                     replaceFragment(homepageFragment);
                     return true;
 
                 case R.id.navigation_health:
-                    actionBar.setTitle(R.string.title_health);
+                    mTitle.setText(R.string.title_health);
                     replaceFragment(healthFragment);
                     fragmentAddressBook.setVisible(FragmentAddressBook.HEALTH);
                     return true;
 
                 case R.id.navigation_driving:
-                    actionBar.setTitle(R.string.title_driving);
+                    mTitle.setText(R.string.title_driving);
                     replaceFragment(drivingFragment);
                     fragmentAddressBook.setVisible(FragmentAddressBook.DRIVING);
                     return true;
 
                 case R.id.navigation_center:
-                    actionBar.setTitle(R.string.title_center);
+                    mTitle.setText(R.string.title_center);
                     replaceFragment(centerFragment);
                     return true;
             }
@@ -101,12 +103,12 @@ public class MainActivity extends BaseActivity implements UIInterface {
 
         actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-//            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+            actionBar.setDisplayHomeAsUpEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(false);
         }
+        mTitle = findViewById(R.id.toolbar_title);
 
-
-        actionBar.setTitle(R.string.title_homepage);
+        mTitle.setText(R.string.title_homepage);
         replaceFragment(homepageFragment);
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
