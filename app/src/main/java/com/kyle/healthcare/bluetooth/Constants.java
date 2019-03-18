@@ -46,5 +46,7 @@ public interface Constants {
     int frag_id_center = 104;
     int frag_id_heart_rate = 105;
     int frag_id_fatigue_rate = 106;
-    int frag_id_settings = 108;
+    int frag_id_driving_habit = 107;
+    int frag_id_history_log = 108;
+    int frag_id_settings = 109;
 }

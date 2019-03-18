@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.kyle.healthcare.R;
 import com.kyle.healthcare.UIInterface;
+import com.kyle.healthcare.bluetooth.Constants;
 
 public class HomepageFragment extends Fragment {
     private UIInterface uiInterface;
@@ -38,7 +39,7 @@ public class HomepageFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_driving_habit:
-                // TODO: 2019/3/18 导向驾驶习惯fragment
+                uiInterface.replaceFragmentInFragment(Constants.frag_id_driving_habit);
                 break;
         }
         return super.onOptionsItemSelected(item);
