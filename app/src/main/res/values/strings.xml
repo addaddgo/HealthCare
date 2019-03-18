@@ -40,7 +40,7 @@
     <string name="fatigue_rate_frag_warn">温馨提示：\n驾驶时间过长，请注意休息。</string>
 
     <!-- String related to center -->
-    <string name="center_fra_habit">驾驶习惯</string>
+    <string name="driving_habit">驾驶习惯</string>
 
 
 </resources>
