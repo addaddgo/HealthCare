@@ -78,6 +78,7 @@ public class ScrollSelectView extends View{
         this.height = getMeasuredHeight();
         this.width = getMeasuredWidth();
     }
+
     //设置选中项字符尺寸及绘制的初始位置
     private void setTextSizeAndTextStarY(){
         int textSizeByHeight = this.height / 5;
@@ -184,10 +185,6 @@ public class ScrollSelectView extends View{
         invalidate();
     }
 
-    //得到选定项
-    public String pick(){
-        return this.strings[this.pointer];
-    }
 
     //只呈现一个数据
     public void setShowOnlyOneString(String string){
@@ -254,5 +251,15 @@ public class ScrollSelectView extends View{
 
         //当用户点击
         void touchView();
+    }
+
+
+    public int getPointer() {
+        return pointer;
+    }
+
+
+    public String getCurrentString(){
+        return this.strings[this.pointer];
     }
 }

@@ -71,6 +71,7 @@
                             android:layout_height="40dp" />
 
                         <EditText
+                            android:background="@null"
                             android:id="@+id/car_name_center"
                             android:layout_marginStart="40dp"
                             app:layout_constraintBottom_toBottomOf="@id/card_image_center"
@@ -86,51 +87,57 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
-                        <com.kyle.healthcare.view.ScrollSelectView
+                        <EditText
+                            android:background="@null"
+                            android:digits="男女"
                             app:layout_constraintLeft_toRightOf="@id/car_name_center"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
-                            android:id="@+id/sex_scroll_center"
+                            android:id="@+id/sex_edit_center"
                             android:layout_marginStart="50dp"
                             app:layout_constraintBottom_toBottomOf="@id/car_name_center">
-                        </com.kyle.healthcare.view.ScrollSelectView>
+                        </EditText>
 
                     <TextView
-                        app:layout_constraintLeft_toLeftOf="@id/sex_scroll_center"
-                        app:layout_constraintTop_toBottomOf="@id/sex_scroll_center"
+                        app:layout_constraintLeft_toLeftOf="@id/sex_edit_center"
+                        app:layout_constraintTop_toBottomOf="@id/sex_edit_center"
                         android:text="性别"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
-                    <com.kyle.healthcare.view.ScrollSelectView
+                    <EditText
+                        android:background="@null"
+                        android:digits="1234567890"
                         app:layout_constraintTop_toBottomOf="@id/car_name_center"
                         app:layout_constraintLeft_toLeftOf="@id/car_name_center"
                         android:layout_marginTop="50dp"
-                        android:id="@+id/year_scroll_center"
+                        android:id="@+id/year_edit_center"
                         android:layout_width="50dp"
                         android:layout_height="30dp">
-                    </com.kyle.healthcare.view.ScrollSelectView>
+                    </EditText>
 
                     <TextView
-                        app:layout_constraintBottom_toBottomOf="@id/year_scroll_center"
-                        app:layout_constraintLeft_toRightOf="@id/year_scroll_center"
+                        app:layout_constraintBottom_toBottomOf="@id/year_edit_center"
+                        app:layout_constraintLeft_toRightOf="@id/year_edit_center"
                         android:id="@+id/year_text_center"
                         android:text="年"
                         android:textSize="20sp"
                         android:layout_width="20dp"
                         android:layout_height="30dp" />
 
-                    <com.kyle.healthcare.view.ScrollSelectView
+                    <EditText
+                        android:background="@null"
+                        android:digits="1234567890"
                         app:layout_constraintLeft_toRightOf="@id/year_text_center"
                         app:layout_constraintBottom_toBottomOf="@id/year_text_center"
-                        android:id="@+id/month_scroll_center"
+                        android:id="@+id/month_edit_center"
                         android:layout_width="20dp"
                         android:layout_height="30dp">
-                    </com.kyle.healthcare.view.ScrollSelectView>
+                    </EditText>
                     
                     <TextView
-                        app:layout_constraintLeft_toRightOf="@id/month_scroll_center"
-                        app:layout_constraintBottom_toBottomOf="@id/month_scroll_center"
+                        app:layout_constraintLeft_toRightOf="@id/month_edit_center"
+                        app:layout_constraintBottom_toBottomOf="@id/month_edit_center"
                         android:id="@+id/month_text_center"
                         android:textSize="20sp"
                         android:text="月"
@@ -138,18 +145,20 @@
                         android:layout_height="30dp" />
                     
                     
-                    <com.kyle.healthcare.view.ScrollSelectView
+                    <EditText
+                        android:background="@null"
+                        android:digits="1234567890"
                         app:layout_constraintLeft_toRightOf="@id/month_text_center"
                         app:layout_constraintBottom_toBottomOf="@id/month_text_center"
-                        android:id="@+id/day_scroll_center"
+                        android:id="@+id/day_edit_center"
                         android:layout_width="30dp"
                         android:layout_height="30dp">
-                    </com.kyle.healthcare.view.ScrollSelectView>
+                    </EditText>
                     
                     
                     <TextView
-                        app:layout_constraintLeft_toRightOf="@id/day_scroll_center"
-                        app:layout_constraintBottom_toBottomOf="@id/day_scroll_center"
+                        app:layout_constraintLeft_toRightOf="@id/day_edit_center"
+                        app:layout_constraintBottom_toBottomOf="@id/day_edit_center"
                         android:text="日"
                         android:textSize="20sp"
                         android:layout_width="20dp"
@@ -182,6 +191,7 @@
                     android:layout_height="40dp" />
 
                 <EditText
+                    android:background="@null"
                     android:id="@+id/phone_number_center"
                     android:layout_marginStart="40dp"
                     app:layout_constraintBottom_toBottomOf="@id/information_image_center"
@@ -199,6 +209,7 @@
                     android:layout_height="wrap_content" />
                 
                 <EditText
+                    android:background="@null"
                     app:layout_constraintTop_toBottomOf="@id/phone_number_center"
                     app:layout_constraintLeft_toLeftOf="@id/phone_number_center"
                     android:layout_marginTop="40dp"

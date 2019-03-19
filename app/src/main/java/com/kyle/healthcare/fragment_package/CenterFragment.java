@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -27,7 +28,7 @@ import com.kyle.healthcare.controller_data.TimeSupport;
 import com.kyle.healthcare.view.CircleImage;
 import com.kyle.healthcare.view.ScrollSelectView;
 
-public class CenterFragment extends Fragment implements View.OnClickListener {
+public class CenterFragment extends Fragment implements View.OnClickListener{
 
     UIInterface uiInterface;
 
@@ -38,25 +39,19 @@ public class CenterFragment extends Fragment implements View.OnClickListener {
     private EditText licenseEdit;
     private EditText phoneEdit;
 
-    private ScrollSelectView year;
-    private ScrollSelectView month;
-    private ScrollSelectView day;
-    private ScrollSelectView sex;
+    private EditText year;
+    private EditText month;
+    private EditText day;
+    private EditText sex;
 
     private CircleImage imageView;
 
-    private int[] years;
-    private int[] months;
-    private int[] days;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.center_frag, container, false);
         lineId(view);
-        this.years = TimeSupport.timeSupport.getYears();
-        this.months = TimeSupport.timeSupport.getMonthInYearByCurrentTime(TimeSupport.timeSupport.getYear(), TimeSupport.timeSupport.getMonth());
-        this.days = TimeSupport.timeSupport.getDayInMonthAndYearByCurrentTime(TimeSupport.timeSupport.getYear(), TimeSupport.timeSupport.getMonth(), TimeSupport.timeSupport.getDay());
         return view;
     }
 
@@ -89,10 +84,10 @@ public class CenterFragment extends Fragment implements View.OnClickListener {
 
     private void lineId(View view) {
         this.nameEdit = view.findViewById(R.id.car_name_center);
-        this.sex = view.findViewById(R.id.sex_scroll_center);
-        this.year = view.findViewById(R.id.year_scroll_center);
-        this.month = view.findViewById(R.id.month_scroll_center);
-        this.day = view.findViewById(R.id.day_scroll_center);
+        this.sex = view.findViewById(R.id.sex_edit_center);
+        this.year = view.findViewById(R.id.year_edit_center);
+        this.month = view.findViewById(R.id.month_edit_center);
+        this.day = view.findViewById(R.id.day_edit_center);
         this.phoneEdit = view.findViewById(R.id.phone_number_center);
         this.licenseEdit = view.findViewById(R.id.license_center);
         this.imageView = view.findViewById(R.id.portrait_center);
@@ -121,10 +116,15 @@ public class CenterFragment extends Fragment implements View.OnClickListener {
     private void setWidgetUntouchableUp() {
         this.nameEdit.setFocusable(false);
         this.nameEdit.setFocusableInTouchMode(false);
-        this.sex.setUnableTouched();
-        this.year.setUnableTouched();
-        this.month.setUnableTouched();
-        this.day.setUnableTouched();
+        this.year.setFocusableInTouchMode(false);
+        this.year.setFocusable(false);
+        this.month.setFocusableInTouchMode(false);
+        this.month.setFocusable(false);
+        this.day.setFocusable(false);
+        this.day.setFocusableInTouchMode(false);
+        this.sex.setFocusableInTouchMode(false);
+        this.sex.setFocusable(false);
+
     }
 
     //let them can be edited
@@ -137,41 +137,24 @@ public class CenterFragment extends Fragment implements View.OnClickListener {
 
     private void setWidgetTouchableUp() {
         this.nameEdit.setFocusable(true);
-        this.sex.setAbleTouched();
-        this.year.setAbleTouched();
-        this.month.setAbleTouched();
-        this.day.setAbleTouched();
+        this.nameEdit.setFocusableInTouchMode(true);
+        this.year.setFocusableInTouchMode(true);
+        this.year.setFocusable(true);
+        this.month.setFocusableInTouchMode(true);
+        this.month.setFocusable(true);
+        this.day.setFocusable(true);
+        this.day.setFocusableInTouchMode(true);
+        this.sex.setFocusableInTouchMode(true);
+        this.sex.setFocusable(true);
     }
 
     private void initWidget() {
         setWidgetUntouchableDown();
         setWidgetUntouchableUp();
-        this.sex.setData(new String[]{"男", "女"}, 1);
-        this.year.setData(turnIntsToStrings(this.years), 4);
-        this.month.setData(turnIntsToStrings(this.months), 2);
-        this.day.setData(turnIntsToStrings(this.days), 1);
-        showOneString();
     }
-
-    //scroll show one string
-    private void showOneString() {
-        this.sex.setShowOnlyOneString("男");
-        this.year.setShowOnlyOneString(String.valueOf(TimeSupport.timeSupport.getYear()));
-        this.month.setShowOnlyOneString(String.valueOf(TimeSupport.timeSupport.getMonth()));
-        this.day.setShowOnlyOneString(String.valueOf(TimeSupport.timeSupport.getDay()));
-    }
-
-    //scroll start picking
-    private void startPick() {
-        try {
-            this.day.starPick(TimeSupport.findPositionBinarySearch(this.days,TimeSupport.timeSupport.getDay()));
-            this.sex.starPick(0);
-            Log.i("center",String.valueOf(TimeSupport.findPositionBinarySearch(this.years,TimeSupport.timeSupport.getYear())));
-            this.year.starPick(TimeSupport.findPositionBinarySearch(this.years,TimeSupport.timeSupport.getYear()));
-            this.month.starPick(TimeSupport.findPositionBinarySearch(this.months,TimeSupport.timeSupport.getMonth()));
-        } catch (ScrollSelectView.NullDataException e) {
-            e.printStackTrace();
-        }
+    //init data
+    private void initData(){
+        //TODO(): 注意：initData之后，需要根据用户的生日来调整ScorllSelectView 的数据
     }
 
     private boolean topIsEdited;
@@ -185,12 +168,10 @@ public class CenterFragment extends Fragment implements View.OnClickListener {
                     Log.d("center","information");
                     this.topEditButton.setText("编辑");
                     this.topIsEdited = false;
-                    showOneString();
-                    setWidgetUntouchableDown();
+                    setWidgetUntouchableUp();
                 }else{
                     this.topEditButton.setText("保存");
                     this.topIsEdited = true;
-                    startPick();
                     setWidgetTouchableUp();
                 }
                 break;
@@ -222,5 +203,23 @@ public class CenterFragment extends Fragment implements View.OnClickListener {
         return s;
     }
 
+    private String yearSelected;
+    private String monthSelected;
+    private String daySelected;
+
+
+    public String getYearSelected() {
+        return yearSelected;
+    }
+
+    public String getMonthSelected() {
+        return monthSelected;
+    }
+
+    public String getDaySelected() {
+        return daySelected;
+    }
+
 
 }
+
