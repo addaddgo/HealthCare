@@ -24,7 +24,6 @@ import com.kyle.healthcare.UIInterface;
 import com.kyle.healthcare.bluetooth.Constants;
 import com.kyle.healthcare.camera.CameraActivity;
 import com.kyle.healthcare.controller_data.FragmentAddressBook;
-import com.kyle.healthcare.controller_data.TimeSupport;
 import com.kyle.healthcare.view.CircleImage;
 import com.kyle.healthcare.view.ScrollSelectView;
 
@@ -46,6 +45,8 @@ public class CenterFragment extends Fragment implements View.OnClickListener{
 
     private CircleImage imageView;
 
+    private TextView hintTextView;
+    private ImageView deleteImageView;
 
 
     @Override
@@ -93,6 +94,8 @@ public class CenterFragment extends Fragment implements View.OnClickListener{
         this.imageView = view.findViewById(R.id.portrait_center);
         this.topEditButton = view.findViewById(R.id.correct_person_information_center);
         this.bottomEditButton = view.findViewById(R.id.correct_license_center);
+        this.deleteImageView = view.findViewById(R.id.hint_delete_button);
+        this.hintTextView = view.findViewById(R.id.warn_text_center);
     }
 
     @Override
@@ -103,6 +106,7 @@ public class CenterFragment extends Fragment implements View.OnClickListener{
         this.bottomEditButton.setOnClickListener(this);
         this.topEditButton.setOnClickListener(this);
         this.imageView.setOnClickListener(this);
+        this.deleteImageView.setOnClickListener(this);
     }
 
     //let them untouchable
@@ -154,7 +158,8 @@ public class CenterFragment extends Fragment implements View.OnClickListener{
     }
     //init data
     private void initData(){
-        //TODO(): 注意：initData之后，需要根据用户的生日来调整ScorllSelectView 的数据
+        //TODO(): 注意：initData之后，需要根据用户的生日来调整数据
+
     }
 
     private boolean topIsEdited;
@@ -190,6 +195,10 @@ public class CenterFragment extends Fragment implements View.OnClickListener{
             case R.id.portrait_center:
                 Intent intent = new Intent(getActivity(),CameraActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.hint_delete_button:
+                this.deleteImageView.setVisibility(View.GONE);
+                this.hintTextView.setVisibility(View.GONE);
                 break;
         }
     }

@@ -27,7 +27,7 @@
     <!--String related to  heart_rate_frag-->
     <string name="unit_km_h">km/h</string>
     <string name="unit_km">km</string>
-    <string name="unit_min">km</string>
+    <string name="unit_min">min</string>
     <string name="record_fra_speech">平均速度</string>
     <string name="record_fra_total_distance">行驶距离</string>
     <string name="record_fra_time">行驶时间</string>

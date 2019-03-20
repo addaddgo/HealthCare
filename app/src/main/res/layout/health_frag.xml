@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/colorBackground">
 
@@ -10,20 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="0dp">
 
-        <TextView
-            style="@style/HealthText"
-            android:textSize="@dimen/health_current_heart_rate_name_text_size"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:text="@string/health_current_heart_rate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
         <ImageView
-            android:background="@mipmap/health_heart_rate"
-            android:layout_centerInParent="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="0dp"
+            android:src="@mipmap/health_ball" />
 
         <TextView
             style="@style/HealthText"
@@ -32,8 +27,11 @@
             android:text="60"
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="50dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
     </RelativeLayout>
 
 
@@ -43,24 +41,28 @@
         android:layout_height="0dp"
         android:orientation="horizontal"
         android:layout_marginBottom="15sp"
-        android:background="@color/gray_light">
+        android:background="@color/gray_light_1">
 
         <com.kyle.healthcare.view.HeartRateView
+            app:heart_rate_background_color="@color/colorBackground"
+            app:column_color="@color/orange"
+            app:heart_rate_border_color="@color/orange"
+            app:average_circle_color="@color/orange"
             android:id="@+id/health_fra_heart_rate_view"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_marginRight="1dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
             android:layout_height="match_parent" />
 
         <com.kyle.healthcare.view.FatigueRateView
             android:id="@+id/health_fra_fatigue_rate_view"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_marginLeft="1dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
             android:layout_height="match_parent"/>
 
     </LinearLayout>
