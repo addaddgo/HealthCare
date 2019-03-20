@@ -62,7 +62,7 @@
         android:layout_height="48dp"
         android:layout_marginStart="48dp"
         android:text="上一步"
-        app:layout_constraintBaseline_toBaselineOf="@+id/sign_up_forward_1"
+        app:layout_constraintBaseline_toBaselineOf="@+id/sign_up_forward_3"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button

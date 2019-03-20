@@ -114,7 +114,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 et_phone = findViewById(R.id.user_phone_number);
                 et_pass = findViewById(R.id.user_password);
                 forward = findViewById(R.id.sign_up_forward_2);
-                backward.findViewById(R.id.sign_up_backward_2);
+                backward = findViewById(R.id.sign_up_backward_2);
                 forward.setOnClickListener(this);
                 backward.setOnClickListener(this);
                 break;
