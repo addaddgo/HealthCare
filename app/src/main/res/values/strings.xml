@@ -43,6 +43,10 @@
     <string name="driving_habit">驾驶习惯</string>
     <string name="history_log">历史记录</string>
     <string name="settings">设置</string>
+    <string name="image_male">男</string>
+    <string name="image_female">女</string>
+    <string name="backward">上一步</string>
+    <string name="forward">下一步</string>
 
     <!-- String related to center -->
 
