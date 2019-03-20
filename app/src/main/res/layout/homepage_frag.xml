@@ -1,25 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:orientation="vertical">
+        android:layout_height="340dp">
+
         <ImageView
-            android:background="@mipmap/car"
-            android:layout_weight="2"
-            android:id="@+id/car_view"
+            android:layout_alignParentTop="true"
+            android:src="@mipmap/homepage_car"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <ImageView
-            android:background="@mipmap/situation"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
+            android:layout_height="320dp" />
 
 
-</ScrollView>
+        <com.kyle.healthcare.view.SwipeButton
+            app:orientation="false"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginEnd="40dp"/>
+
+        <com.kyle.healthcare.view.SwipeButton
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="20dp"
+            app:orientation="true"
+            android:layout_width="20dp"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+</LinearLayout>

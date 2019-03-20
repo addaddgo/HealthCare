@@ -4,7 +4,9 @@
     <dimen name="record_name_text_size">15sp</dimen>
     <dimen name="record_unit_text_size">20sp</dimen>
     <dimen name="health_current_heart_rate_name_text_size">20sp</dimen>
-    <dimen name="health_current_heart_rate_text_size">55sp</dimen>
+    <dimen name="health_current_heart_rate_text_size">40sp</dimen>
     <dimen name="fatigue_rate_fra_rate_text_size">25sp</dimen>
     <dimen name="fatigue_rate_fra_warn_text_size">10sp</dimen>
+    <dimen name="center_small_text">8sp</dimen>
+    <dimen name="center_big_text">15sp</dimen>
 </resources>

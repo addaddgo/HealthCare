@@ -5,4 +5,9 @@
 
     <!-- Height of bottom_navigation_view-->
     <dimen name="height_bottom_navigation_view_margin">56dp</dimen>
+
+
+    <!-- width of center_big_text-->
+    <dimen name="width_center_big_text">25dp</dimen>
+    <dimen name="height_center_big_text">25dp</dimen>
 </resources>

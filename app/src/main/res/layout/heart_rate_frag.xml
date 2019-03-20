@@ -12,6 +12,9 @@
         android:id="@+id/heart_rate_frag_heart_rate_view"
         android:layout_width="300dp"
         android:layout_height="400dp"
+        app:heart_rate_background_color="@color/colorBackground"
+        app:heart_rate_border_color="@color/orange"
+        app:average_circle_color="@color/orange"
         app:column_color="@color/colorText"/>
 
     <TextView

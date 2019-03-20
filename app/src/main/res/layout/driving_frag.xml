@@ -15,13 +15,13 @@
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginTop="40dp"
             android:layout_marginLeft="10dp"
-            android:background="@mipmap/play_ball"
+            android:background="@mipmap/dring_ball"
             android:id="@+id/driving_record_image"
-            android:layout_width="200dp"
+            android:layout_width="220dp"
             android:layout_height="200dp"/>
 
         <TextView
-            android:textColor="@color/colorText"
+            android:textColor="@color/orange"
             app:layout_constraintCircle="@id/driving_record_image"
             app:layout_constraintCircleAngle="195"
             app:layout_constraintCircleRadius="150dp"
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:textColor="@color/colorText"
+            android:textColor="@color/orange"
             app:layout_constraintRight_toLeftOf="@id/driving_record_fra_total_distance"
             app:layout_constraintLeft_toRightOf="@id/driving_record_fra_total_distance"
             app:layout_constraintTop_toBottomOf="@id/driving_record_fra_total_distance"
@@ -45,7 +45,7 @@
         <TextView
             app:layout_constraintBaseline_toBaselineOf="@id/driving_record_fra_total_distance"
             app:layout_constraintLeft_toRightOf="@id/driving_record_fra_total_distance"
-            android:textColor="@color/colorText"
+            android:textColor="@color/orange"
             android:layout_marginLeft="8dp"
             android:text="@string/unit_km"
             android:textSize="@dimen/record_unit_text_size"
@@ -57,7 +57,7 @@
             android:layout_marginLeft="130dp"
             app:layout_constraintBaseline_toBaselineOf="@id/driving_record_fra_total_distance"
             app:layout_constraintLeft_toRightOf="@id/driving_record_fra_total_distance"
-            android:textColor="@color/colorText"
+            android:textColor="@color/orange"
             android:id="@+id/driving_record_fra_average_speech"
             android:textSize="@dimen/record_data_text_size"
             android:text="60"
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:textColor="@color/colorText"
+            android:textColor="@color/orange"
             app:layout_constraintRight_toLeftOf="@id/driving_record_fra_average_speech"
             app:layout_constraintLeft_toRightOf="@id/driving_record_fra_average_speech"
             app:layout_constraintTop_toBottomOf="@id/driving_record_fra_average_speech"
@@ -78,7 +78,7 @@
         <TextView
             app:layout_constraintBaseline_toBaselineOf="@id/driving_record_fra_average_speech"
             app:layout_constraintLeft_toRightOf="@id/driving_record_fra_average_speech"
-            android:textColor="@color/colorText"
+            android:textColor="@color/orange"
             android:layout_marginLeft="8dp"
             android:text="@string/unit_km_h"
             android:textSize="@dimen/record_unit_text_size"
@@ -90,7 +90,7 @@
             app:layout_constraintCircleAngle="100"
             app:layout_constraintCircleRadius="180dp"
             android:textSize="@dimen/record_data_text_size"
-            android:textColor="@color/colorText"
+            android:textColor="@color/orange"
             android:text="180"
             android:id="@+id/driving_record_fra_time"
             android:layout_width="wrap_content"
@@ -100,7 +100,7 @@
             app:layout_constraintTop_toBottomOf="@id/driving_record_fra_time"
             app:layout_constraintLeft_toRightOf="@id/driving_record_fra_time"
             app:layout_constraintRight_toLeftOf="@id/driving_record_fra_time"
-            android:textColor="@color/colorText"
+            android:textColor="@color/orange"
             android:text="@string/record_fra_time"
             android:layout_marginLeft="30dp"
             android:layout_width="wrap_content"
@@ -109,7 +109,7 @@
         <TextView
             app:layout_constraintBaseline_toBaselineOf="@id/driving_record_fra_time"
             app:layout_constraintLeft_toRightOf="@id/driving_record_fra_time"
-            android:textColor="@color/colorText"
+            android:textColor="@color/orange"
             android:layout_marginLeft="8dp"
             android:text="@string/unit_min"
             android:textSize="@dimen/record_unit_text_size"
@@ -119,7 +119,11 @@
     </android.support.constraint.ConstraintLayout>
 
     <TextView
-        android:textColor="@color/colorText"
+        android:paddingLeft="5dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:background="@drawable/border_line"
+        android:textColor="@color/gray"
         android:text="@string/record_path"
         android:textSize="@dimen/record_name_text_size"
         android:layout_width="match_parent"

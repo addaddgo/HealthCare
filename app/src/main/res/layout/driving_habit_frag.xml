@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/driving_habit_recycler_habit"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <TextView
+        android:text="驾驶建议"
+        android:textColor="@color/black"
+        android:background="@color/gray_light"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:paddingLeft="40dp"
+        android:layout_height="30dp" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/driving_habit_recycler_advice"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+</LinearLayout>
