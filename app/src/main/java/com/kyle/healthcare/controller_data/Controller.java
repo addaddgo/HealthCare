@@ -91,6 +91,12 @@ public class Controller implements RiskTipService.Callback{
                     this.UIInterface.updateHealthFragment(dataDealInterface.getHeartRate(),dataDealInterface.getFatigueRate());
                 }
                 break;
+            case FragmentAddressBook.frag_id_homepage:
+                    int currentGif = this.dataDealInterface.getCurrentGifId();
+                    if(currentGif != 0){
+                        this.UIInterface.updateHomePageFragment(currentGif);
+                    }
+                    break;
         }
     }
 

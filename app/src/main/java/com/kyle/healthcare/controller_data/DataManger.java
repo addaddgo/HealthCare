@@ -2,6 +2,7 @@ package com.kyle.healthcare.controller_data;
 
 import android.util.Log;
 
+import com.kyle.healthcare.R;
 import com.kyle.healthcare.bluetooth.Constants;
 import com.kyle.healthcare.fragment_package.DrivingFragment;
 
@@ -180,5 +181,20 @@ public class DataManger implements DataDealInterface{
         }
     }
 
+
+
+    //homepageFragment
+    public final static int GIF_NO_CHANGE = 0;
+    private int currentGif = R.drawable.sleep_2;
+    private int test;
+    public int getCurrentGifId(){
+        test++;
+        if(test > 100){
+            this.test = -100;
+            return currentGif;
+        }else{
+            return 0;
+        }
+    }
 
 }

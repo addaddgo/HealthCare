@@ -28,4 +28,7 @@ public interface DataDealInterface {
     //unusual
     int analyzeSituation();
 
+
+    //homepage
+    int getCurrentGifId();
 }

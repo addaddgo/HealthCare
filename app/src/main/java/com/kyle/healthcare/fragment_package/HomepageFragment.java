@@ -15,11 +15,15 @@ import com.kyle.healthcare.UIInterface;
 import com.kyle.healthcare.bluetooth.Constants;
 import com.kyle.healthcare.controller_data.FragmentAddressBook;
 
+import pl.droidsonroids.gif.GifImageView;
+
 public class HomepageFragment extends Fragment {
     private UIInterface uiInterface;
+    private GifImageView gifImageView;
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.homepage_frag, container,false);
+        this.gifImageView = view.findViewById(R.id.homepage_gif_image);
         return view;
     }
 
@@ -49,5 +53,9 @@ public class HomepageFragment extends Fragment {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void changeTheSleepingGif(int resource){
+        this.gifImageView.setBackgroundResource(resource);
     }
 }

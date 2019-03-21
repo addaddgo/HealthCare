@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.kyle.healthcare.UIInterface;
 import com.kyle.healthcare.R;
@@ -18,7 +19,7 @@ import com.kyle.healthcare.view.HeartRateView;
 public class HealthFragment extends Fragment {
 
     private HeartRateView heartRateView;
-    private FatigueRateView fatigueRateView;
+    private ImageView fatigueRateView;
     private UIInterface uiInterface;
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
@@ -62,9 +63,7 @@ public class HealthFragment extends Fragment {
         super.onPause();
         if(heartRateView != null && fatigueRateView != null){
             heartRateView.stopDrawThread();
-            fatigueRateView.stopDrawThread();
             heartRateView.close();
-            fatigueRateView.close();
         }
 
     }
@@ -79,7 +78,6 @@ public class HealthFragment extends Fragment {
     public void addNewData(int heartRate,int fatigueRate){
         if(this.heartRateView != null && this.fatigueRateView != null){
             this.heartRateView.addData(heartRate);
-            this.fatigueRateView.addNewData(fatigueRate);
         }
     }
 }

@@ -143,6 +143,7 @@
                         android:layout_height="@dimen/height_center_big_text" />
 
                     <EditText
+                        android:inputType="datetime"
                         android:background="@null"
                         android:digits="1234567890"
                         app:layout_constraintLeft_toRightOf="@id/year_text_center"
@@ -166,6 +167,7 @@
                     
                     
                     <EditText
+                        android:inputType="datetime"
                         android:background="@null"
                         android:digits="1234567890"
                         app:layout_constraintLeft_toRightOf="@id/month_text_center"
@@ -223,6 +225,7 @@
                     android:layout_width="120dp"
                     android:layout_height="@dimen/height_center_big_text" />
                 <TextView
+                    android:inputType="datetime"
                     android:digits="1234567890"
                     app:layout_constraintTop_toBottomOf="@id/phone_number_center"
                     app:layout_constraintLeft_toLeftOf="@id/phone_number_center"

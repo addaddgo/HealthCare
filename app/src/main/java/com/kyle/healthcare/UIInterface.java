@@ -14,4 +14,5 @@ public interface UIInterface {
     void setTitle(int title);
     void setNavigationVisibility(int visibility);
     ActionBar getBar();
+    void updateHomePageFragment(int resource);
 }
