@@ -4,6 +4,8 @@ TODO(2):DataManger analyzeSituation 还需分析 驾驶记录。
 TODO(3):center 的逻辑处理，数据保存，切换更新
 
 Kyle
-TODO(1):健康界面的健康心率及疲劳程度返回栈
-TODO(1):心率颜色
-TODO(2):setting
+TODO(2):心率颜色
+TODO(3):setting（闪退）
+TODO: 2019/3/11 2)异常判断及异常Fragment（响铃、倒计时、短信权限）
+TODO: 2019/3/11 3)健康数据数据库
+TODO: 2019/3/11 4)本地偏好设置(是否响铃，是否短信提示)

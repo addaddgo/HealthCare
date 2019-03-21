@@ -17,11 +17,6 @@ import com.kyle.healthcare.controller_data.FragmentAddressBook;
 
 public class HomepageFragment extends Fragment {
     private UIInterface uiInterface;
-    @Override
-    public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.homepage_frag, container,false);
-        return view;
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,6 +24,13 @@ public class HomepageFragment extends Fragment {
         setHasOptionsMenu(true);
         uiInterface = (UIInterface) getActivity();
     }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.homepage_frag, container,false);
+        return view;
+    }
+
 
     @Override
     public void onResume() {

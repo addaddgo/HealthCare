@@ -51,8 +51,7 @@ public class HealthFragment extends Fragment {
         this.heartRateView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UIInterface UIInterface = (UIInterface)getActivity();
-                UIInterface.replaceFragmentInFragment(FragmentAddressBook.frag_id_heart_rate);
+                uiInterface.replaceFragmentInFragment(FragmentAddressBook.frag_id_heart_rate);
             }
         });
     }
