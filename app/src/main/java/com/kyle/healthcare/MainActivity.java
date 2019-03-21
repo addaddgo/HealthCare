@@ -111,7 +111,7 @@ public class MainActivity extends BaseActivity implements UIInterface {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(false);
             actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_c);
         }
         mTitle = findViewById(R.id.toolbar_title);
 
