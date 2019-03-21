@@ -28,16 +28,14 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
 
     //绘制数据
         //画笔
-    private int backgroundColor;
-    private int borderColor;
-    private int dangerousColumnColor;
-    private int averageCircleColor;
-    private int columnColor;
     private Paint backgroundPaint;
     private Paint borderPaint;
     private Paint dangerousColumnPaint;
     private Paint averageCircleColorPaint;
     private Paint columnColorPaint;
+    private Paint RightBorderPaint;
+    private Paint textDataColorPaint;
+
         //数据
     private int runDirection;
     private int margin;
@@ -58,6 +56,9 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
     private int textSize;
     private int scaleOfOffset;
 
+    private boolean showDetail;
+
+
     public HeartRateView(Context context) {
         super(context);
         initView(context);
@@ -66,6 +67,8 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
         this.dangerousColumnPaint.setColor(Color.RED);
         this.averageCircleColorPaint.setColor(Color.BLACK);
         this.columnColorPaint.setColor(0xfff9afc);
+        this.RightBorderPaint.setColor(Color.GRAY);
+        this.textDataColorPaint.setColor(Color.GRAY);
         this.runDirection = -1;
     }
 
@@ -73,17 +76,15 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
         super(context, attrs);
         initView(context);
         TypedArray typedArray = context.obtainStyledAttributes(attrs,R.styleable.HeartRateView);
-        this.backgroundColor = typedArray.getColor(R.styleable.HeartRateView_heart_rate_background_color, 0xff13237d);
-        this.backgroundPaint.setColor(this.backgroundColor);
-        this.borderColor = typedArray.getColor(R.styleable.HeartRateView_heart_rate_border_color, 0xfff9fafc);
-        this.borderPaint.setColor(this.borderColor);
-        this.dangerousColumnColor = typedArray.getColor(R.styleable.HeartRateView_dangerous_column_color, Color.RED);
-        this.dangerousColumnPaint.setColor(this.dangerousColumnColor);
-        this.averageCircleColor = typedArray.getColor(R.styleable.HeartRateView_average_circle_color, Color.BLACK);
-        this.averageCircleColorPaint.setColor(this.averageCircleColor);
-        this.columnColor = typedArray.getColor(R.styleable.HeartRateView_column_color, 0xfff9afc);
-        this.columnColorPaint.setColor(this.columnColor);
+        this.backgroundPaint.setColor(typedArray.getColor(R.styleable.HeartRateView_heart_rate_background_color, 0xff13237d));
+        this.borderPaint.setColor(typedArray.getColor(R.styleable.HeartRateView_heart_rate_border_color, 0xfff9fafc));
+        this.dangerousColumnPaint.setColor(typedArray.getColor(R.styleable.HeartRateView_dangerous_column_color, Color.RED));
+        this.averageCircleColorPaint.setColor(typedArray.getColor(R.styleable.HeartRateView_average_circle_color, Color.BLACK));
+        this.columnColorPaint.setColor(typedArray.getColor(R.styleable.HeartRateView_column_color, 0xfff9afc));
         this.runDirection = typedArray.getInt(R.styleable.HeartRateView_run_direction, -1);
+        this.RightBorderPaint.setColor(typedArray.getColor(R.styleable.HeartRateView_heart_rate_border_color_right,Color.GRAY));
+        this.textDataColorPaint.setColor(typedArray.getColor(R.styleable.HeartRateView_data_text_color,Color.GRAY));
+        this.textDataColorPaint.setTextSize(typedArray.getColor(R.styleable.HeartRateView_data_text_size,15));
         typedArray.recycle();
     }
 
@@ -217,15 +218,29 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
             //坐标线
         try {
             canvas.drawRect(0, 0, this.width, this.height, this.backgroundPaint);
-            for (int i = 0; i < this.NUMBER_COLUMN; i++) {
-                if (this.heartRateData[i] > Constants.HEART_RATE_UNUSUAL) {
-                    canvas.drawRect(this.margin + this.widthOfColumn * (2 * i + 1 + rl) + offset, this.height - this.scaleOfHeight * this.heartRateData[i] - this.margin, this.widthOfColumn * (2 * i + 2 + rl) + offset + this.margin, this.height - this.margin, this.dangerousColumnPaint);
-                } else {
-                    canvas.drawRect(this.margin + this.widthOfColumn * (2 * i + 1 + rl) + offset, this.height - this.scaleOfHeight * this.heartRateData[i] - this.margin, this.widthOfColumn * (2 * i + 2 + rl) + offset + this.margin, this.height - this.margin, this.columnColorPaint);
+            if(this.showDetail){
+                for (int i = 0; i < this.NUMBER_COLUMN; i++) {
+                    if (this.heartRateData[i] > Constants.HEART_RATE_UNUSUAL) {
+                        canvas.drawRect(this.margin + this.widthOfColumn * (2 * i + 1 + rl) + offset, this.height - this.scaleOfHeight * this.heartRateData[i] - this.margin, this.widthOfColumn * (2 * i + 2 + rl) + offset + this.margin, this.height - this.margin, this.dangerousColumnPaint);
+                        canvas.drawText(String.valueOf(this.heartRateData[i]),this.margin + this.widthOfColumn * (2 * i + 1 + rl) + offset, this.height - this.scaleOfHeight * this.heartRateData[i] - this.margin,this.textDataColorPaint);
+                    } else {
+
+                        canvas.drawRect(this.margin + this.widthOfColumn * (2 * i + 1 + rl) + offset, this.height - this.scaleOfHeight * this.heartRateData[i] - this.margin, this.widthOfColumn * (2 * i + 2 + rl) + offset + this.margin, this.height - this.margin, this.columnColorPaint);
+                        canvas.drawText(String.valueOf(this.heartRateData[i]),this.margin + this.widthOfColumn * (2 * i + 1 + rl) + offset, this.height - this.scaleOfHeight * this.heartRateData[i] - this.margin,this.dangerousColumnPaint);
+                    }
+                }
+            }else{
+                for (int i = 0; i < this.NUMBER_COLUMN; i++) {
+                    if (this.heartRateData[i] > Constants.HEART_RATE_UNUSUAL) {
+                        canvas.drawRect(this.margin + this.widthOfColumn * (2 * i + 1 + rl) + offset, this.height - this.scaleOfHeight * this.heartRateData[i] - this.margin, this.widthOfColumn * (2 * i + 2 + rl) + offset + this.margin, this.height - this.margin, this.dangerousColumnPaint);
+                    } else {
+                        canvas.drawRect(this.margin + this.widthOfColumn * (2 * i + 1 + rl) + offset, this.height - this.scaleOfHeight * this.heartRateData[i] - this.margin, this.widthOfColumn * (2 * i + 2 + rl) + offset + this.margin, this.height - this.margin, this.columnColorPaint);
+                    }
                 }
             }
+
             canvas.drawRect(this.width - this.margin, 0, this.width, this.height - this.margin, this.backgroundPaint);
-            canvas.drawRect(this.width - this.margin, this.margin, this.width - this.margin + 5, this.height - this.margin, this.borderPaint);
+            canvas.drawRect(this.width - this.margin, this.margin, this.width - this.margin + 5, this.height - this.margin, this.RightBorderPaint);
             canvas.drawRect(0, this.height - this.margin, this.width - this.margin, this.height, this.backgroundPaint);
             canvas.drawRect(0, this.height - this.margin, this.width - this.margin, this.height - this.margin + 5, this.borderPaint);
             if (this.all / this.allDateNumber > Constants.HEART_RATE_UNUSUAL) {

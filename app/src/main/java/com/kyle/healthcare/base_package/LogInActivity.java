@@ -51,6 +51,10 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         Boolean isRemember = pref.getBoolean("remember_password", false);
         accountEdit.setText(pref.getString("account", ""));
         passwordEdit.setText(pref.getString("password", ""));
+        Intent intent =getIntent();
+        if(intent!=null){
+            isRemember = intent.getBooleanExtra("log_off", isRemember);
+        }
         if (isRemember) {
         login.callOnClick();
         }

@@ -28,6 +28,15 @@ public class HistoryLogFragment extends Fragment {
     private ActionBar actionBar;
     private RecyclerView recyclerView;
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        uiInterface = (UIInterface) getActivity();
+        uiInterface.setTitle(R.string.settings);
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -37,13 +46,6 @@ public class HistoryLogFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        uiInterface = (UIInterface) getActivity();
-        uiInterface.setTitle(R.string.settings);
-
-    }
 
     @Override
     public void onStart() {

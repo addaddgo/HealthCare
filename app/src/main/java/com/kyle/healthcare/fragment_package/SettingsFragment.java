@@ -20,27 +20,29 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
     private UIInterface uiInterface;
     private ActionBar actionBar;
     private Button log_off;
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.settings_frag, container, false);
-        return view;
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         uiInterface = (UIInterface) getActivity();
         uiInterface.setTitle(R.string.settings);
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.settings_frag, container, false);
         log_off = view.findViewById(R.id.log_off);
         log_off.setOnClickListener(this);
+        return view;
     }
+
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.log_off:
                 Intent intent = new Intent(getActivity(), LogInActivity.class);
+                intent.putExtra("log_off" ,false );
                 startActivity(intent);
                 getActivity().finish();
                 break;

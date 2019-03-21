@@ -44,10 +44,11 @@
         android:background="@color/gray_light_1">
 
         <com.kyle.healthcare.view.HeartRateView
+            app:heart_rate_border_color_right="@color/colorBackground"
             app:heart_rate_background_color="@color/colorBackground"
             app:column_color="@color/orange"
-            app:heart_rate_border_color="@color/orange"
-            app:average_circle_color="@color/orange"
+            app:heart_rate_border_color="@color/colorBackground"
+            app:average_circle_color="@color/colorBackground"
             android:id="@+id/health_fra_heart_rate_view"
             android:layout_weight="1"
             android:layout_width="0dp"

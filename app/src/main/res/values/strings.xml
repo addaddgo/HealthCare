@@ -5,6 +5,8 @@
     <string name="title_health">健康</string>
     <string name="title_driving">行驶记录</string>
     <string name="title_center">个人中心</string>
+    <string name="heart_rate">心率</string>
+    <string name="fatigue_rate">疲劳程度</string>
 
     <!-- Strings related to log in  -->
     <string name="hint_user_id">手机号</string>

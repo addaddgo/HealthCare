@@ -43,11 +43,6 @@ public class MainActivity extends BaseActivity implements UIInterface {
     private String mConnectedDeviceName = null;
 
     BluetoothChatService mChatService;
-    // TODO: 2019/3/11 1)四个Fragment
-    // TODO: 2019/3/11 2)异常判断及异常Fragment（响铃、倒计时、短信权限）
-    // TODO: 2019/3/11 3)健康数据数据库
-    // TODO: 2019/3/11 4)本地偏好设置(是否响铃，是否短信提示)
-    // TODO: 2019/3/11 5)注册界面更新
 
     private HomepageFragment homepageFragment;
     private HealthFragment healthFragment;
@@ -116,6 +111,7 @@ public class MainActivity extends BaseActivity implements UIInterface {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(false);
             actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow);
         }
         mTitle = findViewById(R.id.toolbar_title);
 
@@ -175,6 +171,12 @@ public class MainActivity extends BaseActivity implements UIInterface {
         switch (item.getItemId()) {
             case android.R.id.home:
                 switch (FragmentAddressBook.fragmentAddressBook.getCurrentVisibleFragment()){
+                    case FragmentAddressBook.frag_id_heart_rate:
+                        replaceFragmentInFragment(FragmentAddressBook.frag_id_health);
+                        break;
+                    case FragmentAddressBook.frag_id_fatigue_rate:
+                        replaceFragmentInFragment(FragmentAddressBook.frag_id_health);
+                        break;
                     case FragmentAddressBook.frag_id_driving_habit:
                         replaceFragmentInFragment(FragmentAddressBook.frag_id_homepage);
                         break;
@@ -201,7 +203,6 @@ public class MainActivity extends BaseActivity implements UIInterface {
                     byte[] readBuf = (byte[]) msg.obj;
                     // construct a string from the valid bytes in the buffer
                     String readMessage = new String(readBuf, 0, msg.arg1);
-                    // TODO: 2019/3/14 接受数据
                     //Toast.makeText(MainActivity.this, readMessage, Toast.LENGTH_SHORT).show();
                     Log.i("BlueToothThread", "getMessage");
                     controller.postXY(0, 0);
@@ -271,11 +272,11 @@ public class MainActivity extends BaseActivity implements UIInterface {
                 fragmentAddressBook.setVisible(FragmentAddressBook.frag_id_center);
                 break;
             case FragmentAddressBook.frag_id_heart_rate:
-                replaceFragment(heartRateFragment);
+                replaceFragment(heartRateFragment,true);
                 fragmentAddressBook.setVisible(FragmentAddressBook.frag_id_heart_rate);
                 break;
             case FragmentAddressBook.frag_id_fatigue_rate:
-                replaceFragment(fatigueRateFragment);
+                replaceFragment(fatigueRateFragment,true);
                 fragmentAddressBook.setVisible(FragmentAddressBook.frag_id_fatigue_rate);
                 break;
             case FragmentAddressBook.frag_id_driving_habit:
