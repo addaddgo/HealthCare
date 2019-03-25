@@ -52,5 +52,7 @@
 
     <!-- String related to center -->
 
-
+    <!-- String related to settings -->
+    <string name="bt_info_management">信息管理</string>
+    <string name="bt_notification">通知设置</string>
 </resources>

@@ -1,11 +1,15 @@
 package com.kyle.healthcare.fragment_package;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.ActionMenuView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,7 +33,8 @@ import com.kyle.healthcare.view.ScrollSelectView;
 
 public class CenterFragment extends Fragment implements View.OnClickListener{
 
-    UIInterface uiInterface;
+    private UIInterface uiInterface;
+    private ActionBar actionBar;
 
     private TextView topEditButton;
     private TextView bottomEditButton;
@@ -48,6 +53,19 @@ public class CenterFragment extends Fragment implements View.OnClickListener{
     private TextView hintTextView;
     private ImageView deleteImageView;
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        actionBar = uiInterface.getBar();
+        getActivity().findViewById(R.id.menu_log_out).setVisibility(View.VISIBLE);
+        actionBar.setTitle("注销");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        getActivity().findViewById(R.id.menu_log_out).setVisibility(View.GONE);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

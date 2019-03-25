@@ -12,15 +12,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kyle.healthcare.base_package.BaseActivity;
+import com.kyle.healthcare.base_package.LogInActivity;
 import com.kyle.healthcare.bluetooth.BluetoothChatService;
 import com.kyle.healthcare.bluetooth.Constants;
 import com.kyle.healthcare.controller_data.Controller;
@@ -106,6 +106,24 @@ public class MainActivity extends BaseActivity implements UIInterface {
 
         // 初始化toolbar
         toolbar = findViewById(R.id.toolbar);
+        ActionMenuView actionMenuView = toolbar.findViewById(R.id.menu_log_out);
+        getMenuInflater().inflate(R.menu.toolbar_left, actionMenuView.getMenu());
+        actionMenuView.setOnMenuItemClickListener(new ActionMenuView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.menu_bt_log_out:
+                        Intent intent = new Intent(MainActivity.this, LogInActivity.class);
+                        intent.putExtra("log_off", false);
+                        startActivity(intent);
+                        finish();
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -114,7 +132,6 @@ public class MainActivity extends BaseActivity implements UIInterface {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow);
         }
         mTitle = findViewById(R.id.toolbar_title);
-
 
         // 初始化底部导航
         navigation = findViewById(R.id.navigation);
@@ -170,7 +187,7 @@ public class MainActivity extends BaseActivity implements UIInterface {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                switch (FragmentAddressBook.fragmentAddressBook.getCurrentVisibleFragment()){
+                switch (FragmentAddressBook.fragmentAddressBook.getCurrentVisibleFragment()) {
                     case FragmentAddressBook.frag_id_heart_rate:
                         replaceFragmentInFragment(FragmentAddressBook.frag_id_health);
                         break;
@@ -269,11 +286,11 @@ public class MainActivity extends BaseActivity implements UIInterface {
                 fragmentAddressBook.setVisible(FragmentAddressBook.frag_id_center);
                 break;
             case FragmentAddressBook.frag_id_heart_rate:
-                replaceFragment(heartRateFragment,true);
+                replaceFragment(heartRateFragment, true);
                 fragmentAddressBook.setVisible(FragmentAddressBook.frag_id_heart_rate);
                 break;
             case FragmentAddressBook.frag_id_fatigue_rate:
-                replaceFragment(fatigueRateFragment,true);
+                replaceFragment(fatigueRateFragment, true);
                 fragmentAddressBook.setVisible(FragmentAddressBook.frag_id_fatigue_rate);
                 break;
             case FragmentAddressBook.frag_id_driving_habit:

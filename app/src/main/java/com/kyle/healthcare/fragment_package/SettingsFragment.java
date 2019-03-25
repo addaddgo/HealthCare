@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
+import android.support.v7.preference.PreferenceFragmentCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,18 @@ import android.widget.Button;
 import com.kyle.healthcare.R;
 import com.kyle.healthcare.UIInterface;
 import com.kyle.healthcare.base_package.LogInActivity;
+import com.kyle.healthcare.controller_data.FragmentAddressBook;
 
-public class SettingsFragment extends Fragment implements View.OnClickListener{
+public class SettingsFragment extends PreferenceFragmentCompat{
     private View view;
     private UIInterface uiInterface;
     private ActionBar actionBar;
     private Button log_off;
+
+    @Override
+    public void onCreatePreferences(Bundle bundle, String s) {
+        addPreferencesFromResource(R.xml.pref_settings);
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,28 +35,6 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         uiInterface.setTitle(R.string.settings);
     }
 
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.settings_frag, container, false);
-        log_off = view.findViewById(R.id.log_off);
-        log_off.setOnClickListener(this);
-        return view;
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.log_off:
-                Intent intent = new Intent(getActivity(), LogInActivity.class);
-                intent.putExtra("log_off" ,false );
-                startActivity(intent);
-                getActivity().finish();
-                break;
-            default:
-                break;
-        }
-    }
 
     @Override
     public void onStart() {

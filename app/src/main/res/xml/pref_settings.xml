@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="button_notification"
+        android:persistent="false"
+        android:title="@string/bt_notification">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="send_message"
+            android:summaryOff="Off"
+            android:summaryOn="On"
+            android:title="短信通知联系人" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="voice_notification"
+            android:summaryOff="Off"
+            android:summaryOn="On"
+            android:title="声音通知" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:dependency="voice_notification"
+            android:key="vibrate"
+            android:summaryOff="Off"
+            android:summaryOn="On"
+            android:title="振动" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="button_info_management"
+        android:persistent="false"
+        android:title="@string/bt_info_management">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="show_bass"
+            android:summary="测试"
+            android:title="Show Bass" />
+    </PreferenceCategory>
+</PreferenceScreen>
