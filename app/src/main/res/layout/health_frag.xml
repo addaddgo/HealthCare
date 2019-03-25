@@ -41,31 +41,83 @@
         android:layout_height="0dp"
         android:orientation="horizontal"
         android:layout_marginBottom="15sp"
-        android:background="@color/gray_light_1">
+        android:background="@drawable/border_line">
 
-        <com.kyle.healthcare.view.HeartRateView
-            app:heart_rate_border_color_right="@color/colorBackground"
-            app:heart_rate_background_color="@color/colorBackground"
-            app:column_color="@color/orange"
-            app:heart_rate_border_color="@color/colorBackground"
-            app:average_circle_color="@color/colorBackground"
-            android:id="@+id/health_fra_heart_rate_view"
+        <RelativeLayout
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_marginRight="2dp"
+            android:layout_height="180dp">
+
+            <com.kyle.healthcare.view.HeartRateView
+                android:layout_marginStart="10dp"
+                android:layout_alignParentBottom="true"
+                app:heart_rate_border_color_right="@color/colorBackground"
+                app:heart_rate_background_color="@color/colorBackground"
+                app:column_color="@color/orange"
+                app:heart_rate_border_color="@color/orange"
+                app:average_circle_color="@color/colorBackground"
+                android:id="@+id/health_fra_heart_rate_view"
+                android:layout_width="match_parent"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:layout_height="150dp" />
+
+            <ImageView
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_list_g"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
+
+            <TextView
+                android:textSize="10sp"
+                android:text="历史平均"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="8dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_marginStart="2dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
-            android:layout_height="170dp" />
-
-        <ImageView
-            android:background="@drawable/sleep_people"
-            android:id="@+id/health_fra_fatigue_rate_view"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
-            android:layout_height="170dp"/>
+            android:layout_height="match_parent">
+
+
+            <pl.droidsonroids.gif.GifImageView
+                android:background="@drawable/sleep_1"
+                android:id="@+id/health_fra_fatigue_rate_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+
+            <ImageView
+                android:background="@color/white"
+                android:src="@drawable/ic_people_g"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_width="45dp"
+                android:layout_height="40dp" />
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="50dp"
+                android:text="疲劳程度"
+                android:textSize="10sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
 
     </LinearLayout>
 </LinearLayout>

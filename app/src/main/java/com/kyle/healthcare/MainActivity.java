@@ -217,6 +217,7 @@ public class MainActivity extends BaseActivity implements UIInterface {
                     break;
                 case 100:
                     controller.postXY(0, 0);
+                    controller.postBlueToothData("T21,T21,T21,T12,");
                     Log.i("BlueToothThread", "getHealthMessage");
             }
         }
@@ -329,6 +330,21 @@ public class MainActivity extends BaseActivity implements UIInterface {
     }
 
     @Override
+    public void updateHealthRateFragment(int heartRate) {
+        this.heartRateFragment.addData(heartRate);
+    }
+
+    @Override
+    public void updateFatigueRateFragment(int fatigue) {
+        this.fatigueRateFragment.addNewData(fatigue);
+    }
+
+    @Override
+    public void updateDrivingHabitFragment() {
+        this.drivingHabitFragment.updateRecyclerView();
+    }
+
+    @Override
     public void stopHealthFragmentUpdate() {
         this.healthFragment.onPause();
     }
@@ -365,7 +381,7 @@ public class MainActivity extends BaseActivity implements UIInterface {
                     Message message = new Message();
                     message.what = 100;
                     mHandler.sendMessage(message);
-                    Thread.sleep(20);
+                    Thread.sleep(200);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

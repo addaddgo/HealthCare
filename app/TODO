@@ -1,7 +1,7 @@
 HXB
-TODO(1):FatigueView,HeartView 前几位数据都是随机生成的。为了让数据全为蓝牙和地图定位输入
-TODO(2):DataManger analyzeSituation 还需分析 驾驶记录。
-TODO(3):center 的逻辑处理，数据保存，切换更新
+TODO(1):驾驶习惯和建议的给出（根据数据）
+TODO(2):根据疲劳程度 改变GIF
+TODO(3):数据库
 
 Kyle
 TODO(2):心率颜色

@@ -4,8 +4,10 @@ import android.util.Log;
 
 import com.kyle.healthcare.R;
 import com.kyle.healthcare.bluetooth.Constants;
+import com.kyle.healthcare.database.health_driving_data.DrivingHabitAndAdvice;
 import com.kyle.healthcare.fragment_package.DrivingFragment;
 
+import org.litepal.crud.DataSupport;
 import org.litepal.util.Const;
 
 import java.lang.reflect.Array;
@@ -13,7 +15,10 @@ import java.util.ArrayList;
 
 public class DataManger implements DataDealInterface{
 
-    private DataManger(){}
+    //get data from database
+    private DataManger(){
+        this.drivingHabitAndAdvice = DataSupport.findFirst(DrivingHabitAndAdvice.class);
+    }
 
     private ArrayList<Integer> heartRateArray = new ArrayList<Integer>();
     private ArrayList<Integer> fatigueRateArray = new ArrayList<Integer>();
@@ -68,7 +73,8 @@ public class DataManger implements DataDealInterface{
 
     //calculate degree of fatigue
     private int calculateFatigue(int temperature,int heartRate ,int bloodPressure,int bloodFat){
-        return (int)Math.pow(((temperature - 10)*(temperature - 10) + (heartRate - 10) * (heartRate - 10)+ (bloodPressure - 10) * (bloodPressure - 10) + (bloodFat - 10) * (bloodFat - 10)) / 4.0,0.5);
+        this.currentFatigue = (int)Math.pow(((temperature - 10)*(temperature - 10) + (heartRate - 10) * (heartRate - 10)+ (bloodPressure - 10) * (bloodPressure - 10) + (bloodFat - 10) * (bloodFat - 10)) / 4.0,0.5);
+        return this.currentFatigue;
     }
 
     //Unusual information
@@ -182,19 +188,56 @@ public class DataManger implements DataDealInterface{
     }
 
 
-
     //homepageFragment
     public final static int GIF_NO_CHANGE = 0;
-    private int currentGif = R.drawable.sleep_2;
-    private int test;
+    private int currentGif = R.drawable.sleep_1;
+    private int currentFatigue;
+
     public int getCurrentGifId(){
-        test++;
-        if(test > 100){
-            this.test = -100;
-            return currentGif;
-        }else{
-            return 0;
-        }
+        int gif;
+            if(this.currentFatigue > 17) {
+                gif =  R.drawable.sleep_3;
+            }else if(this.currentFatigue > 14){
+                gif =  R.drawable.sleep_2;
+            }else{
+                gif =  R.drawable.sleep_1;
+            }
+            if(gif == currentGif){
+                return GIF_NO_CHANGE;
+            }else{
+                this.currentFatigue = gif;
+                return this.currentGif;
+            }
     }
+
+
+    //DrivingHabitFragment
+    private DrivingHabitAndAdvice drivingHabitAndAdvice;
+
+    private final static String FATIGUE_DRIVING = "疲劳驾驶";
+    private final static String FATIGUE_DRIVING_ADVICE = "请注意休息";
+
+    private final static String OVER_SPEED = "经常超速";
+    private final static String OVER_SPEED_ADVICE = "请根据路段选择驾驶速度";
+
+    private final static String OFFENCE_SLAM_THE_BRAKES_ON = "经常急刹车";
+    private final static String OFFENCE_SLAM_THE_BRAKES_ON_ADVICE = "经常急刹车";
+
+    private final static String FREE_PARKING = "随意停车";
+    private final static String FREE_PARKING_ADVICE = "请找到合适的停车位";
+
+    public ArrayList<String> getStringHabit() {
+        return drivingHabitAndAdvice.getHabit();
+    }
+
+    public ArrayList<String> getStringsAdvice() {
+        return drivingHabitAndAdvice.getAdvice();
+    }
+
+    //update the bad driving habit,if there is a new change with drivingHabitAndAdvice,return false
+    public boolean updateHabitAndStringsAdvice(){
+        return false;
+    }
+
 
 }

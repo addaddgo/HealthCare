@@ -31,4 +31,7 @@ public interface DataDealInterface {
 
     //homepage
     int getCurrentGifId();
+
+
+    boolean updateHabitAndStringsAdvice();
 }

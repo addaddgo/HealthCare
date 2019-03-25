@@ -26,6 +26,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:text_color="@color/gray"
+        app:text_size="30"
         app:fatigue_background_color="@color/colorBackground"
         app:fatigue_border_color="@color/gray_light"
         app:line_color="@color/orange"

@@ -7,12 +7,26 @@ import com.kyle.healthcare.controller_data.DrivingData;
 
 public interface UIInterface {
     void replaceFragmentInFragment(int fragmentID);
+
     void updateDrivingFragment(DrivingData drivingData);
+
     int getVisibleFragmentAddress();
-    void updateHealthFragment(int heartRate,int fatigue);
+
+    void updateHealthFragment(int heartRate, int fatigue);
+
     void stopHealthFragmentUpdate();
+
     void setTitle(int title);
+
     void setNavigationVisibility(int visibility);
+
     ActionBar getBar();
+
     void updateHomePageFragment(int resource);
+
+    void updateHealthRateFragment(int heartRate);
+
+    void updateFatigueRateFragment(int fatigue);
+
+    void updateDrivingHabitFragment();
 }

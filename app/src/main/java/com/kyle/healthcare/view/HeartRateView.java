@@ -33,7 +33,7 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
     private Paint dangerousColumnPaint;
     private Paint averageCircleColorPaint;
     private Paint columnColorPaint;
-    private Paint RightBorderPaint;
+    private Paint rightBorderPaint;
     private Paint textDataColorPaint;
 
         //数据
@@ -67,7 +67,7 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
         this.dangerousColumnPaint.setColor(Color.RED);
         this.averageCircleColorPaint.setColor(Color.BLACK);
         this.columnColorPaint.setColor(0xfff9afc);
-        this.RightBorderPaint.setColor(Color.GRAY);
+        this.rightBorderPaint.setColor(Color.GRAY);
         this.textDataColorPaint.setColor(Color.GRAY);
         this.runDirection = -1;
     }
@@ -82,9 +82,10 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
         this.averageCircleColorPaint.setColor(typedArray.getColor(R.styleable.HeartRateView_average_circle_color, Color.BLACK));
         this.columnColorPaint.setColor(typedArray.getColor(R.styleable.HeartRateView_column_color, 0xfff9afc));
         this.runDirection = typedArray.getInt(R.styleable.HeartRateView_run_direction, -1);
-        this.RightBorderPaint.setColor(typedArray.getColor(R.styleable.HeartRateView_heart_rate_border_color_right,Color.GRAY));
+        this.rightBorderPaint.setColor(typedArray.getColor(R.styleable.HeartRateView_heart_rate_border_color_right,Color.GRAY));
         this.textDataColorPaint.setColor(typedArray.getColor(R.styleable.HeartRateView_data_text_color,Color.GRAY));
         this.textDataColorPaint.setTextSize(typedArray.getColor(R.styleable.HeartRateView_data_text_size,15));
+        this.showDetail = typedArray.getBoolean(R.styleable.HeartRateView_show_detail,false);
         typedArray.recycle();
     }
 
@@ -100,6 +101,8 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
         this.dangerousColumnPaint = new Paint();
         this.averageCircleColorPaint = new Paint();
         this.columnColorPaint = new Paint();
+        this.textDataColorPaint = new Paint();
+        this.rightBorderPaint = new Paint();
     }
     //整体数据更新
     private void setData() {
@@ -222,11 +225,10 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
                 for (int i = 0; i < this.NUMBER_COLUMN; i++) {
                     if (this.heartRateData[i] > Constants.HEART_RATE_UNUSUAL) {
                         canvas.drawRect(this.margin + this.widthOfColumn * (2 * i + 1 + rl) + offset, this.height - this.scaleOfHeight * this.heartRateData[i] - this.margin, this.widthOfColumn * (2 * i + 2 + rl) + offset + this.margin, this.height - this.margin, this.dangerousColumnPaint);
-                        canvas.drawText(String.valueOf(this.heartRateData[i]),this.margin + this.widthOfColumn * (2 * i + 1 + rl) + offset, this.height - this.scaleOfHeight * this.heartRateData[i] - this.margin,this.textDataColorPaint);
+                        canvas.drawText(String.valueOf(this.heartRateData[i]),this.margin + this.widthOfColumn * (2 * i + 1 + rl) + offset, this.height - this.scaleOfHeight * this.heartRateData[i] - 5 * this.margin / 4,this.textDataColorPaint);
                     } else {
-
                         canvas.drawRect(this.margin + this.widthOfColumn * (2 * i + 1 + rl) + offset, this.height - this.scaleOfHeight * this.heartRateData[i] - this.margin, this.widthOfColumn * (2 * i + 2 + rl) + offset + this.margin, this.height - this.margin, this.columnColorPaint);
-                        canvas.drawText(String.valueOf(this.heartRateData[i]),this.margin + this.widthOfColumn * (2 * i + 1 + rl) + offset, this.height - this.scaleOfHeight * this.heartRateData[i] - this.margin,this.dangerousColumnPaint);
+                        canvas.drawText(String.valueOf(this.heartRateData[i]),this.margin + this.widthOfColumn * (2 * i + 1 + rl) + offset, this.height - this.scaleOfHeight * this.heartRateData[i] - 5 * this.margin / 4 ,this.dangerousColumnPaint);
                     }
                 }
             }else{
@@ -240,7 +242,7 @@ public class HeartRateView extends SurfaceView implements SurfaceHolder.Callback
             }
 
             canvas.drawRect(this.width - this.margin, 0, this.width, this.height - this.margin, this.backgroundPaint);
-            canvas.drawRect(this.width - this.margin, this.margin, this.width - this.margin + 5, this.height - this.margin, this.RightBorderPaint);
+            canvas.drawRect(this.width - this.margin, this.margin, this.width - this.margin + 5, this.height - this.margin, this.rightBorderPaint);
             canvas.drawRect(0, this.height - this.margin, this.width - this.margin, this.height, this.backgroundPaint);
             canvas.drawRect(0, this.height - this.margin, this.width - this.margin, this.height - this.margin + 5, this.borderPaint);
             if (this.all / this.allDateNumber > Constants.HEART_RATE_UNUSUAL) {

@@ -7,8 +7,16 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
         android:name="org.litepal.LitePalApplication"
@@ -19,6 +27,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="HATvAjMmq58mvdkDWhpmP7Xhy6tnXe0l"/>
+
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">
@@ -35,16 +48,23 @@
         </activity>
         <activity
             android:name=".base_package.SignUpActivity"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait">
 
         </activity>
 
         <service android:name=".risk_tip.RiskTipService" />
 
-        <activity android:name=".risk_tip.RiskTipActivityActivity"></activity>
-        <activity android:name=".camera.CameraActivity"/>
-        <activity android:name=".camera.SelectImageActivity"/>
+        <activity android:name=".risk_tip.RiskTipActivityActivity" />
+        <activity android:name=".camera.CameraActivity" />
+        <activity android:name=".camera.SelectImageActivity" />
+        <activity
+            android:name=".Main2Activity"
+            android:label="@string/title_activity_main2">
+        </activity>
+
+        <service android:name="com.baidu.location.f" android:enabled="true"
+            android:process=":remote">
+        </service>
     </application>
 
 </manifest>

@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.kyle.healthcare.R;
 import com.kyle.healthcare.UIInterface;
+import com.kyle.healthcare.controller_data.DataManger;
 import com.kyle.healthcare.controller_data.HistoryCondition;
 
 import java.util.ArrayList;
@@ -40,8 +41,6 @@ public class DrivingHabitFragment extends Fragment {
         super.onCreate(savedInstanceState);
         uiInterface = (UIInterface) getActivity();
         uiInterface.setTitle(R.string.driving_habit);
-        this.habitStrings = new ArrayList<>();
-        this.adviceStrings = new ArrayList<>();
         this.linearLayoutManagerH = new LinearLayoutManager(getContext());
     }
 
@@ -62,31 +61,21 @@ public class DrivingHabitFragment extends Fragment {
         uiInterface.setNavigationVisibility(View.VISIBLE);
     }
 
-    private List<String> habitStrings;
-    private List<String> adviceStrings;
+    private ArrayList<String> habitStrings;
+    private ArrayList<String> adviceStrings;
     private LinearLayoutManager linearLayoutManagerH;
+    private DrivingHabit drivingHabit;
     //init recycler
     private void initData(){
-        this.habitStrings.add("开车不良习惯");
-        this.habitStrings.add("开车不良习惯");
-        this.habitStrings.add("开车不良习惯");
-        this.habitStrings.add("开车不良习惯");
-        this.habitStrings.add("开车不良习惯");
-        this.habitStrings.add("开车不良习惯");
-        this.habitStrings.add("开车不良习惯");
-        this.habitStrings.add("开车不良习惯");
-        this.adviceStrings.add("我建议你好好开车");
-        this.adviceStrings.add("我建议你好好开车");
-        this.adviceStrings.add("我建议你好好开车");
-        this.adviceStrings.add("我建议你好好开车");
-        this.adviceStrings.add("我建议你好好开车");
-        this.adviceStrings.add("我建议你好好开车");
-        this.adviceStrings.add("我建议你好好开车");
-        this.adviceStrings.add("我建议你好好开车");
+        this.habitStrings = DataManger.dataManger.getStringHabit();
+        this.adviceStrings = DataManger.dataManger.getStringsAdvice();
         this.linearLayoutManagerH.setOrientation(LinearLayoutManager.VERTICAL);
-        this.recyclerViewHabitAdvice.setAdapter(new DrivingHabit(this.habitStrings,this.adviceStrings));
+        this.drivingHabit = new DrivingHabit(this.habitStrings,this.adviceStrings);
+        this.recyclerViewHabitAdvice.setAdapter(drivingHabit);
         this.recyclerViewHabitAdvice.setLayoutManager(this.linearLayoutManagerH);
     }
+
+
     class DrivingHabit extends RecyclerView.Adapter<DrivingHabitFragment.DrivingHabit.ViewHolder>{
 
         private List<String> strings;
@@ -128,5 +117,9 @@ public class DrivingHabitFragment extends Fragment {
         public int getItemCount() {
             return this.strings.size();
         }
+    }
+
+    public void updateRecyclerView(){
+        this.drivingHabit.notifyDataSetChanged();
     }
 }
