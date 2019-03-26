@@ -8,6 +8,7 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.baidu.mapapi.model.LatLng;
 import com.kyle.healthcare.MainActivity;
 import com.kyle.healthcare.UIInterface;
 import com.kyle.healthcare.risk_tip.RiskTipService;
@@ -70,8 +71,8 @@ public class Controller implements RiskTipService.Callback{
      */
 
     //get longitude and latitude
-    public  void postXY(float X,float Y){
-        this.dataDealInterface.addDrivingData(X,Y);
+    public  void postXY(LatLng latLng){
+        this.dataDealInterface.addDrivingData(latLng);
         updateFragment(FROM_MAP);
     }
 

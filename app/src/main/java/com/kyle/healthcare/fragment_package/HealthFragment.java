@@ -80,7 +80,7 @@ public class HealthFragment extends Fragment {
     //add new data
     public void addNewData(int heartRate,int fatigueRate){
         if(this.textView != null){
-            this.textView.setText(heartRate);
+            this.textView.setText(String.valueOf(heartRate));
         }
         if(this.heartRateView != null && this.fatigueRateView != null){
             this.heartRateView.addData(heartRate);

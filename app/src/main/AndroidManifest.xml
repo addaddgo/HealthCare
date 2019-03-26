@@ -30,7 +30,7 @@
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="HATvAjMmq58mvdkDWhpmP7Xhy6tnXe0l"/>
+            android:value="2TdUkIYy6wdPdA5ZyRdxc2RHvnnbIrPt"/>
 
         <activity
             android:name=".MainActivity"
@@ -60,6 +60,7 @@
         <activity
             android:name=".Main2Activity"
             android:label="@string/title_activity_main2">
+
         </activity>
 
         <service android:name="com.baidu.location.f" android:enabled="true"

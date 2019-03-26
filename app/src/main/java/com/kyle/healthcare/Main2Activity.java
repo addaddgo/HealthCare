@@ -6,6 +6,7 @@ import android.app.Activity;
 
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.SDKInitializer;
+import com.baidu.mapapi.map.ArcOptions;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
@@ -13,7 +14,9 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.Overlay;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.Polyline;
+import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.kyle.healthcare.R;
 import android.Manifest;
@@ -98,24 +101,36 @@ public class Main2Activity extends AppCompatActivity {
 
     private void requestLocation(){
         LocationClientOption locationClientOption = new LocationClientOption();
-        locationClientOption.setScanSpan(500);
+        locationClientOption.setScanSpan(1000);
         client.setLocOption(locationClientOption);
         this.client.start();
     }
 
+    private double offset = 0.00001;
+    private boolean first = true;
 
     private void navigateTo(BDLocation bdLocation){
         LatLng latLng = new LatLng(bdLocation.getLatitude(),bdLocation.getLongitude());
         MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory.newLatLng(latLng);
         baiduMap.animateMapStatus(mapStatusUpdate);
-        mapStatusUpdate = MapStatusUpdateFactory.zoomTo(16f);
-        baiduMap.animateMapStatus(mapStatusUpdate);
-        MyLocationData.Builder builder = new MyLocationData.Builder();
-        builder.longitude(latLng.latitude);
-        builder.longitude(latLng.longitude);
-        MyLocationData myLocationData = builder.build();
-        baiduMap.setMyLocationData(myLocationData);
-
+        if(first){
+            mapStatusUpdate = MapStatusUpdateFactory.zoomTo(16f);
+            baiduMap.animateMapStatus(mapStatusUpdate);
+            MyLocationData.Builder builder = new MyLocationData.Builder();
+            builder.latitude(latLng.latitude);
+            builder.longitude(latLng.longitude);
+            MyLocationData myLocationData = builder.build();
+            baiduMap.setMyLocationData(myLocationData);
+            first = false;
+        }
+        offset+=0.0001;
+        latLng = new LatLng(bdLocation.getLatitude()+offset,bdLocation.getLongitude()+offset);
+        latLngs.add(latLng);
+        if(latLngs.size() >= 2){
+            OverlayOptions overlayOptions = new PolylineOptions().width(10).points(latLngs);
+            Overlay overlay = baiduMap.addOverlay(overlayOptions);
+            latLngs.remove(0);
+        }
     }
 
     //申请权限结结果

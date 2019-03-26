@@ -171,12 +171,14 @@ public class FatigueRateView extends SurfaceView implements SurfaceHolder.Callba
                     for(int i = 0; i < this.distance;i+= this.scaleOffset) {
                         synchronized (this.surfaceHolder) {
                             Canvas canvas = surfaceHolder.lockCanvas();
+                            if(canvas == null){
+                                throw new InterruptedException();
+                            }
                             drawLine(canvas, -i);
                             surfaceHolder.unlockCanvasAndPost(canvas);
                             Thread.sleep(this.INTERVAL);
                         }
                     }
-
                 }catch (InterruptedException e) {
                     e.printStackTrace();
                     Log.d("DrawThread", "线程被强制停止1");
@@ -187,6 +189,9 @@ public class FatigueRateView extends SurfaceView implements SurfaceHolder.Callba
                     for(int i = 0; i < this.distance;i+=this.scaleOffset) {
                         synchronized (this.surfaceHolder) {
                             Canvas canvas = surfaceHolder.lockCanvas();
+                            if(canvas == null){
+                                throw new InterruptedException();
+                            }
                             drawLine(canvas,-this.distance );
                             surfaceHolder.unlockCanvasAndPost(canvas);
                             Thread.sleep(this.INTERVAL);

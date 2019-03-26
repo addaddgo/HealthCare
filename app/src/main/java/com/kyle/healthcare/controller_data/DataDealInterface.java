@@ -1,5 +1,6 @@
 package com.kyle.healthcare.controller_data;
 
+import com.baidu.mapapi.model.LatLng;
 import com.kyle.healthcare.fragment_package.DrivingFragment;
 
 public interface DataDealInterface {
@@ -22,7 +23,7 @@ public interface DataDealInterface {
     //latest driving record
     DrivingData getLatestDrivingInformation();
     //add latest driving record
-    void addDrivingData(float X,float Y);
+    void addDrivingData(LatLng latLng);
 
 
     //unusual

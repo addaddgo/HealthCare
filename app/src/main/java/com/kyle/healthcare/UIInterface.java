@@ -1,5 +1,6 @@
 package com.kyle.healthcare;
 
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 
@@ -29,4 +30,6 @@ public interface UIInterface {
     void updateFatigueRateFragment(int fatigue);
 
     void updateDrivingHabitFragment();
+
+    Handler getHandler();
 }

@@ -5,9 +5,11 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,6 +23,8 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.mapapi.SDKInitializer;
+import com.baidu.mapapi.model.LatLng;
 import com.kyle.healthcare.base_package.BaseActivity;
 import com.kyle.healthcare.base_package.LogInActivity;
 import com.kyle.healthcare.bluetooth.BluetoothChatService;
@@ -93,6 +97,7 @@ public class MainActivity extends BaseActivity implements UIInterface {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
 
         // 初始化碎片
@@ -224,7 +229,6 @@ public class MainActivity extends BaseActivity implements UIInterface {
                     String readMessage = new String(readBuf, 0, msg.arg1);
                     //Toast.makeText(MainActivity.this, readMessage, Toast.LENGTH_SHORT).show();
                     Log.i("BlueToothThread", "getMessage");
-                    controller.postXY(0, 0);
                     Log.i("BlueToothThread", "getHealthMessage");
                     controller.postBlueToothData(readMessage);
                     break;
@@ -234,9 +238,9 @@ public class MainActivity extends BaseActivity implements UIInterface {
                     Toast.makeText(MainActivity.this, "Connected to "
                             + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
                     break;
-                case 100:
-                    controller.postXY(0, 0);
-                    controller.postBlueToothData("T21,T21,T21,T12,");
+                case Constants.LATLNG:
+                    LatLng latLng = (LatLng) msg.obj;
+                    controller.postXY(latLng);
                     Log.i("BlueToothThread", "getHealthMessage");
             }
         }
@@ -257,6 +261,7 @@ public class MainActivity extends BaseActivity implements UIInterface {
                 }
         }
     }
+
 
     /*
        update UI
@@ -414,5 +419,9 @@ public class MainActivity extends BaseActivity implements UIInterface {
         // COMPLETED (2) Get a reference to the default shared preferences from the PreferenceManager class
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         Log.d("Test", sharedPreferences.getString("emergency_contact","" ));
+    }
+
+    public Handler getHandler() {
+        return mHandler;
     }
 }

@@ -40,5 +40,5 @@ public interface Constants {
     int FATIGUE_RATE_RANGE = 30;
     int FATIGUE_RAGE_UNUSUAL = 20;
 
-
+    int LATLNG = 6;
 }

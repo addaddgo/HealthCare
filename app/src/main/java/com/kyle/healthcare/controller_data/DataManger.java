@@ -2,6 +2,8 @@ package com.kyle.healthcare.controller_data;
 
 import android.util.Log;
 
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.kyle.healthcare.R;
 import com.kyle.healthcare.bluetooth.Constants;
 import com.kyle.healthcare.database.health_driving_data.DrivingHabitAndAdvice;
@@ -165,17 +167,19 @@ public class DataManger implements DataDealInterface{
     //driving record
 
     private DrivingData latestDrivingData;
+    private LatLng lastLatLng;
 
     @Override
-    public void addDrivingData(float X, float Y) {
+    public void addDrivingData(LatLng newLatLng) {
         if(this.latestDrivingData == null){
             this.latestDrivingData = new DrivingData();
         }else{
-            this.latestDrivingData.averageSpeech = (int)(Math.random() * 200);
-            this.latestDrivingData.totalDistance = (int)(Math.random() * 200);
-            this.latestDrivingData.totalTime = (int)(Math.random() * 200);
+           latestDrivingData.totalTime += DrivingFragment.INTERVAL_NAVIGATE / 60000;
+           double distance = Math.abs(DistanceUtil.getDistance(lastLatLng,newLatLng));
+           latestDrivingData.totalDistance += (int)(distance / 1000);
+           lastLatLng = newLatLng;
+           latestDrivingData.averageSpeech = (int)(distance / DrivingFragment.INTERVAL_NAVIGATE);
         }
-
     }
 
     @Override

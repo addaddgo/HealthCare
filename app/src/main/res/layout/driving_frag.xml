@@ -7,13 +7,13 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="300dp"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <ImageView
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:background="@mipmap/dring_ball"
             android:id="@+id/driving_record_image"
@@ -24,7 +24,7 @@
             android:textColor="@color/orange"
             app:layout_constraintCircle="@id/driving_record_image"
             app:layout_constraintCircleAngle="195"
-            app:layout_constraintCircleRadius="150dp"
+            app:layout_constraintCircleRadius="130dp"
             android:textSize="@dimen/record_data_text_size"
             android:text="12000"
             android:id="@+id/driving_record_fra_total_distance"
@@ -87,8 +87,8 @@
 
         <TextView
             app:layout_constraintCircle="@id/driving_record_image"
-            app:layout_constraintCircleAngle="100"
-            app:layout_constraintCircleRadius="180dp"
+            app:layout_constraintCircleAngle="90"
+            app:layout_constraintCircleRadius="150dp"
             android:textSize="@dimen/record_data_text_size"
             android:textColor="@color/orange"
             android:text="180"
@@ -102,7 +102,7 @@
             app:layout_constraintRight_toLeftOf="@id/driving_record_fra_time"
             android:textColor="@color/orange"
             android:text="@string/record_fra_time"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="40dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -130,8 +130,9 @@
         android:layout_height="wrap_content" />
 
 
-    <SurfaceView
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/driving_map_view"
         android:layout_width="match_parent"
-        android:layout_height="300dp" />
+        android:layout_height="350dp" />
 
 </LinearLayout>
