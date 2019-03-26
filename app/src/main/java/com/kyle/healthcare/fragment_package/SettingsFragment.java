@@ -1,36 +1,30 @@
 package com.kyle.healthcare.fragment_package;
 
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
-import android.support.v7.preference.CheckBoxPreference;
 import android.support.v7.preference.EditTextPreference;
-import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
+import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceScreen;
 import android.view.View;
-import android.widget.Button;
 
 import com.kyle.healthcare.R;
 import com.kyle.healthcare.UIInterface;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements
-        OnSharedPreferenceChangeListener{
-    private View view;
+        SharedPreferences.OnSharedPreferenceChangeListener {
     private UIInterface uiInterface;
     private ActionBar actionBar;
-    private Button log_off;
 
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
-
-
-        PreferenceScreen prefScreen = getPreferenceScreen();
+        addPreferencesFromResource(R.xml.pref_settings);
 
         SharedPreferences sharedPreferences = getPreferenceScreen().getSharedPreferences();
+        PreferenceScreen prefScreen = getPreferenceScreen();
         int count = prefScreen.getPreferenceCount();
 
         // Go through all of the preferences, and set up their preference summary.
@@ -38,10 +32,21 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
             Preference p = prefScreen.getPreference(i);
             // You don't need to set up preference summaries for checkbox preferences because
             // they are already set up in xml using summaryOff and summary On
-            if (!(p instanceof CheckBoxPreference)) {
-                String value = sharedPreferences.getString(p.getKey(), "");
-                setPreferenceSummary(p, value);
+            if (p instanceof PreferenceCategory) {
+                int in_count = ((PreferenceCategory) p).getPreferenceCount();
+                for (int j = 0; j < in_count; j++) {
+                    Preference pp = ((PreferenceCategory) p).getPreference(j);
+                    if (pp instanceof EditTextPreference) {
+                        String value = sharedPreferences.getString(pp.getKey(), "");
+                        setPreferenceSummary(pp, value);
+                    }
+                }
+                if (p instanceof EditTextPreference) {
+                    String value = sharedPreferences.getString(p.getKey(), "");
+                    setPreferenceSummary(p, value);
+                }
             }
+
         }
     }
 
@@ -50,6 +55,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         super.onCreate(savedInstanceState);
         uiInterface = (UIInterface) getActivity();
         uiInterface.setTitle(R.string.settings);
+        SharedPreferences sharedPreferences = getPreferenceScreen().getSharedPreferences();
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
 
 
@@ -68,6 +75,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setHomeButtonEnabled(false);
         uiInterface.setNavigationVisibility(View.VISIBLE);
+        getPreferenceScreen().getSharedPreferences()
+                .unregisterOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -76,29 +85,15 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         Preference preference = findPreference(key);
         if (null != preference) {
             // Updates the summary for the preference
-            if (!(preference instanceof CheckBoxPreference)) {
+            if (preference instanceof EditTextPreference) {
                 String value = sharedPreferences.getString(preference.getKey(), "");
                 setPreferenceSummary(preference, value);
             }
         }
     }
 
-    /**
-     * Updates the summary for the preference
-     *
-     * @param preference The preference to be updated
-     * @param value      The value that the preference was updated to
-     */
     private void setPreferenceSummary(Preference preference, String value) {
-        if (preference instanceof ListPreference) {
-            // For list preferences, figure out the label of the selected value
-            ListPreference listPreference = (ListPreference) preference;
-            int prefIndex = listPreference.findIndexOfValue(value);
-            if (prefIndex >= 0) {
-                // Set the summary to that label
-                listPreference.setSummary(listPreference.getEntries()[prefIndex]);
-            }
-        } else if (preference instanceof EditTextPreference) {
+        if (preference instanceof EditTextPreference) {
             // For EditTextPreferences, set the summary to the value's simple string representation.
             preference.setSummary(value);
         }

@@ -42,13 +42,13 @@ import com.kyle.healthcare.fragment_package.HistoryLogFragment;
 import com.kyle.healthcare.fragment_package.HomepageFragment;
 import com.kyle.healthcare.fragment_package.SettingsFragment;
 
-public class MainActivity extends BaseActivity implements UIInterface {
+public class MainActivity extends BaseActivity implements UIInterface, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final int REQUEST_ENABLE_BT = 3;
 
     private String mConnectedDeviceName = null;
 
-    BluetoothChatService mChatService;
+    private BluetoothChatService mChatService;
 
     private HomepageFragment homepageFragment;
     private HealthFragment healthFragment;
@@ -66,6 +66,12 @@ public class MainActivity extends BaseActivity implements UIInterface {
 
     private FragmentTransaction transaction;
     private BottomNavigationView navigation;
+
+    // Preference
+    public SharedPreferences sharedPreferences;
+    public boolean isNotification;
+    public boolean isVibrate;
+    public String emergencyContact;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -136,7 +142,7 @@ public class MainActivity extends BaseActivity implements UIInterface {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(false);
             actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_c);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow);
         }
         mTitle = findViewById(R.id.toolbar_title);
 
@@ -162,6 +168,8 @@ public class MainActivity extends BaseActivity implements UIInterface {
         //deal with data
         this.fragmentAddressBook = FragmentAddressBook.fragmentAddressBook;
         this.controller = new Controller(this);
+
+        setupSharedPreferences();
     }
 
     @Override
@@ -185,6 +193,7 @@ public class MainActivity extends BaseActivity implements UIInterface {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        this.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
         if (mChatService != null) {
             mChatService.stop();
         }
@@ -326,6 +335,7 @@ public class MainActivity extends BaseActivity implements UIInterface {
         transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.frame_frag, fragment);
         transaction.commit();
+        setupSharedPreferences();
     }
 
     private void replaceFragment(Fragment fragment, boolean isStack) {
@@ -415,10 +425,22 @@ public class MainActivity extends BaseActivity implements UIInterface {
     }
 
     private void setupSharedPreferences() {
-        // Get all of the values from shared preferences to set it up
-        // COMPLETED (2) Get a reference to the default shared preferences from the PreferenceManager class
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        Log.d("Test", sharedPreferences.getString("emergency_contact","" ));
+        this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        this.sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+        emergencyContact = sharedPreferences.getString("emergency_contact", "120");
+        isNotification = sharedPreferences.getBoolean("voice_notification", true);
+        isVibrate = sharedPreferences.getBoolean("vibrate", true);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals("emergency_contact")) {
+            emergencyContact = sharedPreferences.getString(key, "120");
+        }else if(key.equals("voice_notification")){
+            isNotification = sharedPreferences.getBoolean(key, true);
+        }else if(key.equals("vibrate")){
+            isVibrate = sharedPreferences.getBoolean(key, true);
+        }
     }
 
     public Handler getHandler() {
