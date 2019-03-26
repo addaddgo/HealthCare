@@ -3,6 +3,7 @@ package com.kyle.healthcare.database.user_info;
 import org.litepal.crud.DataSupport;
 
 public class User extends DataSupport {
+
     int id;
     boolean gender;// "true" indicate as male, otherwise it's for female
     String name;
@@ -10,6 +11,7 @@ public class User extends DataSupport {
     String password;
     String carNumber;
     String idNumber;
+
 
     public User(boolean gender, String name, String phoneNumber, String password, String carNumber, String idNumber) {
         this.gender = gender;

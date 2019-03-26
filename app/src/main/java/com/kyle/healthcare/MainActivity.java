@@ -30,6 +30,7 @@ import com.kyle.healthcare.base_package.LogInActivity;
 import com.kyle.healthcare.bluetooth.BluetoothChatService;
 import com.kyle.healthcare.bluetooth.Constants;
 import com.kyle.healthcare.controller_data.Controller;
+import com.kyle.healthcare.controller_data.DataManger;
 import com.kyle.healthcare.controller_data.DrivingData;
 import com.kyle.healthcare.controller_data.FragmentAddressBook;
 import com.kyle.healthcare.fragment_package.CenterFragment;
@@ -197,6 +198,7 @@ public class MainActivity extends BaseActivity implements UIInterface, SharedPre
         if (mChatService != null) {
             mChatService.stop();
         }
+        DataManger.dataManger.saveThatDriving();
     }
 
     @Override

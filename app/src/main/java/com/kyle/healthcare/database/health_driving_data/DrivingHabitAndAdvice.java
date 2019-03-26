@@ -7,6 +7,8 @@ import java.util.HashMap;
 
 public class DrivingHabitAndAdvice extends DataSupport {
 
+
+
     private ArrayList<String> habit = new ArrayList<>();
     private ArrayList<String> advice = new ArrayList<>();
 

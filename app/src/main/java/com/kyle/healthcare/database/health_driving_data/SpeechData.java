@@ -2,13 +2,15 @@ package com.kyle.healthcare.database.health_driving_data;
 
 import org.litepal.crud.DataSupport;
 
-public class DrivingData extends DataSupport {
+
+public class SpeechData extends DataSupport {
 
     //assigned the time
-    private int id;
+    private long id;
     private int speech;
-    public DrivingData(int speech) {
+    public SpeechData(long id, int speech){
         this.speech = speech;
+        this.id = id;
     }
 
     public int getSpeech() {
@@ -19,7 +21,7 @@ public class DrivingData extends DataSupport {
         this.speech = speech;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

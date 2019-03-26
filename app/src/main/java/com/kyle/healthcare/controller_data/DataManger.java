@@ -1,15 +1,21 @@
 package com.kyle.healthcare.controller_data;
 
+import android.graphics.ColorSpace;
 import android.util.Log;
+import android.widget.ListAdapter;
 
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.kyle.healthcare.R;
 import com.kyle.healthcare.bluetooth.Constants;
+import com.kyle.healthcare.database.health_driving_data.DrivingFinishData;
 import com.kyle.healthcare.database.health_driving_data.DrivingHabitAndAdvice;
+import com.kyle.healthcare.database.health_driving_data.HealthData;
+import com.kyle.healthcare.database.health_driving_data.SpeechData;
 import com.kyle.healthcare.fragment_package.DrivingFragment;
 
 import org.litepal.crud.DataSupport;
+import org.litepal.tablemanager.Connector;
 import org.litepal.util.Const;
 
 import java.lang.reflect.Array;
@@ -17,9 +23,23 @@ import java.util.ArrayList;
 
 public class DataManger implements DataDealInterface{
 
+    //实时数据保存
+    private ArrayList<HealthData> healthData;
+    private ArrayList<SpeechData> speechData;
+    private DrivingFinishData finishData;
+
+    private long startTime;
     //get data from database
     private DataManger(){
-//        this.drivingHabitAndAdvice = DataSupport.findFirst(DrivingHabitAndAdvice.class);
+        Connector.getDatabase();
+        drivingHabitAndAdvice = DataSupport.findFirst(DrivingHabitAndAdvice.class);
+        if(drivingHabitAndAdvice == null){
+            drivingHabitAndAdvice = new DrivingHabitAndAdvice();
+        }
+        healthData = new ArrayList<>();
+        speechData = new ArrayList<>();
+        startTime = System.currentTimeMillis();
+        finishData = new DrivingFinishData(startTime);
     }
 
     private ArrayList<Integer> heartRateArray = new ArrayList<Integer>();
@@ -70,6 +90,7 @@ public class DataManger implements DataDealInterface{
         Integer fatigueRate = calculateFatigue(units[0],units[1],units[2],units[3]);
         this.fatigueRateArray.add(fatigueRate);
         this.heartRateArray.add(heartRate);
+        this.healthData.add(new HealthData(System.currentTimeMillis(),units[0],units[1],units[2],units[3],fatigueRate));
         Log.i("BlueToothThread","resolve");
     }
 
@@ -168,17 +189,20 @@ public class DataManger implements DataDealInterface{
 
     private DrivingData latestDrivingData;
     private LatLng lastLatLng;
-
+    private long lastTime;
     @Override
     public void addDrivingData(LatLng newLatLng) {
         if(this.latestDrivingData == null){
             this.latestDrivingData = new DrivingData();
         }else{
-           latestDrivingData.totalTime += DrivingFragment.INTERVAL_NAVIGATE / 60000;
+            long currentTime = System.currentTimeMillis();
+           latestDrivingData.totalTime = (int)((currentTime - startTime) / 60000);
            double distance = Math.abs(DistanceUtil.getDistance(lastLatLng,newLatLng));
            latestDrivingData.totalDistance += (int)(distance / 1000);
            lastLatLng = newLatLng;
-           latestDrivingData.averageSpeech = (int)(distance / DrivingFragment.INTERVAL_NAVIGATE);
+           latestDrivingData.averageSpeech = (int)(distance /((currentTime - lastTime) / 360000));
+           this.speechData.add(new SpeechData(System.currentTimeMillis(),latestDrivingData.averageSpeech));
+           lastTime = currentTime;
         }
     }
 
@@ -244,4 +268,39 @@ public class DataManger implements DataDealInterface{
     }
 
 
+
+    public void saveThatDriving(){
+        this.finishData.totalDistance = this.latestDrivingData.totalDistance;
+        this.finishData.endCurrent = System.currentTimeMillis();
+        this.drivingHabitAndAdvice.save();
+    }
+
+    //开启线程保存数据
+    private void saveCurrentData(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for(HealthData health : healthData){
+                    finishData.BloodFatAll += health.getBloodFat();
+                    finishData.FatigueAll +=health.getFatigue();
+                    finishData.BloodPressureAll += health.getBloodPressure();
+                    finishData.TemperatureAll += health.getTemperature();
+                    finishData.HeartRateAll +=health.getHeartRate();
+                    finishData.BloodFatNumber++;
+                    finishData.BloodPressureNumber++;
+                    finishData.FatigueNumber++;
+                    finishData.HeartRateNumber++;
+                    finishData.TemperatureNumber++;
+                    health.save();
+                    healthData.remove(health);
+                }
+                for(SpeechData driving : speechData){
+                    finishData.SpeechAll += driving.getSpeech();
+                    finishData.SpeechNumber++;
+                    driving.save();
+                    speechData.remove(driving);
+                }
+            }
+        }).start();
+    }
 }

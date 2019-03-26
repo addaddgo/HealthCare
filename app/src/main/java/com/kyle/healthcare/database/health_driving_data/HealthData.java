@@ -5,7 +5,7 @@ import org.litepal.crud.DataSupport;
 public class HealthData extends DataSupport {
 
     //assigned the time when it is received
-    private int id;
+    private long id;
 
     private int heartRate;
     private int temperature;
@@ -13,15 +13,16 @@ public class HealthData extends DataSupport {
     private int bloodFat;
     private int fatigue;
 
-    public HealthData(int id, int heartRate, int temperature, int bloodPressure, int bloodFat) {
+    public HealthData(long id, int heartRate, int temperature, int bloodPressure, int bloodFat,int fatigue) {
         this.id = id;
         this.heartRate = heartRate;
         this.temperature = temperature;
         this.bloodPressure = bloodPressure;
         this.bloodFat = bloodFat;
+        this.fatigue = fatigue;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
