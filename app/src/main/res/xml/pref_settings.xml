@@ -34,5 +34,10 @@
             android:key="show_bass"
             android:summary="测试"
             android:title="Show Bass" />
+        <EditTextPreference
+            android:dependency="send_message"
+            android:defaultValue="120"
+            android:key="emergency_contact"
+            android:title="紧急联系人电话"/>
     </PreferenceCategory>
 </PreferenceScreen>
