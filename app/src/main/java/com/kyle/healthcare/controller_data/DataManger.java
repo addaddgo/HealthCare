@@ -17,7 +17,7 @@ public class DataManger implements DataDealInterface{
 
     //get data from database
     private DataManger(){
-        this.drivingHabitAndAdvice = DataSupport.findFirst(DrivingHabitAndAdvice.class);
+//        this.drivingHabitAndAdvice = DataSupport.findFirst(DrivingHabitAndAdvice.class);
     }
 
     private ArrayList<Integer> heartRateArray = new ArrayList<Integer>();

@@ -9,7 +9,7 @@
             android:key="send_message"
             android:summaryOff="Off"
             android:summaryOn="On"
-            android:title="短信通知联系人" />
+            android:title="短信通知" />
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="voice_notification"
@@ -29,11 +29,6 @@
         android:key="button_info_management"
         android:persistent="false"
         android:title="@string/bt_info_management">
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="show_bass"
-            android:summary="测试"
-            android:title="Show Bass" />
         <EditTextPreference
             android:dependency="send_message"
             android:defaultValue="120"
