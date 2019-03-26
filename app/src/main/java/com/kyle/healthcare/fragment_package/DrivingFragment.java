@@ -84,8 +84,10 @@ public class DrivingFragment extends Fragment {
     }
 
     public void update(String time,String distance,String speech){
-        this.totalDistance.setText(distance);
-        this.totalTime.setText(time);
-        this.averageSpeech.setText(speech);
+        if(this.totalDistance != null && this.totalTime != null && this.averageSpeech != null){
+            this.totalDistance.setText(distance);
+            this.totalTime.setText(time);
+            this.averageSpeech.setText(speech);
+        }
     }
 }

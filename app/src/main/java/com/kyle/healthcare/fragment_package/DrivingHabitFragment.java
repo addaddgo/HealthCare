@@ -1,6 +1,7 @@
 package com.kyle.healthcare.fragment_package;
 
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.kyle.healthcare.R;
 import com.kyle.healthcare.UIInterface;
+import com.kyle.healthcare.controller_data.DataManger;
 import com.kyle.healthcare.controller_data.HistoryCondition;
 
 import java.util.ArrayList;
@@ -23,15 +25,13 @@ public class DrivingHabitFragment extends Fragment {
     private UIInterface uiInterface;
     private ActionBar actionBar;
 
-    private RecyclerView recyclerViewHabit;
-    private RecyclerView recyclerViewAdvice;
+    private RecyclerView recyclerViewHabitAdvice;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.driving_habit_frag, container, false);
-        this.recyclerViewHabit = view.findViewById(R.id.driving_habit_recycler_habit);
-        this.recyclerViewAdvice = view.findViewById(R.id.driving_habit_recycler_advice);
+        this.recyclerViewHabitAdvice = view.findViewById(R.id.driving_habit_recycler_habit_advice);
         initData();
         return view;
     }
@@ -41,10 +41,7 @@ public class DrivingHabitFragment extends Fragment {
         super.onCreate(savedInstanceState);
         uiInterface = (UIInterface) getActivity();
         uiInterface.setTitle(R.string.driving_habit);
-        this.habitStrings = new ArrayList<>();
-        this.adviceStrings = new ArrayList<>();
         this.linearLayoutManagerH = new LinearLayoutManager(getContext());
-        this.linearLayoutManagerA = new LinearLayoutManager(getContext());
     }
 
     @Override
@@ -64,75 +61,65 @@ public class DrivingHabitFragment extends Fragment {
         uiInterface.setNavigationVisibility(View.VISIBLE);
     }
 
-    private List<String> habitStrings;
-    private List<String> adviceStrings;
+    private ArrayList<String> habitStrings;
+    private ArrayList<String> adviceStrings;
     private LinearLayoutManager linearLayoutManagerH;
-    private LinearLayoutManager linearLayoutManagerA;
+    private DrivingHabit drivingHabit;
     //init recycler
     private void initData(){
-        this.habitStrings.add("开车不良习惯");
-        this.habitStrings.add("开车不良习惯");
-        this.habitStrings.add("开车不良习惯");
-        this.habitStrings.add("开车不良习惯");
-        this.habitStrings.add("开车不良习惯");
-        this.habitStrings.add("开车不良习惯");
-        this.habitStrings.add("开车不良习惯");
-        this.habitStrings.add("开车不良习惯");
-        this.adviceStrings.add("我建议你好好开车");
-        this.adviceStrings.add("我建议你好好开车");
-        this.adviceStrings.add("我建议你好好开车");
-        this.adviceStrings.add("我建议你好好开车");
-        this.adviceStrings.add("我建议你好好开车");
-        this.adviceStrings.add("我建议你好好开车");
-        this.adviceStrings.add("我建议你好好开车");
-        this.adviceStrings.add("我建议你好好开车");
-        this.adviceStrings.add("我建议你好好开车");
+        this.habitStrings = DataManger.dataManger.getStringHabit();
+        this.adviceStrings = DataManger.dataManger.getStringsAdvice();
         this.linearLayoutManagerH.setOrientation(LinearLayoutManager.VERTICAL);
-        this.linearLayoutManagerA.setOrientation(LinearLayoutManager.VERTICAL);
-        this.recyclerViewHabit.setAdapter(new DrivingHabit(this.habitStrings,R.layout.item_driving_habit,R.id.driving_habit_text));
-        this.recyclerViewHabit.setLayoutManager(this.linearLayoutManagerH);
-        this.recyclerViewAdvice.setAdapter(new DrivingHabit(this.adviceStrings,R.layout.item_driving_advice,R.id.driving_habit_advice_text));
-        this.recyclerViewAdvice.setLayoutManager(this.linearLayoutManagerA);
+        this.drivingHabit = new DrivingHabit(this.habitStrings,this.adviceStrings);
+        this.recyclerViewHabitAdvice.setAdapter(drivingHabit);
+        this.recyclerViewHabitAdvice.setLayoutManager(this.linearLayoutManagerH);
     }
+
+
     class DrivingHabit extends RecyclerView.Adapter<DrivingHabitFragment.DrivingHabit.ViewHolder>{
 
         private List<String> strings;
-        private int layoutId;
-        private int textId;
+        private List<String> strings1;
 
         class ViewHolder extends RecyclerView.ViewHolder{
 
             private TextView text;
+            private TextView textView;
 
-            private ViewHolder(@NonNull View itemView,int textId) {
+            private ViewHolder(@NonNull View itemView) {
                 super(itemView);
-                this.text = itemView.findViewById(textId);;
+                this.text = itemView.findViewById(R.id.item_driving_habit_text);
+                this.textView = itemView.findViewById(R.id.item_driving_habit_advice);
             }
         }
 
-        private DrivingHabit(List<String> strings,int layoutId,int textId) {
+        private DrivingHabit(List<String> strings,List<String> strings1) {
             super();
             this.strings = strings;
-            this.layoutId = layoutId;
-            this.textId = textId;
+            this.strings1 = strings1;
         }
 
         @NonNull
         @Override
         public DrivingHabitFragment.DrivingHabit.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(layoutId,viewGroup,false);
-            DrivingHabitFragment.DrivingHabit.ViewHolder viewHolder = new DrivingHabitFragment.DrivingHabit.ViewHolder(view,this.textId);
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_driving_habit,viewGroup,false);
+            DrivingHabitFragment.DrivingHabit.ViewHolder viewHolder = new DrivingHabitFragment.DrivingHabit.ViewHolder(view);
             return viewHolder;
         }
 
         @Override
         public void onBindViewHolder(DrivingHabitFragment.DrivingHabit.ViewHolder viewHolder, int i) {
             viewHolder.text.setText(this.strings.get(i));
+            viewHolder.textView.setText(this.strings1.get(i));
         }
 
         @Override
         public int getItemCount() {
             return this.strings.size();
         }
+    }
+
+    public void updateRecyclerView(){
+        this.drivingHabit.notifyDataSetChanged();
     }
 }

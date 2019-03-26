@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.kyle.healthcare.UIInterface;
 import com.kyle.healthcare.R;
@@ -18,13 +20,16 @@ import com.kyle.healthcare.view.HeartRateView;
 public class HealthFragment extends Fragment {
 
     private HeartRateView heartRateView;
-    private FatigueRateView fatigueRateView;
+    private ImageView fatigueRateView;
     private UIInterface uiInterface;
+    private TextView textView;
+
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.health_frag,container,false);
         heartRateView = view.findViewById(R.id.health_fra_heart_rate_view);
         this.fatigueRateView = view.findViewById(R.id.health_fra_fatigue_rate_view);
+        this.textView = view.findViewById(R.id.health_fra_health_rate_text);
         addListener();
         return view;
     }
@@ -61,9 +66,7 @@ public class HealthFragment extends Fragment {
         super.onPause();
         if(heartRateView != null && fatigueRateView != null){
             heartRateView.stopDrawThread();
-            fatigueRateView.stopDrawThread();
             heartRateView.close();
-            fatigueRateView.close();
         }
 
     }
@@ -76,9 +79,11 @@ public class HealthFragment extends Fragment {
 
     //add new data
     public void addNewData(int heartRate,int fatigueRate){
+        if(this.textView != null){
+            this.textView.setText(heartRate);
+        }
         if(this.heartRateView != null && this.fatigueRateView != null){
             this.heartRateView.addData(heartRate);
-            this.fatigueRateView.addNewData(fatigueRate);
         }
     }
 }

@@ -7,5 +7,7 @@
         <attr name="dangerous_line_color" format="color"/>
         <attr name="date_range" format="integer"/>
         <attr name="pot_color" format="color"/>
+        <attr name="text_color" format="color"/>
+        <attr name="text_size" format="integer"/>
     </declare-styleable>
 </resources>

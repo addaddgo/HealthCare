@@ -131,7 +131,7 @@ public class MainActivity extends BaseActivity implements UIInterface {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(false);
             actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_c);
         }
         mTitle = findViewById(R.id.toolbar_title);
 
@@ -234,6 +234,10 @@ public class MainActivity extends BaseActivity implements UIInterface {
                     Toast.makeText(MainActivity.this, "Connected to "
                             + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
                     break;
+                case 100:
+                    controller.postXY(0, 0);
+                    controller.postBlueToothData("T21,T21,T21,T12,");
+                    Log.i("BlueToothThread", "getHealthMessage");
             }
         }
     };
@@ -340,6 +344,26 @@ public class MainActivity extends BaseActivity implements UIInterface {
     }
 
     @Override
+    public void updateHomePageFragment(int resource) {
+        this.homepageFragment.changeTheSleepingGif(resource);
+    }
+
+    @Override
+    public void updateHealthRateFragment(int heartRate) {
+        this.heartRateFragment.addData(heartRate);
+    }
+
+    @Override
+    public void updateFatigueRateFragment(int fatigue) {
+        this.fatigueRateFragment.addNewData(fatigue);
+    }
+
+    @Override
+    public void updateDrivingHabitFragment() {
+        this.drivingHabitFragment.updateRecyclerView();
+    }
+
+    @Override
     public void stopHealthFragmentUpdate() {
         this.healthFragment.onPause();
     }
@@ -371,11 +395,11 @@ public class MainActivity extends BaseActivity implements UIInterface {
             super.run();
             Log.i("BlueToothThread", "start");
             try {
-                for (int i = 0; i < 100; i++) {
+                for (int i = 0; i < 200; i++) {
                     // TODO: 2019/3/18 HXB todo
-//                    Message message = new Message();
-//                    message.what = FragmentAddressBook.frag_id_health;
-//                    mHandler.sendMessage(message);
+                    Message message = new Message();
+                    message.what = 100;
+                    mHandler.sendMessage(message);
                     Thread.sleep(200);
                 }
             } catch (InterruptedException e) {

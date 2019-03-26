@@ -46,5 +46,12 @@ public class FatigueRateFragment extends Fragment {
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setHomeButtonEnabled(false);
         this.fatigueRateView.stopDrawThread();
+        this.fatigueRateView.close();
     }
+
+
+    public void addNewData(int fatigue){
+        this.fatigueRateView.addNewData(fatigue);
+    }
+
 }

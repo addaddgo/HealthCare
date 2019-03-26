@@ -7,6 +7,7 @@
 
     <!--Description: 不能给此控件设置背景-->
     <com.kyle.healthcare.view.HeartRateView
+
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -15,8 +16,12 @@
         android:layout_height="400dp"
         app:heart_rate_background_color="@color/colorBackground"
         app:heart_rate_border_color="@color/orange"
-        app:average_circle_color="@color/orange"
-        app:column_color="@color/colorText"/>
+        app:average_circle_color="@color/green"
+        app:column_color="@color/orange"
+        app:heart_rate_border_color_right="@color/green"
+        app:data_text_color="@color/gray"
+        app:data_text_size="30"
+        app:show_detail="true"/>
 
     <TextView
         app:layout_constraintBottom_toTopOf="@id/heart_rate_frag_heart_rate_view"

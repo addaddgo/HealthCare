@@ -2,24 +2,40 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:background="@color/gray_light_2">
 
-    <ImageView
-        android:layout_marginStart="20dp"
-        android:padding="18dp"
-        android:layout_gravity="center_vertical"
-        android:src="@drawable/pot"
-        android:layout_width="50dp"
-        android:layout_height="50dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_marginStart="20dp"
+            android:padding="18dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/pot"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+        <TextView
+            android:id="@+id/item_driving_habit_advice"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp" />
+
+    </LinearLayout>
+
 
     <TextView
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:id="@+id/driving_habit_text"
-        android:background="@color/gray_light_1"
-        android:layout_marginEnd="20dp"
-        android:layout_gravity="center_vertical"
+        android:id="@+id/item_driving_habit_text"
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="50dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/item_driving_habit"
+        android:gravity="center_vertical"
+        android:paddingStart="10dp" />
+
+
 </LinearLayout>

@@ -48,4 +48,8 @@ public class HeartRateFragment extends Fragment {
         actionBar.setHomeButtonEnabled(false);
         this.heartRateView.stopDrawThread();
     }
+
+    public void addData(int heartRate){
+        this.heartRateView.addData(heartRate);
+    }
 }

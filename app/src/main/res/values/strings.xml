@@ -49,6 +49,7 @@
     <string name="image_female">女</string>
     <string name="backward">上一步</string>
     <string name="forward">下一步</string>
+    <string name="title_activity_main2">Main2Activity</string>
 
     <!-- String related to center -->
 

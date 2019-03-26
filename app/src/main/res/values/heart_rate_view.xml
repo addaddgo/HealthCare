@@ -7,6 +7,10 @@
         <attr name="number_column" format="integer"/>
         <attr name="average_circle_color" format="color"/>
         <attr name="dangerous_column_color" format="color"/>
+        <attr name="heart_rate_border_color_right" format="color"/>
+        <attr name="show_detail" format="boolean"/>
+        <attr name="data_text_color" format="color"/>
+        <attr name="data_text_size" format="integer"/>
         <attr name="run_direction" format="integer">
             <enum name="left_to_right" value="1"/>
             <enum name="right_to_left" value="-1"/>

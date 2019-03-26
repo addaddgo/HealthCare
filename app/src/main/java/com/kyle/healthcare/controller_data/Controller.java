@@ -91,6 +91,27 @@ public class Controller implements RiskTipService.Callback{
                     this.UIInterface.updateHealthFragment(dataDealInterface.getHeartRate(),dataDealInterface.getFatigueRate());
                 }
                 break;
+            case FragmentAddressBook.frag_id_homepage:
+                    int currentGif = this.dataDealInterface.getCurrentGifId();
+                    if(currentGif != DataManger.GIF_NO_CHANGE){
+                        this.UIInterface.updateHomePageFragment(currentGif);
+                    }
+                    break;
+            case FragmentAddressBook.frag_id_heart_rate:
+                if(from == FROM_BLUETOOTH){
+                    this.UIInterface.updateHealthRateFragment(dataDealInterface.getHeartRate());
+                }
+                break;
+            case FragmentAddressBook.frag_id_fatigue_rate:
+                if(from == FROM_BLUETOOTH){
+                    this.UIInterface.updateFatigueRateFragment(dataDealInterface.getFatigueRate());
+                }
+                break;
+            case FragmentAddressBook.frag_id_driving_habit:
+                if(this.dataDealInterface.updateHabitAndStringsAdvice()){
+                    this.UIInterface.updateDrivingHabitFragment();
+                }
+                break;
         }
     }
 

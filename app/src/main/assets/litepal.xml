@@ -2,7 +2,13 @@
 <litepal>
     <dbname value="UserInfo" />
     <version value="1" />
+
     <list>
         <mapping class="com.kyle.healthcare.database.user_info.User" />
+        <mapping class="com.kyle.healthcare.database.health_driving_data.DrivingData"/>
+        <mapping class="com.kyle.healthcare.database.health_driving_data.DrivingFinishData"/>
+        <mapping class="com.kyle.healthcare.database.health_driving_data.DrivingHabitAndAdvice"/>
+        <mapping class="com.kyle.healthcare.database.health_driving_data.HealthData"/>
     </list>
+
 </litepal>

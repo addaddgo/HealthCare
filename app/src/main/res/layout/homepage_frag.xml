@@ -33,4 +33,11 @@
             android:layout_height="match_parent" />
     </RelativeLayout>
 
+        <pl.droidsonroids.gif.GifImageView
+            android:layout_marginTop="20dp"
+            android:id="@+id/homepage_gif_image"
+            android:background="@drawable/sleep_1"
+            android:layout_width="wrap_content"
+            android:layout_height="180dp" />
+
 </LinearLayout>
