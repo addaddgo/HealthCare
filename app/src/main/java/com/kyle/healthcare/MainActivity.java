@@ -137,7 +137,7 @@ public class MainActivity extends BaseActivity implements UIInterface, SharedPre
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(false);
             actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_c);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow);
         }
         mTitle = findViewById(R.id.toolbar_title);
 
