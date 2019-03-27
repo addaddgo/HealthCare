@@ -39,7 +39,7 @@ public class Controller implements RiskTipService.Callback{
             iBinder.setCallback(getMyCallback());
             Log.d("Service","connected");
             MainActivity mainActivity = (MainActivity)(UIInterface);
-            mainActivity.startTest();
+//            mainActivity.startTest();
         }
 
         @Override
@@ -54,7 +54,6 @@ public class Controller implements RiskTipService.Callback{
         Intent intent = new Intent(activity.getApplicationContext(),RiskTipService.class);
         activity.startService(intent);
         activity.bindService(intent,connection,Context.BIND_AUTO_CREATE);
-
     }
 
 
@@ -133,5 +132,13 @@ public class Controller implements RiskTipService.Callback{
 
     private RiskTipService.Callback getMyCallback(){
         return this;
+    }
+
+
+    //关闭服务
+    public void stopService(Activity activity){
+        activity.unbindService(connection);
+        Intent intent = new Intent(activity,RiskTipService.class);
+        activity.stopService(intent);
     }
 }

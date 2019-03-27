@@ -44,6 +44,7 @@ import com.kyle.healthcare.fragment_package.HeartRateFragment;
 import com.kyle.healthcare.fragment_package.HistoryLogFragment;
 import com.kyle.healthcare.fragment_package.HomepageFragment;
 import com.kyle.healthcare.fragment_package.SettingsFragment;
+import com.kyle.healthcare.risk_tip.RiskTipService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -180,33 +181,33 @@ public class MainActivity extends BaseActivity implements UIInterface, SharedPre
         request();
     }
 
-    private void request() {
+    private void request(){
         List<String> permission = new ArrayList<>();
-        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if(checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             permission.add(Manifest.permission.ACCESS_FINE_LOCATION);
         }
-        if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+        if(checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED){
             permission.add(Manifest.permission.READ_PHONE_STATE);
         }
-        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        if(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
             permission.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
-        if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if(checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION )!= PackageManager.PERMISSION_GRANTED){
             permission.add(Manifest.permission.ACCESS_COARSE_LOCATION);
         }
-        if (checkSelfPermission(Manifest.permission.ACCESS_WIFI_STATE) != PackageManager.PERMISSION_GRANTED) {
+        if(checkSelfPermission(Manifest.permission.ACCESS_WIFI_STATE)!=PackageManager.PERMISSION_GRANTED){
             permission.add(Manifest.permission.ACCESS_WIFI_STATE);
         }
-        if (checkSelfPermission(Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED) {
+        if(checkSelfPermission(Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED){
             permission.add(Manifest.permission.ACCESS_NETWORK_STATE);
         }
-        if (checkSelfPermission(Manifest.permission.CHANGE_WIFI_STATE) != PackageManager.PERMISSION_GRANTED) {
+        if(checkSelfPermission(Manifest.permission.CHANGE_WIFI_STATE) != PackageManager.PERMISSION_GRANTED){
             permission.add(Manifest.permission.CHANGE_WIFI_STATE);
         }
-        if (checkSelfPermission(Manifest.permission.WAKE_LOCK) != PackageManager.PERMISSION_GRANTED) {
+        if(checkSelfPermission(Manifest.permission.WAKE_LOCK)!=PackageManager.PERMISSION_GRANTED){
             permission.add(Manifest.permission.WAKE_LOCK);
         }
-        if (checkSelfPermission(Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
+        if(checkSelfPermission(Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED){
             permission.add(Manifest.permission.INTERNET);
         }
         if (checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
@@ -214,10 +215,9 @@ public class MainActivity extends BaseActivity implements UIInterface, SharedPre
         }
         if (!permission.isEmpty()) {
             String[] permissions = permission.toArray(new String[permission.size()]);
-            requestPermissions(permissions, FragmentAddressBook.frag_id_driving);
-
-        } else {
-            Toast.makeText(getApplicationContext(), "程序将结束运行", Toast.LENGTH_LONG).show();
+            requestPermissions(permissions,FragmentAddressBook.frag_id_driving);
+        }else{
+            Toast.makeText(getApplicationContext(),"程序将结束运行",Toast.LENGTH_LONG).show();
             finish();
         }
     }
@@ -249,6 +249,7 @@ public class MainActivity extends BaseActivity implements UIInterface, SharedPre
             mChatService.stop();
         }
         DataManger.dataManger.saveThatDriving();
+        controller.stopService(this);
     }
 
     @Override
@@ -451,30 +452,30 @@ public class MainActivity extends BaseActivity implements UIInterface, SharedPre
     }
     //BlueToothThread is sending message in the disguise of bluetooth
 
-    //start test;
-    public void startTest() {
-        new BlueToothThread().start();
-    }
+//    //start test;
+//    public void startTest() {
+//        new BlueToothThread().start();
+//    }
 
-    class BlueToothThread extends Thread {
-        @Override
-        public void run() {
-            super.run();
-            Log.i("BlueToothThread", "start");
-            try {
-                for (int i = 0; i < 200; i++) {
-                    // TODO: 2019/3/18 HXB todo
-                    Message message = new Message();
-                    message.what = 100;
-                    mHandler.sendMessage(message);
-                    Thread.sleep(200);
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            Log.d("BlueToothThread", "end");
-        }
-    }
+//    class BlueToothThread extends Thread {
+//        @Override
+//        public void run() {
+//            super.run();
+//            Log.i("BlueToothThread", "start");
+//            try {
+//                for (int i = 0; i < 200; i++) {
+//                    // TODO: 2019/3/18 HXB todo
+//                    Message message = new Message();
+//                    message.what = 100;
+//                    mHandler.sendMessage(message);
+//                    Thread.sleep(200);
+//                }
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//            Log.d("BlueToothThread", "end");
+//        }
+//    }
 
     private void setupSharedPreferences() {
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);

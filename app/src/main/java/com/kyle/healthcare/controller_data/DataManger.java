@@ -195,24 +195,20 @@ public class DataManger implements DataDealInterface{
 
     //driving record
 
-    private DrivingData latestDrivingData;
+    private DrivingData latestDrivingData = new DrivingData();
     private LatLng lastLatLng;
     private long lastTime;
     @Override
     public void addDrivingData(LatLng newLatLng) {
-        if(this.latestDrivingData == null){
-            this.latestDrivingData = new DrivingData();
-        }else{
-            long currentTime = System.currentTimeMillis();
-           latestDrivingData.totalTime = (int)((currentTime - startTime) / 60000);
-           double distance = Math.abs(DistanceUtil.getDistance(lastLatLng,newLatLng));
-           latestDrivingData.totalDistance += (int)(distance / 1000);
-           lastLatLng = newLatLng;
-           latestDrivingData.averageSpeech = (int)(distance /((currentTime - lastTime) / 360000));
-           this.speechData.add(new SpeechData(System.currentTimeMillis(),latestDrivingData.averageSpeech));
-           lastTime = currentTime;
-        }
-        if(toSaveData > 10){
+        long currentTime = System.currentTimeMillis();
+        latestDrivingData.totalTime = (int) ((currentTime - startTime) / 60000);
+        double distance = Math.abs(DistanceUtil.getDistance(lastLatLng, newLatLng));
+        latestDrivingData.totalDistance += (int) (distance / 1000);
+        lastLatLng = newLatLng;
+        latestDrivingData.averageSpeech = (int) (distance / ((currentTime - lastTime) / 360000));
+        this.speechData.add(new SpeechData(System.currentTimeMillis(), latestDrivingData.averageSpeech));
+        lastTime = currentTime;
+        if (toSaveData > 10) {
             saveCurrentDataInNewThread();
             toSaveData = 0;
         }
@@ -280,7 +276,8 @@ public class DataManger implements DataDealInterface{
     }
 
     private void saveCurrentData(){
-        for(HealthData health : healthData){
+        for(int i = 0; i< healthData.size();){
+            HealthData health = healthData.get(0);
             finishData.BloodFatAll += health.getBloodFat();
             finishData.FatigueAll +=health.getFatigue();
             finishData.BloodPressureAll += health.getBloodPressure();
@@ -294,7 +291,8 @@ public class DataManger implements DataDealInterface{
             health.save();
             healthData.remove(health);
         }
-        for(SpeechData driving : speechData){
+        for(int i = 0;i < speechData.size();){
+            SpeechData driving = speechData.get(0);
             finishData.SpeechAll += driving.getSpeech();
             finishData.SpeechNumber++;
             driving.save();
