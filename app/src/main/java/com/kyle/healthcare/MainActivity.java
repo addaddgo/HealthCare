@@ -1,5 +1,6 @@
 package com.kyle.healthcare;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -42,6 +43,9 @@ import com.kyle.healthcare.fragment_package.HeartRateFragment;
 import com.kyle.healthcare.fragment_package.HistoryLogFragment;
 import com.kyle.healthcare.fragment_package.HomepageFragment;
 import com.kyle.healthcare.fragment_package.SettingsFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends BaseActivity implements UIInterface, SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -171,7 +175,48 @@ public class MainActivity extends BaseActivity implements UIInterface, SharedPre
         this.controller = new Controller(this);
 
         setupSharedPreferences();
+
+        request();
     }
+
+    private void request(){
+        List<String> permission = new ArrayList<>();
+        if(checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            permission.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+        if(checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED){
+            permission.add(Manifest.permission.READ_PHONE_STATE);
+        }
+        if(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            permission.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        if(checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION )!= PackageManager.PERMISSION_GRANTED){
+            permission.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+        }
+        if(checkSelfPermission(Manifest.permission.ACCESS_WIFI_STATE)!=PackageManager.PERMISSION_GRANTED){
+            permission.add(Manifest.permission.ACCESS_WIFI_STATE);
+        }
+        if(checkSelfPermission(Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED){
+            permission.add(Manifest.permission.ACCESS_NETWORK_STATE);
+        }
+        if(checkSelfPermission(Manifest.permission.CHANGE_WIFI_STATE) != PackageManager.PERMISSION_GRANTED){
+            permission.add(Manifest.permission.CHANGE_WIFI_STATE);
+        }
+        if(checkSelfPermission(Manifest.permission.WAKE_LOCK)!=PackageManager.PERMISSION_GRANTED){
+            permission.add(Manifest.permission.WAKE_LOCK);
+        }
+        if(checkSelfPermission(Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED){
+            permission.add(Manifest.permission.INTERNET);
+        }
+        if(!permission.isEmpty()){
+            String[] permissions = permission.toArray(new String[permission.size()]);
+            requestPermissions(permissions,FragmentAddressBook.frag_id_driving);
+        }else{
+            Toast.makeText(getApplicationContext(),"程序将结束运行",Toast.LENGTH_LONG).show();
+            finish();
+        }
+    }
+
 
     @Override
     public void onResume() {

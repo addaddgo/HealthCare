@@ -80,6 +80,9 @@ public class DrivingFragment extends Fragment {
         super.onResume();
         uiInterface.setTitle(R.string.title_driving);
         mapView.onResume();
+        if(canOpenMap){
+            requestLocation();
+        }
     }
 
     @Override
@@ -178,8 +181,8 @@ public class DrivingFragment extends Fragment {
         if(!permission.isEmpty()){
             String[] permissions = permission.toArray(new String[permission.size()]);
             requestPermissions(permissions,FragmentAddressBook.frag_id_driving);
-        }else {
-            requestLocation();
+        }else{
+            this.canOpenMap = true;
         }
     }
 
@@ -227,11 +230,12 @@ public class DrivingFragment extends Fragment {
         }
     }
 
+    private boolean canOpenMap;
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode == FragmentAddressBook.frag_id_driving){
-            requestLocation();
+            this.canOpenMap = true;
         }
     }
 }
