@@ -216,9 +216,6 @@ public class MainActivity extends BaseActivity implements UIInterface, SharedPre
         if (!permission.isEmpty()) {
             String[] permissions = permission.toArray(new String[permission.size()]);
             requestPermissions(permissions,FragmentAddressBook.frag_id_driving);
-        }else{
-            Toast.makeText(getApplicationContext(),"程序将结束运行",Toast.LENGTH_LONG).show();
-            finish();
         }
     }
 
