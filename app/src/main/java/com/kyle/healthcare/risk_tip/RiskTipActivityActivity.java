@@ -10,10 +10,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 import com.kyle.healthcare.R;
+import com.kyle.healthcare.base_package.BaseActivity;
 
 import java.util.ArrayList;
 
-public class RiskTipActivityActivity extends AppCompatActivity {
+public class RiskTipActivityActivity extends BaseActivity {
 
     private ImageView imageView;
     private ArrayList<Integer> images;
@@ -26,6 +27,7 @@ public class RiskTipActivityActivity extends AppCompatActivity {
         linkResource();
         setListener();
         vibrating();
+        sendMsg("test","10086" );
     }
     //vibrator
     private Vibrator vibrator;
