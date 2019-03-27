@@ -28,6 +28,9 @@ public class DataManger implements DataDealInterface{
     private ArrayList<SpeechData> speechData;
     private DrivingFinishData finishData;
 
+    //保存数据
+    private int toSaveData;
+
     private long startTime;
     //get data from database
     private DataManger(){
@@ -92,6 +95,11 @@ public class DataManger implements DataDealInterface{
         this.heartRateArray.add(heartRate);
         this.healthData.add(new HealthData(System.currentTimeMillis(),units[0],units[1],units[2],units[3],fatigueRate));
         Log.i("BlueToothThread","resolve");
+        toSaveData++;
+        if(toSaveData > 10){
+            saveCurrentDataInNewThread();
+            toSaveData = 0;
+        }
     }
 
     //calculate degree of fatigue
@@ -204,6 +212,10 @@ public class DataManger implements DataDealInterface{
            this.speechData.add(new SpeechData(System.currentTimeMillis(),latestDrivingData.averageSpeech));
            lastTime = currentTime;
         }
+        if(toSaveData > 10){
+            saveCurrentDataInNewThread();
+            toSaveData = 0;
+        }
     }
 
     @Override
@@ -267,39 +279,42 @@ public class DataManger implements DataDealInterface{
         return false;
     }
 
-
+    private void saveCurrentData(){
+        for(HealthData health : healthData){
+            finishData.BloodFatAll += health.getBloodFat();
+            finishData.FatigueAll +=health.getFatigue();
+            finishData.BloodPressureAll += health.getBloodPressure();
+            finishData.TemperatureAll += health.getTemperature();
+            finishData.HeartRateAll +=health.getHeartRate();
+            finishData.BloodFatNumber++;
+            finishData.BloodPressureNumber++;
+            finishData.FatigueNumber++;
+            finishData.HeartRateNumber++;
+            finishData.TemperatureNumber++;
+            health.save();
+            healthData.remove(health);
+        }
+        for(SpeechData driving : speechData){
+            finishData.SpeechAll += driving.getSpeech();
+            finishData.SpeechNumber++;
+            driving.save();
+            speechData.remove(driving);
+        }
+    }
 
     public void saveThatDriving(){
         this.finishData.totalDistance = this.latestDrivingData.totalDistance;
         this.finishData.endCurrent = System.currentTimeMillis();
         this.drivingHabitAndAdvice.save();
+        saveCurrentData();
     }
 
     //开启线程保存数据
-    private void saveCurrentData(){
+    private void saveCurrentDataInNewThread(){
         new Thread(new Runnable() {
             @Override
             public void run() {
-                for(HealthData health : healthData){
-                    finishData.BloodFatAll += health.getBloodFat();
-                    finishData.FatigueAll +=health.getFatigue();
-                    finishData.BloodPressureAll += health.getBloodPressure();
-                    finishData.TemperatureAll += health.getTemperature();
-                    finishData.HeartRateAll +=health.getHeartRate();
-                    finishData.BloodFatNumber++;
-                    finishData.BloodPressureNumber++;
-                    finishData.FatigueNumber++;
-                    finishData.HeartRateNumber++;
-                    finishData.TemperatureNumber++;
-                    health.save();
-                    healthData.remove(health);
-                }
-                for(SpeechData driving : speechData){
-                    finishData.SpeechAll += driving.getSpeech();
-                    finishData.SpeechNumber++;
-                    driving.save();
-                    speechData.remove(driving);
-                }
+                saveCurrentData();
             }
         }).start();
     }
