@@ -499,11 +499,6 @@ public class MainActivity extends BaseActivity implements UIInterface, SharedPre
         return mHandler;
     }
 
-    public void sendMsg(String  msgContent, String number) {
-        Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + number));
-        intent.putExtra("msg_content", msgContent);
-        startActivity(intent);
-    }
     //add by zxx
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
