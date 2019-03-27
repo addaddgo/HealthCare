@@ -43,6 +43,7 @@ import com.kyle.healthcare.fragment_package.HeartRateFragment;
 import com.kyle.healthcare.fragment_package.HistoryLogFragment;
 import com.kyle.healthcare.fragment_package.HomepageFragment;
 import com.kyle.healthcare.fragment_package.SettingsFragment;
+import com.kyle.healthcare.risk_tip.RiskTipService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -244,6 +245,7 @@ public class MainActivity extends BaseActivity implements UIInterface, SharedPre
             mChatService.stop();
         }
         DataManger.dataManger.saveThatDriving();
+        controller.stopService(this);
     }
 
     @Override
@@ -446,30 +448,30 @@ public class MainActivity extends BaseActivity implements UIInterface, SharedPre
     }
     //BlueToothThread is sending message in the disguise of bluetooth
 
-    //start test;
-    public void startTest() {
-        new BlueToothThread().start();
-    }
+//    //start test;
+//    public void startTest() {
+//        new BlueToothThread().start();
+//    }
 
-    class BlueToothThread extends Thread {
-        @Override
-        public void run() {
-            super.run();
-            Log.i("BlueToothThread", "start");
-            try {
-                for (int i = 0; i < 200; i++) {
-                    // TODO: 2019/3/18 HXB todo
-                    Message message = new Message();
-                    message.what = 100;
-                    mHandler.sendMessage(message);
-                    Thread.sleep(200);
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            Log.d("BlueToothThread", "end");
-        }
-    }
+//    class BlueToothThread extends Thread {
+//        @Override
+//        public void run() {
+//            super.run();
+//            Log.i("BlueToothThread", "start");
+//            try {
+//                for (int i = 0; i < 200; i++) {
+//                    // TODO: 2019/3/18 HXB todo
+//                    Message message = new Message();
+//                    message.what = 100;
+//                    mHandler.sendMessage(message);
+//                    Thread.sleep(200);
+//                }
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//            Log.d("BlueToothThread", "end");
+//        }
+//    }
 
     private void setupSharedPreferences() {
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -493,4 +495,5 @@ public class MainActivity extends BaseActivity implements UIInterface, SharedPre
     public Handler getHandler() {
         return mHandler;
     }
+
 }
