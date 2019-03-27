@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -179,40 +180,44 @@ public class MainActivity extends BaseActivity implements UIInterface, SharedPre
         request();
     }
 
-    private void request(){
+    private void request() {
         List<String> permission = new ArrayList<>();
-        if(checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             permission.add(Manifest.permission.ACCESS_FINE_LOCATION);
         }
-        if(checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED){
+        if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             permission.add(Manifest.permission.READ_PHONE_STATE);
         }
-        if(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             permission.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
-        if(checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION )!= PackageManager.PERMISSION_GRANTED){
+        if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             permission.add(Manifest.permission.ACCESS_COARSE_LOCATION);
         }
-        if(checkSelfPermission(Manifest.permission.ACCESS_WIFI_STATE)!=PackageManager.PERMISSION_GRANTED){
+        if (checkSelfPermission(Manifest.permission.ACCESS_WIFI_STATE) != PackageManager.PERMISSION_GRANTED) {
             permission.add(Manifest.permission.ACCESS_WIFI_STATE);
         }
-        if(checkSelfPermission(Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED){
+        if (checkSelfPermission(Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED) {
             permission.add(Manifest.permission.ACCESS_NETWORK_STATE);
         }
-        if(checkSelfPermission(Manifest.permission.CHANGE_WIFI_STATE) != PackageManager.PERMISSION_GRANTED){
+        if (checkSelfPermission(Manifest.permission.CHANGE_WIFI_STATE) != PackageManager.PERMISSION_GRANTED) {
             permission.add(Manifest.permission.CHANGE_WIFI_STATE);
         }
-        if(checkSelfPermission(Manifest.permission.WAKE_LOCK)!=PackageManager.PERMISSION_GRANTED){
+        if (checkSelfPermission(Manifest.permission.WAKE_LOCK) != PackageManager.PERMISSION_GRANTED) {
             permission.add(Manifest.permission.WAKE_LOCK);
         }
-        if(checkSelfPermission(Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED){
+        if (checkSelfPermission(Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
             permission.add(Manifest.permission.INTERNET);
         }
-        if(!permission.isEmpty()){
+        if (checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+            permission.add(Manifest.permission.SEND_SMS);
+        }
+        if (!permission.isEmpty()) {
             String[] permissions = permission.toArray(new String[permission.size()]);
-            requestPermissions(permissions,FragmentAddressBook.frag_id_driving);
-        }else{
-            Toast.makeText(getApplicationContext(),"程序将结束运行",Toast.LENGTH_LONG).show();
+            requestPermissions(permissions, FragmentAddressBook.frag_id_driving);
+
+        } else {
+            Toast.makeText(getApplicationContext(), "程序将结束运行", Toast.LENGTH_LONG).show();
             finish();
         }
     }
@@ -483,14 +488,28 @@ public class MainActivity extends BaseActivity implements UIInterface, SharedPre
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals("emergency_contact")) {
             emergencyContact = sharedPreferences.getString(key, "120");
-        }else if(key.equals("voice_notification")){
+        } else if (key.equals("voice_notification")) {
             isNotification = sharedPreferences.getBoolean(key, true);
-        }else if(key.equals("vibrate")){
+        } else if (key.equals("vibrate")) {
             isVibrate = sharedPreferences.getBoolean(key, true);
         }
     }
 
     public Handler getHandler() {
         return mHandler;
+    }
+
+    public void sendMsg(String  msgContent, String number) {
+        Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + number));
+        intent.putExtra("msg_content", msgContent);
+        startActivity(intent);
+    }
+    //add by zxx
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == FragmentAddressBook.frag_id_driving && permissions.length > 0 && grantResults[permissions.length - 1] !=  PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "获得发送短信权限失败", Toast.LENGTH_SHORT).show();
+        }
     }
 }
