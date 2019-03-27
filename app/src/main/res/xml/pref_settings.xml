@@ -10,13 +10,15 @@
             android:key="send_message"
             android:summaryOff="Off"
             android:summaryOn="On"
-            android:title="短信通知" />
+            android:title="短信通知"
+            android:icon="@drawable/ic_message"/>
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="voice_notification"
             android:summaryOff="Off"
             android:summaryOn="On"
-            android:title="声音通知" />
+            android:title="声音通知"
+            android:icon="@drawable/ic_ringtone"/>
 
         <CheckBoxPreference
             android:defaultValue="true"
@@ -24,7 +26,8 @@
             android:key="vibrate"
             android:summaryOff="Off"
             android:summaryOn="On"
-            android:title="振动" />
+            android:title="振动"
+            android:icon="@drawable/ic_vibrate"/>
     </PreferenceCategory>
     <PreferenceCategory
         android:key="button_info_management"
@@ -34,6 +37,7 @@
             android:dependency="send_message"
             android:defaultValue="120"
             android:key="emergency_contact"
-            android:title="紧急联系人电话"/>
+            android:title="紧急联系人电话"
+            android:icon="@drawable/ic_phone"/>
     </PreferenceCategory>
 </PreferenceScreen>
